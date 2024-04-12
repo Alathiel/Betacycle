@@ -14,7 +14,21 @@ namespace BetaCycle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(opts =>
+            {
+                opts.AddPolicy("CORSAIR",
+                    builder => builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed((hosts) => true)
+                );
+            });
+
             var app = builder.Build();
+
+
+            app.UseCors("CORSAIR");
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
