@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
-using NuGet.Versioning;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BetaCycle.Controllers
 {
@@ -24,23 +18,44 @@ namespace BetaCycle.Controllers
 
         // GET: api/Credentials
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Credential>>> GetCredentials()
+        public async Task<ActionResult<IEnumerable<Credential>>> GetCredentials()//login
         {
             return await _context.Credentials.ToListAsync();
         }
 
-        // GET: api/Credentials/5
-        [HttpGet("{email}")]
-        public async Task<List<Credential>> GetCredential(string email)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Credential>> GetCredential(long id)//login
         {
-            var credential = await _context.Credentials.Where(data => data.Email == email).ToListAsync();
+            var credentials = await _context.Credentials.FindAsync(id);
 
-            if (credential == null)
+            if (credentials == null)
             {
-                return [];
+                return NotFound();
             }
 
-            return credential;
+            return credentials;
+        }
+
+        // GET: api/Credentials/5
+        [HttpGet("{email}/{password}")]
+        public async Task<List<Credential>> GetLogin(string email, string password)
+        {
+            var salt = await _context.Credentials.Where(data => data.Email == email).Select(data => data.PasswordSalt).ToListAsync();
+            if (salt.Count > 0)
+            {
+                password = EncryptionData.EncryptionData.SaltDecrypt(password, salt.ElementAt(0));
+                var credential = await _context.Credentials.Where(data =>
+                    data.Email == email && data.Password == password
+                ).ToListAsync();
+                
+                if (credential == null)
+                {
+                    return [];
+                }
+                return credential;
+            }
+
+            return [];
         }
 
         // PUT: api/Credentials/5
@@ -79,6 +94,10 @@ namespace BetaCycle.Controllers
         [HttpPost]
         public async Task<ActionResult<Credential>> PostCredential(Credential credential)
         {
+            KeyValuePair<string, string> a;
+            a = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
+            credential.Password = a.Key;
+            credential.PasswordSalt = a.Value;
             _context.Credentials.Add(credential);
             try
             {
