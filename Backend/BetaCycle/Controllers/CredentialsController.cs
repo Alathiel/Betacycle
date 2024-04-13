@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
+using NuGet.Versioning;
 
 namespace BetaCycle.Controllers
 {
@@ -28,14 +30,14 @@ namespace BetaCycle.Controllers
         }
 
         // GET: api/Credentials/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Credential>> GetCredential(long id)
+        [HttpGet("{email}")]
+        public async Task<List<Credential>> GetCredential(string email)
         {
-            var credential = await _context.Credentials.FindAsync(id);
+            var credential = await _context.Credentials.Where(data => data.Email == email).ToListAsync();
 
             if (credential == null)
             {
-                return NotFound();
+                return [];
             }
 
             return credential;
