@@ -19,6 +19,10 @@ public partial class BetacycleContext : DbContext
 
     public virtual DbSet<Cart> Carts { get; set; }
 
+    public virtual DbSet<Category> Categories { get; set; }
+
+    public virtual DbSet<Model> Models { get; set; }
+
     public virtual DbSet<Product> Products { get; set; }
 
     public virtual DbSet<Storage> Storages { get; set; }
@@ -29,7 +33,7 @@ public partial class BetacycleContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-I7OUE3Q\\SQLEXPRESS;Initial Catalog=Betacycle;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-5BBAMIC\\SQLEXPRESS01;Initial Catalog=Betacycle;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -83,12 +87,37 @@ public partial class BetacycleContext : DbContext
 
             entity.HasOne(d => d.User).WithMany(p => p.Carts)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK_Cart_User1");
+                .HasConstraintName("FK_Cart_User");
+        });
+
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.ToTable("Category");
+
+            entity.HasIndex(e => e.Name, "CatName_cost").IsUnique();
+
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.Name)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<Model>(entity =>
+        {
+            entity.ToTable("Model");
+
+            entity.HasIndex(e => e.Name, "Name_Const").IsUnique();
+
+            entity.Property(e => e.Name)
+                .HasMaxLength(10)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.ToTable("Product");
+            entity.HasKey(e => e.ProductId).HasName("PK_Product_1");
+
+            entity.ToTable("Product", tb => tb.HasTrigger("DeleteModel"));
 
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
@@ -103,10 +132,19 @@ public partial class BetacycleContext : DbContext
                 .HasMaxLength(1000)
                 .IsUnicode(false);
             entity.Property(e => e.LastModify).HasColumnType("datetime");
-            entity.Property(e => e.ModelId).HasColumnName("ModelID");
             entity.Property(e => e.NameProduct)
                 .HasMaxLength(30)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.Category).WithMany(p => p.Products)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Category_Product");
+
+            entity.HasOne(d => d.Model).WithMany(p => p.Products)
+                .HasForeignKey(d => d.ModelId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Product_Model");
         });
 
         modelBuilder.Entity<Storage>(entity =>
@@ -122,6 +160,7 @@ public partial class BetacycleContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.Storages)
                 .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Storage_Product");
         });
 
@@ -152,9 +191,6 @@ public partial class BetacycleContext : DbContext
         {
             entity.ToTable("User");
 
-            entity.Property(e => e.Email)
-                .HasMaxLength(30)
-                .IsUnicode(false);
             entity.Property(e => e.FullName)
                 .HasMaxLength(60)
                 .IsUnicode(false);

@@ -9,8 +9,6 @@ public partial class User
 
     public string FullName { get; set; } = null!;
 
-    public string Email { get; set; } = null!;
-
     public DateOnly BirthDate { get; set; }
 
     public string? Phone { get; set; }

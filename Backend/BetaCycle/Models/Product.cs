@@ -31,6 +31,10 @@ public partial class Product
 
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
+    public virtual Category Category { get; set; } = null!;
+
+    public virtual Model Model { get; set; } = null!;
+
     public virtual ICollection<Storage> Storages { get; set; } = new List<Storage>();
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
