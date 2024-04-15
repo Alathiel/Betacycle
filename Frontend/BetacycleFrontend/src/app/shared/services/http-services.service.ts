@@ -14,18 +14,7 @@ export class HttpServicesService {
   
   CheckCredentials(credentials: Credentials): Observable<any>
   {
-    // const headerDict = {
-    //   'Content-Type': 'application/json',
-    //   'Accept': 'application/json',
-    //   'Access-Control-Allow-Headers': 'Content-Type',
-    // }
-    
-    // const requestOptions = {                                                                                                                                                                                 
-    //   headers: new HttpHeaders(),
-    //   body: credentials
-    // };
-    
-      return this.http.get(`https://localhost:7044/api/Credentials/${credentials.email}/${credentials.password}`);
+    return this.http.get(`https://localhost:7044/api/Credentials/${credentials.email}/${credentials.password}`);
   }
 
   RegisterUser(user: User){
