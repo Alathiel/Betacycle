@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,11 +37,15 @@
 
 
 <form #form='ngForm' (submit)="login()">
-<input #email [(ngModel)]="credentials.email" name="email" required minlength="1">
-<input #pw [(ngModel)]="credentials.password" name="pw" required  minlength="1">
-<button mat-raised-button type="submit">Submit</button>
-
-
-
-
+<input matInput #email [(ngModel)]="credentials.email" name="email" required minlength="1">
+<input matInput #pw [(ngModel)]="credentials.password" name="pw" required  minlength="1">
+<button mat-raised-button type="submit">Login</button>
 </form>
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+    <mat-label>Company</mat-label>
+    <input matInput value="">
+  </mat-form-field>
+</form> -->
+
+<app-login></app-login>

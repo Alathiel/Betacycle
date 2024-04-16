@@ -1,1 +1,6 @@
-<p>login works!</p>
+<!-- <form #form='ngForm' (submit)="login()">
+    
+</form> -->
+<input matInput #email [(ngModel)]="credentials.email" name="email" required minlength="1">
+<input matInput #pw [(ngModel)]="credentials.password" name="pw" required  minlength="1">
+<button (click)="login()" [disabled]="disabled">Login</button>

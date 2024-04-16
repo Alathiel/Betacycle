@@ -11,17 +11,43 @@ export class HttpServicesService {
 
   constructor(private http: HttpClient) {}
 
+  newHeader = new HttpHeaders({
+    contentType: 'application/json',
+    responseType: 'text'
+  })
   
   CheckCredentials(credentials: Credentials): Observable<any>
   {
-    return this.http.get(`https://localhost:7044/api/Credentials/${credentials.email}/${credentials.password}`);
-  }
-
-  RegisterUser(user: User){
-    return this.http.post("http://localhost:5270/api/Users", user);
-  }
-
-  RegisterCredentials(credentials: Credentials){
-    return this.http.post("https://localhost:7044/api/Credentials", credentials);
+    // header chiave valore perche' json
+    // var credentials: any = sessionStorage.getItem('credentials');
+    // var header = ""+localStorage.getItem('header');
+    // const jsonObject = JSON.parse(header);
+    // console.log(header)
+    // if(header === 'null')
+    // {
+      var token = ""+sessionStorage.getItem('token');
+      if(token === 'null')
+      this.newHeader = this.newHeader.set(
+        'Authorization',
+        'Basic '+window.btoa(`${credentials.email}:${credentials.password}`)
+      )
+      else
+      this.newHeader = this.newHeader.set(
+        'Authorization', "Basic "+token
+      )
+    //   console.log(this.newHeader)
+      
+    // }
+    // console.log(window.btoa(`${credentials.email}:${credentials.password}`))
+    // }
+    // else
+    //   this.newHeader = jsonObject;
+    // // console.log(JSON.parse(localStorage.getItem("aa")))
+    // console.log(this.newHeader)
+    // var a = JSON.stringify(this.newHeader);
+    // console.log(a);
+    // console.log(JSON.parse(a));
+   // this.newHeader = JSON.parse(a);
+    return this.http.get(`https://localhost:7044/Authentication/${credentials.email}`, {headers: this.newHeader, observe: 'response'});
   }
 }
