@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using BasicLoginLibrary;
 
 namespace BetaCycle.Controllers
 {

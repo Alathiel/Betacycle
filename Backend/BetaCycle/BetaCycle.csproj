@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\DotNetAcademy\Backend\BasicLoginLibrary\BasicLoginLibrary.csproj" />
     <ProjectReference Include="..\..\..\DotNetAcademy\Backend\EncryptionData\EncryptionData.csproj" />
   </ItemGroup>
 

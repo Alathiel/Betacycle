@@ -2,6 +2,9 @@
 using BetaCycle.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using BasicLoginLibrary;
 
 namespace BetaCycle
 {
@@ -13,7 +16,6 @@ namespace BetaCycle
 
             builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-          
 
             // Add services to the container.
             builder.Services.AddDbContext<BetacycleContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("BetaCycle")));
@@ -21,8 +23,20 @@ namespace BetaCycle
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
+
+            //istruzioni login
+            BasicAuthenticationHandler.connectionString = @"Data Source=DESKTOP-5BBAMIC\SQLEXPRESS01;Initial Catalog=BetaSecurity;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
+            //builder.Configuration.GetConnectionString("BetaSecurity");
+            builder.Services.AddAuthentication()
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", opt => { });
+            builder.Services.AddAuthorization
+            (opt =>
+                opt.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build())
+            );
+            //fine istruction login
             builder.Services.AddSwaggerGen();
 
+            //Setup cors
             builder.Services.AddCors(opts =>
             {
                 opts.AddPolicy("CORSAIR",
@@ -48,7 +62,7 @@ namespace BetaCycle
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthorization();//for login
 
 
             app.MapControllers();

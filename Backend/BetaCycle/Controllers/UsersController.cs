@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
+using BasicLoginLibrary;
 
 namespace BetaCycle.Controllers
 {
@@ -19,7 +16,7 @@ namespace BetaCycle.Controllers
         {
             _context = context;
         }
-
+        [BasicAuthorizationAttributes]
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
