@@ -36,7 +36,7 @@ namespace BetaCycle.Controllers
         public async Task<ActionResult<IEnumerable<Credential>>> Login(string email)
         {
             var cred = await _context.Credentials.Where(e => e.Email == email).ToListAsync();
-            Console.WriteLine("cred.Count");
+
             if (cred == null)
             {
                 return NotFound();
