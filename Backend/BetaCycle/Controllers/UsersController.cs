@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
 using BasicLoginLibrary;
+using BetaCycle.Contexts;
 
 namespace BetaCycle.Controllers
 {
@@ -16,7 +17,7 @@ namespace BetaCycle.Controllers
         {
             _context = context;
         }
-        [BasicAuthorizationAttributes]
+
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()

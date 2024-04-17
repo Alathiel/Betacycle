@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using BasicLoginLibrary;
+using BetaCycle.Contexts;
 using BetaCycle.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,6 @@ namespace BetaCycle.Controllers
     public class AuthenticationController: ControllerBase
     {
         private readonly BetaSecurityContext _context;
-        private readonly BetacycleContext _context2;
 
         public AuthenticationController(BetaSecurityContext context)
         {

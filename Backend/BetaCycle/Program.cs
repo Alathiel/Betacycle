@@ -5,6 +5,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using BasicLoginLibrary;
+using BetaCycle.Contexts;
 
 namespace BetaCycle
 {
@@ -13,8 +14,6 @@ namespace BetaCycle
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            DbConnection.ConnectionStringBetaCycle = builder.Configuration.GetConnectionString("BetaCycle");
-            DbConnection.ConnectionStringBetaSecurity = builder.Configuration.GetConnectionString("BetaSecurity");
             builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
