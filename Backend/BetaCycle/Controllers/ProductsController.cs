@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BetaCycle.Controllers
 {
@@ -26,6 +27,13 @@ namespace BetaCycle.Controllers
         {
             return await _context.Products.ToListAsync();
         }
+
+        [HttpGet("/Categories")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetProductsCategories()
+        {
+            return await _context.Categories.ToListAsync();
+        }
+
 
         // GET: api/Products/5
         [HttpGet("{id}")]

@@ -10,18 +10,28 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { HttpStatusCode } from '@angular/common/http';
 import { User } from '../../shared/models/user';
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSlideToggleModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, FormsModule, MatSlideToggleModule, MatButtonModule, MatFormFieldModule, MatInputModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private http:HttpServicesService){
-    if(sessionStorage.getItem('token') != null)
+  constructor(private http:HttpServicesService, public router: Router){
+    if(sessionStorage.getItem('token') != null){
       alert("you're already logged in")
+      this.disabled = false;
+      this.router.navigate(['home'])
+    }
+    else if(localStorage.getItem('token') != null){
+      alert("you're already logged in")
+      this.disabled = false;
+      this.router.navigate(['home'])
+    }
   }
 
   credentials: Credentials = new Credentials();
@@ -32,10 +42,25 @@ export class LoginComponent {
 
   login(){
     this.http.CheckCredentials(this.credentials).subscribe(resp => {
+      next: (response: any) => {
+        console.log('in next: '+response)
+        switch(response.status){
+          case HttpStatusCode.Ok:
+            console.log("login ok!!!")
+            break;
+          case HttpStatusCode.NoContent:
+            console.log("nessun contenuto!!!")
+            break;
+          
+        }
+      }
+      error: (error:any) => {
+        console.log(error)
+      }
       console.log(resp)
       if(resp.status == HttpStatusCode.Ok){
         console.log("login ok");
-        // this.disabled = true;
+        this.disabled = true;
         console.log(resp.body.$values[0].userId);
         if(!this.stayConnected){
           sessionStorage.setItem('userId', window.btoa(resp.body.$values[0].userId));
@@ -45,6 +70,8 @@ export class LoginComponent {
           localStorage.setItem('userId', window.btoa(resp.body.$values[0].userId));
           localStorage.setItem('token', window.btoa(`${this.credentials.email}:${this.credentials.password}`));
         }
+
+        this.router.navigate(['home'])
         // localStorage.setItem('token1',)
 
         

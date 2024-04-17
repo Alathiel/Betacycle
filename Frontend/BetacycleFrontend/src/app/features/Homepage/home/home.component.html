@@ -1,0 +1,8 @@
+<p>home works!</p>
+<button (click)="logout()">Logout</button>
+
+<select [(ngModel)]="selectedValue">
+    <!-- value = a quello della var nel ts altrimenti non funziona -->
+    <option  value="all" hidden disabled selected>Category</option>
+    <option *ngFor="let c of products" [value]="c.name">{{c.name}}</option>
+  </select>

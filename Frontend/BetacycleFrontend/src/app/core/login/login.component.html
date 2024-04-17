@@ -1,12 +1,14 @@
 <form #form='ngForm' (submit)="login()">
     
-<input matInput #email [(ngModel)]="credentials.email" name="email" required minlength="1">
+<input matInput #email ngModel pattern="[a-zA-Z ]*" [(ngModel)]="credentials.email" name="email" required minlength="1">
 <input matInput #pw [(ngModel)]="credentials.password" name="pw" required  minlength="1">
 <button type="submit" [disabled]="disabled">Login</button>
+<input type="checkbox" (change)="stayConnected = !stayConnected"><label>Resta Connesso</label>
 </form>
 <form  #formRegister='ngForm' (submit)="register()">
 <input matInput #fullName [(ngModel)]="newUser.fullName" name="fullName" required minlength="1">
 <input matInput #nemail [(ngModel)]="newCredentials.email" name="nemail" required minlength="1">
 <input matInput #npw [(ngModel)]="newCredentials.password" name="npw" required  minlength="1">
-<button type="submit" [disabled]="disabled">Register</button>
+<button type="submit">Register</button>
 </form>
+
