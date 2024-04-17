@@ -26,7 +26,7 @@ namespace BetaCycle
             builder.Services.AddEndpointsApiExplorer();
 
             //istruzioni login
-            BasicAuthenticationHandler.connectionString = @"Data Source=DESKTOP-5BBAMIC\SQLEXPRESS01;Initial Catalog=BetaSecurity;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
+            BasicAuthenticationHandler.connectionString = @"Data Source=DESKTOP-FLOAKPO\\SQLEXPRESS01;Initial Catalog=BetaSecurity;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False";
             //builder.Configuration.GetConnectionString("BetaSecurity");
             builder.Services.AddAuthentication()
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", opt => { });

@@ -18,8 +18,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\DotNetAcademy\Backend\BasicLoginLibrary\BasicLoginLibrary.csproj" />
-    <ProjectReference Include="..\..\..\DotNetAcademy\Backend\EncryptionData\EncryptionData.csproj" />
+    <ProjectReference Include="..\Libraries\BasicLoginLibrary\BasicLoginLibrary.csproj" />
+    <ProjectReference Include="..\Libraries\EncryptionData\EncryptionData.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BasicLoginLibrary">
+      <HintPath>..\Libraries\BasicLoginLibrary\bin\Debug\net8.0\BasicLoginLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="EncryptionData">
+      <HintPath>..\Libraries\BasicLoginLibrary\bin\Debug\net8.0\EncryptionData.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
