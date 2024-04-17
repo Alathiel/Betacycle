@@ -58,6 +58,7 @@ namespace BasicLoginLibrary
                         {
                             sqlcmd.Connection = sqlcn;
                             sqlcmd.CommandText = $"Select * from Credential where Email='{authEmail}'";
+                            Console.WriteLine(connectionString);
                             using (SqlDataReader sqlReader = sqlcmd.ExecuteReader())
                             {
                                 
