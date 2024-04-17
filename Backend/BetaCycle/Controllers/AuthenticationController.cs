@@ -11,6 +11,7 @@ namespace BetaCycle.Controllers
     public class AuthenticationController: ControllerBase
     {
         private readonly BetaSecurityContext _context;
+        private readonly BetacycleContext _context2;
 
         public AuthenticationController(BetaSecurityContext context)
         {
@@ -48,10 +49,10 @@ namespace BetaCycle.Controllers
         [HttpPost]
         public async Task<ActionResult<Credential>> Register(Credential credential)
         {
-            KeyValuePair<string, string> a;
-            a = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
-            credential.Password = a.Key;
-            credential.PasswordSalt = a.Value;
+            KeyValuePair<string, string> temp;
+            temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
+            credential.Password = temp.Key;
+            credential.PasswordSalt = temp.Value;
             _context.Credentials.Add(credential);
             try
             {

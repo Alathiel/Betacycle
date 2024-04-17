@@ -50,4 +50,16 @@ export class HttpServicesService {
    // this.newHeader = JSON.parse(a);
     return this.http.get(`https://localhost:7044/Authentication/${credentials.email}`, {headers: this.newHeader, observe: 'response'});
   }
+
+  registerCredentials(credentials: Credentials):Observable<any>{
+    return this.http.post("https://localhost:7044/Authentication",credentials);
+  }
+
+  registerUserData(user: User):Observable<any>{
+    return this.http.post("https://localhost:7044/api/Users",user);
+  }
+
+  deleteUserData(id: number):Observable<any>{
+    return this.http.delete(`https://localhost:7044/api/Users/${id}`);
+  }
 }

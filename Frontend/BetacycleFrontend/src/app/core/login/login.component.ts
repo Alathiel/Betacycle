@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { HttpStatusCode } from '@angular/common/http';
+import { User } from '../../shared/models/user';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,8 @@ export class LoginComponent {
   credentials: Credentials = new Credentials();
   disabled: boolean = false;
   stayConnected: boolean = false;
+  newUser: User = new User();
+  newCredentials: Credentials = new Credentials();
 
   login(){
     this.http.CheckCredentials(this.credentials).subscribe(resp => {
@@ -52,7 +55,33 @@ export class LoginComponent {
         console.log("login non riuscito: "+resp.status);
       }
       
-    }
-  );
+    });
+  }
+
+  register(){
+    this.http.registerUserData(this.newUser).subscribe({
+      next: (jsData: any) => {
+        console.log(jsData)
+        this.newCredentials.userId = jsData.userId;
+        this.http.registerCredentials(this.newCredentials).subscribe({
+          next: (jsData: any) =>{
+            console.log(jsData)
+          },
+          error: (error) => {
+            console.log(error)
+            this.http.deleteUserData(this.newCredentials.userId).subscribe({
+              next: (jsData: any) =>{
+                console.log(jsData)
+              },
+              error: (error) => {}
+            })
+          }
+          
+        }) 
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 }
