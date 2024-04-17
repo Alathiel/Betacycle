@@ -13,7 +13,8 @@ namespace BetaCycle
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            DbConnection.ConnectionStringBetaCycle = builder.Configuration.GetConnectionString("BetaCycle");
+            DbConnection.ConnectionStringBetaSecurity = builder.Configuration.GetConnectionString("BetaSecurity");
             builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 

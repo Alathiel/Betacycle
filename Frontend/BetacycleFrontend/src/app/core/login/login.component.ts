@@ -25,6 +25,7 @@ export class LoginComponent {
 
   credentials: Credentials = new Credentials();
   disabled: boolean = false;
+  stayConnected: boolean = false;
 
   login(){
     this.http.CheckCredentials(this.credentials).subscribe(resp => {
@@ -33,8 +34,14 @@ export class LoginComponent {
         console.log("login ok");
         // this.disabled = true;
         console.log(resp.body.$values[0].userId);
-        sessionStorage.setItem('userId', window.btoa(resp.body.$values[0].userId));
-        sessionStorage.setItem('token', window.btoa(`${this.credentials.email}:${this.credentials.password}`));
+        if(!this.stayConnected){
+          sessionStorage.setItem('userId', window.btoa(resp.body.$values[0].userId));
+          sessionStorage.setItem('token', window.btoa(`${this.credentials.email}:${this.credentials.password}`));
+        }
+        else{
+          localStorage.setItem('userId', window.btoa(resp.body.$values[0].userId));
+          localStorage.setItem('token', window.btoa(`${this.credentials.email}:${this.credentials.password}`));
+        }
         // localStorage.setItem('token1',)
 
         
