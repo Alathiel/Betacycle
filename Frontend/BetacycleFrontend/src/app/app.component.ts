@@ -4,19 +4,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpServicesService } from './shared/services/http-services.service';
 import { Credentials } from './shared/models/credentials';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatButtonModule} from '@angular/material/button'; 
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import { HttpStatusCode } from '@angular/common/http';
 import { LoginComponent } from './core/login/login.component';
-
-
+import { NavbarComponent } from './core/navbar/navbar.component';
+import { RegistrationComponent } from './core/registration/registration.component';
+import { HomeComponent } from './features/home/home.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, FormsModule, MatSlideToggleModule, MatButtonModule, MatFormFieldModule, MatInputModule, LoginComponent],
+  imports: [RouterOutlet, CommonModule, FormsModule, LoginComponent, NavbarComponent, RegistrationComponent, HomeComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

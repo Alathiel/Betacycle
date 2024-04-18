@@ -4,16 +4,13 @@ import { Credentials } from '../../shared/models/credentials';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatButtonModule} from '@angular/material/button'; 
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import { HttpStatusCode } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSlideToggleModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -26,11 +23,6 @@ export class LoginComponent {
   credentials: Credentials = new Credentials();
   disabled: boolean = false;
   stayConnected: boolean = false;
-
-  modalVisible: boolean = false;
-
-  toggleModal() {
-    this.modalVisible = !this.modalVisible;
 
   login(){
     this.http.CheckCredentials(this.credentials).subscribe(resp => {
@@ -47,11 +39,6 @@ export class LoginComponent {
           localStorage.setItem('userId', window.btoa(resp.body.$values[0].userId));
           localStorage.setItem('token', window.btoa(`${this.credentials.email}:${this.credentials.password}`));
         }
-        // localStorage.setItem('token1',)
-
-        
-          // const jsonString: string =`{"Authorization": "Basic ${window.btoa(this.credentials.email+':'+this.credentials.password)}"}`;
-          // localStorage.setItem('header', JSON.stringify(jsonString));
       }
       else{
         console.log("login non riuscito: "+resp.status);
