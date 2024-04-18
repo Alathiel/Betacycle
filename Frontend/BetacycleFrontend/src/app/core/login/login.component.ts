@@ -27,11 +27,6 @@ export class LoginComponent {
   disabled: boolean = false;
   stayConnected: boolean = false;
 
-  modalVisible: boolean = false;
-
-  toggleModal() {
-    this.modalVisible = !this.modalVisible;
-
   login(){
     this.http.CheckCredentials(this.credentials).subscribe(resp => {
       console.log(resp)
