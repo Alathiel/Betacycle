@@ -8,7 +8,7 @@ import { HttpStatusCode } from '@angular/common/http';
 import { LoginComponent } from './core/login/login.component';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { RegistrationComponent } from './core/registration/registration.component';
-import { HomeComponent } from './features/home/home.component';
+import { HomeComponent } from './feauters/home/home.component';
 
 @Component({
   selector: 'app-root',

@@ -1,14 +1,64 @@
-<body>
+<!-- <body>
     <section id="overlay">
+        <img src="\assets\Aggiungi_un_intestazione-removebg-preview.png" alt="logo" class="logo">
         <form class="form1">
             <aside>
                 <h2>Registrazione</h2>
                 <form action="">
-                    <h4><input type="text" placeholder="Nome" class="name"></h4>
-                    <h4><input type="text" placeholder="Cognome" class="surname"></h4>
+                    <h4><input type="text" placeholder="Nome" class="name" required></h4>
+                    <h4><input type="text" placeholder="Cognome" class="surname" required></h4>
+                    <h4><input type="date" placeholder="Data di nascita" class="dob" required></h4>
+                    <h4><input type="text" placeholder="Telefono" class="phone"></h4>
+
                     <button type="submit" class="submit">Registrati</button>
                 </form>
             </aside>
         </form>
     </section>
-</body>
+</body> -->
+<form>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Email</label>
+        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Password</label>
+        <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputAddress">Address</label>
+      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+    </div>
+    <div class="form-group">
+      <label for="inputAddress2">Address 2</label>
+      <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputCity">City</label>
+        <input type="text" class="form-control" id="inputCity">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="inputState">State</label>
+        <select id="inputState" class="form-control">
+          <option selected>Choose...</option>
+          <option>...</option>
+        </select>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="inputZip">Zip</label>
+        <input type="text" class="form-control" id="inputZip">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="gridCheck">
+        <label class="form-check-label" for="gridCheck">
+          Check me out
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </form>
