@@ -28,7 +28,8 @@ export class HttpServicesService {
       this.newHeader = this.newHeader.set(
         'Authorization', "Basic "+token
       )
-    return this.http.get(`https://localhost:7044/Authentication/${credentials.email}`, {headers: this.newHeader, observe: 'response'});
+      console.log(credentials.email)
+    return this.http.post('https://localhost:7044/Login', credentials, {headers: this.newHeader, observe: 'response'});
   }
 
   registerCredentials(credentials: Credentials):Observable<any>{
@@ -45,5 +46,9 @@ export class HttpServicesService {
 
   getCategories():Observable<any>{
     return this.http.get('https://localhost:7044/Categories');
+  }
+
+  getProducts():Observable<any>{
+    return this.http.get('http://localhost:5270/api/Products');
   }
 }

@@ -22,6 +22,8 @@ public partial class BetacycleContext : DbContext
 
     public virtual DbSet<Category> Categories { get; set; }
 
+    public virtual DbSet<DealsView> DealsViews { get; set; }
+
     public virtual DbSet<Log> Logs { get; set; }
 
     public virtual DbSet<Model> Models { get; set; }
@@ -102,6 +104,30 @@ public partial class BetacycleContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(10)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<DealsView>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Deals_view");
+
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.Color)
+                .HasMaxLength(15)
+                .IsUnicode(false);
+            entity.Property(e => e.Culture)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000)
+                .IsUnicode(false);
+            entity.Property(e => e.NameProduct)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.ProductId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("ProductID");
         });
 
         modelBuilder.Entity<Log>(entity =>
@@ -207,10 +233,13 @@ public partial class BetacycleContext : DbContext
         {
             entity.ToTable("User");
 
-            entity.Property(e => e.FullName)
-                .HasMaxLength(60)
+            entity.Property(e => e.Name)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Phone)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Surname)
                 .HasMaxLength(20)
                 .IsUnicode(false);
         });

@@ -33,17 +33,17 @@ namespace BetaCycle.Controllers
 
         // [BasicAuthorizationAttributes] means request authorization
         [BasicAuthorizationAttributes]
-        [HttpGet("{email}")]
-        public async Task<ActionResult<IEnumerable<Credential>>> Login(string email)
+        [HttpPost("/Login")]
+        public async Task<ActionResult<Credential>> Login(Credential credentials)
         {
-            var cred = await _context.Credentials.Where(e => e.Email == email).ToListAsync();
+            var cred = await _context.Credentials.Where(e => e.Email == credentials.Email).ToListAsync();
 
-            if (cred == null)
+            if (cred == null || cred.Count<= 0)
             {
                 return NotFound();
             }
 
-            return cred;
+            return CreatedAtAction("GetCredential", new { id = cred.ElementAt(0).UserId }, cred);
         }
 
         [HttpPost]

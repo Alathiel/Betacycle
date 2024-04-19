@@ -1,5 +1,6 @@
 export class User{
-    fullName: string = ""
+    name: string = ""
+    surname: string = ""
     email: string = ""
     birthDate: string = '2021-07-12'
     phone: string = ""

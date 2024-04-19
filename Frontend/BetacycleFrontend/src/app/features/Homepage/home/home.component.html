@@ -4,5 +4,9 @@
 <select [(ngModel)]="selectedValue">
     <!-- value = a quello della var nel ts altrimenti non funziona -->
     <option  value="all" hidden disabled selected>Category</option>
-    <option *ngFor="let c of products" [value]="c.name">{{c.name}}</option>
+    <option *ngFor="let c of categories" [value]="c.name">{{c.name}}</option>
   </select>
+
+<div style="display: flex;  flex-direction: row; justify-content: space-evenly; padding:5%; align-items: baseline;">
+  <app-products-viewer [item]="product" *ngFor="let product of products"></app-products-viewer>
+</div>

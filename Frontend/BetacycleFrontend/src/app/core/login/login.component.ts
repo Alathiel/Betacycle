@@ -12,23 +12,22 @@ import { HttpStatusCode } from '@angular/common/http';
 import { User } from '../../shared/models/user';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSlideToggleModule, MatButtonModule, MatFormFieldModule, MatInputModule, RouterModule],
+  imports: [CommonModule, FormsModule, MatSlideToggleModule, MatButtonModule, MatFormFieldModule, MatInputModule, RouterModule, MatCardModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   constructor(private http:HttpServicesService, public router: Router){
     if(sessionStorage.getItem('token') != null){
-      alert("you're already logged in")
       this.disabled = false;
       this.router.navigate(['home'])
     }
     else if(localStorage.getItem('token') != null){
-      alert("you're already logged in")
       this.disabled = false;
       this.router.navigate(['home'])
     }
@@ -58,7 +57,7 @@ export class LoginComponent {
         console.log(error)
       }
       console.log(resp)
-      if(resp.status == HttpStatusCode.Ok){
+      if(resp.status == HttpStatusCode.Created){
         console.log("login ok");
         this.disabled = true;
         console.log(resp.body.$values[0].userId);
