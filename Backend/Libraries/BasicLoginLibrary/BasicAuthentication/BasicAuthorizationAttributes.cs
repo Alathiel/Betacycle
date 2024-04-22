@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BasicLoginLibrary
+namespace LoginLibrary.BasicAuthentication
 {
     public class BasicAuthorizationAttributes : AuthorizeAttribute
     {

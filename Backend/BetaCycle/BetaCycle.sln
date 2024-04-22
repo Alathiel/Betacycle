@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BetaCycle", "BetaCycle.csproj", "{EB62D75A-BF22-4759-8B82-813AA99081C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicLoginLibrary", "..\Libraries\BasicLoginLibrary\BasicLoginLibrary.csproj", "{01C9E70A-D666-40EE-82BC-97A255702BB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginLibrary", "..\Libraries\BasicLoginLibrary\LoginLibrary.csproj", "{01C9E70A-D666-40EE-82BC-97A255702BB1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncryptionData", "..\Libraries\EncryptionData\EncryptionData.csproj", "{3B9D78B3-6F2C-4B80-B4EC-0686BCD1E90F}"
 EndProject

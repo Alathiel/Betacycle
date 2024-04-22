@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using BasicLoginLibrary;
 using BetaCycle.Contexts;
 using BetaCycle.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using LoginLibrary.BasicAuthentication;
 
 namespace BetaCycle
 {
@@ -26,8 +26,8 @@ namespace BetaCycle
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
-            //JWT Authentication
-            JwtSettings jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
+            //jwt authentication
+            JwtSettings? jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
             builder.Services.AddSingleton(jwtSettings); //add singleton object to services so everyone can see it
             
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
@@ -42,9 +42,10 @@ namespace BetaCycle
                 RequireExpirationTime = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
             });
-            //fine jwt authentication
+            //end jwt authentication
 
-            //istruzioni login
+            /*
+            //basic authentication
             BasicAuthenticationHandler.connectionString = builder.Configuration.GetConnectionString("SqlClient");
             builder.Configuration.GetConnectionString("BetaSecurity");
             builder.Services.AddAuthentication()
@@ -53,7 +54,8 @@ namespace BetaCycle
             (opt =>
                 opt.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build())
             );
-            //fine istruction login
+            //end basic authentication
+            */
 
 
 

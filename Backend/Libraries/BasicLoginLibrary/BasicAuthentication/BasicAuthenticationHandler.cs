@@ -9,13 +9,13 @@ using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
 
 
-namespace BasicLoginLibrary
+namespace LoginLibrary.BasicAuthentication
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         public static string connectionString { get; set; }
         public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
-            : base(options, logger, encoder, clock){}
+            : base(options, logger, encoder, clock) { }
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
@@ -54,22 +54,22 @@ namespace BasicLoginLibrary
                             sqlcmd.CommandText = $"Select * from Credential where Email='{authEmail}'";
                             using (SqlDataReader sqlReader = sqlcmd.ExecuteReader())
                             {
-                                
+
                                 while (sqlReader.Read())
                                 {
                                     temp.Add("Password", sqlReader["Password"].ToString());
                                     temp.Add("Salt", sqlReader["PasswordSalt"].ToString());
                                     temp.Add("UserId", sqlReader["UserId"].ToString());
                                 }
-                                
+
                             }
                         }
                     }
 
-                    
+
                     if (temp.Count > 0)
                     {
-                        if(EncryptionData.EncryptionData.SaltDecrypt(authPassword, temp.GetValueOrDefault("Salt")) !=
+                        if (EncryptionData.EncryptionData.SaltDecrypt(authPassword, temp.GetValueOrDefault("Salt")) !=
                            temp.GetValueOrDefault("Password"))
                             return Task.FromResult(AuthenticateResult.Fail("Password not matching."));
                     }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
 using BetaCycle.Contexts;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BetaCycle.Controllers
 {
@@ -21,7 +22,7 @@ namespace BetaCycle.Controllers
         {
             _context = context;
         }
-
+        [Authorize]
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()

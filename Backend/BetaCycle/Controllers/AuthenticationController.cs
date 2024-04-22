@@ -1,7 +1,7 @@
 ﻿using Azure.Core;
-using BasicLoginLibrary;
 using BetaCycle.Contexts;
 using BetaCycle.Models;
+using LoginLibrary.BasicAuthentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
