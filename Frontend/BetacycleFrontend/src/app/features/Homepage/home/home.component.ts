@@ -54,6 +54,10 @@ export class HomeComponent {
       }
     })
   }
+
+  redirectSettings(){
+    this.router.navigate(['settings'])
+  }
   
 
 }

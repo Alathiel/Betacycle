@@ -13,6 +13,7 @@ import { User } from '../../shared/models/user';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ import {MatCardModule} from '@angular/material/card';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private http:HttpServicesService, public router: Router){
+  constructor(private http:HttpServicesService, public router: Router, private authentication:AuthenticationService){
     if(sessionStorage.getItem('token') != null){
       this.disabled = false;
       this.router.navigate(['home'])
@@ -40,7 +41,7 @@ export class LoginComponent {
   newCredentials: Credentials = new Credentials();
 
   login(){
-    this.http.CheckCredentials(this.credentials).subscribe(resp => {
+    this.authentication.Login(this.credentials).subscribe(resp => {
       next: (response: any) => {
         console.log('in next: '+response)
         switch(response.status){
@@ -85,11 +86,11 @@ export class LoginComponent {
   }
 
   register(){
-    this.http.registerUserData(this.newUser).subscribe({
+    this.authentication.registerUserData(this.newUser).subscribe({
       next: (jsData: any) => {
         console.log(jsData)
         this.newCredentials.userId = jsData.userId;
-        this.http.registerCredentials(this.newCredentials).subscribe({
+        this.authentication.registerCredentials(this.newCredentials).subscribe({
           next: (jsData: any) =>{
             console.log(jsData)
           },

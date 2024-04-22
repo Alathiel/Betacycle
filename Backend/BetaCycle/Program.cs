@@ -1,11 +1,13 @@
-
-using BetaCycle.Models;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using BasicLoginLibrary;
 using BetaCycle.Contexts;
+using BetaCycle.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BetaCycle
 {
@@ -24,16 +26,37 @@ namespace BetaCycle
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
+            //JWT Authentication
+            JwtSettings jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
+            builder.Services.AddSingleton(jwtSettings); //add singleton object to services so everyone can see it
+            
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
+            opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            {
+                ValidateIssuer = true, //validate who gave a token
+                ValidateAudience = true,//validate who sends a token
+                ValidateLifetime = true, //validate lifetime of a token
+                ValidateIssuerSigningKey = true, //validate secret key
+                ValidIssuer = jwtSettings.Issuer, //issuer value
+                ValidAudience = jwtSettings.Audience, //audience value
+                RequireExpirationTime = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+            });
+            //fine jwt authentication
+
             //istruzioni login
-            BasicAuthenticationHandler.connectionString = @"Data Source=DESKTOP-I7OUE3Q\SQLEXPRESS;Initial Catalog=BetaSecurity;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
+            //BasicAuthenticationHandler.connectionString = builder.Configuration.GetConnectionString("SqlClient");
             //builder.Configuration.GetConnectionString("BetaSecurity");
-            builder.Services.AddAuthentication()
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", opt => { });
-            builder.Services.AddAuthorization
-            (opt =>
-                opt.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build())
-            );
+            //builder.Services.AddAuthentication()
+            //.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", opt => { });
+            //builder.Services.AddAuthorization
+            //(opt =>
+            //    opt.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build())
+            //);
             //fine istruction login
+
+
+
             builder.Services.AddSwaggerGen();
 
             //Setup cors

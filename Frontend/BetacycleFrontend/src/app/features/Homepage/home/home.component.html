@@ -7,6 +7,10 @@
     <option *ngFor="let c of categories" [value]="c.name">{{c.name}}</option>
   </select>
 
-<div style="display: flex;  flex-direction: row; justify-content: space-evenly; padding:5%; align-items: baseline;">
-  <app-products-viewer [item]="product" *ngFor="let product of products"></app-products-viewer>
+<div style="display: flex;  flex-direction: row; justify-content: space-evenly; padding:5%; align-items: baseline; flex-wrap: wrap; flex-grow: 0px">
+  <app-products-viewer [item]="product" *ngFor="let product of products" style="max-width: fit-content"></app-products-viewer>
 </div>
+
+
+<button routerLink="/settings" routerLinkActive="active" (click)="redirectSettings()">Settings</button>
+ 

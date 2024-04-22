@@ -2,17 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Data.SqlClient;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using String = System.String;
-using Microsoft.Extensions.Configuration;
 
 
 namespace BasicLoginLibrary
@@ -81,8 +75,6 @@ namespace BasicLoginLibrary
                     }
                     else
                         return Task.FromResult(AuthenticateResult.Fail("Email not found."));
-                    
-
                 }
                 catch (Exception e)
                 {

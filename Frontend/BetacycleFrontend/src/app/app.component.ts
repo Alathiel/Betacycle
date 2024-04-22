@@ -25,19 +25,6 @@ export class AppComponent {
 
   credentials: Credentials = new Credentials()
 
-  login(){
-    //sessionStorage.setItem("credentials",this.credentials.email.concat(":"+this.credentials.password));
-    this.http.CheckCredentials(this.credentials).subscribe(resp => {
-      console.log(resp)
-      if(resp.status == HttpStatusCode.Ok){
-        console.log("login ok");
-        localStorage.setItem('token', window.btoa(this.credentials.email+":"+this.credentials.password));
-      }
-      else{
-        console.log("login non riuscito: "+resp.status);
-      }
-    });
-  }
-
+ 
   title = 'BetacycleFrontend';
 }
