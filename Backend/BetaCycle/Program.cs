@@ -45,14 +45,14 @@ namespace BetaCycle
             //fine jwt authentication
 
             //istruzioni login
-            //BasicAuthenticationHandler.connectionString = builder.Configuration.GetConnectionString("SqlClient");
-            //builder.Configuration.GetConnectionString("BetaSecurity");
-            //builder.Services.AddAuthentication()
-            //.AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", opt => { });
-            //builder.Services.AddAuthorization
-            //(opt =>
-            //    opt.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build())
-            //);
+            BasicAuthenticationHandler.connectionString = builder.Configuration.GetConnectionString("SqlClient");
+            builder.Configuration.GetConnectionString("BetaSecurity");
+            builder.Services.AddAuthentication()
+            .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", opt => { });
+            builder.Services.AddAuthorization
+            (opt =>
+                opt.AddPolicy("BasicAuthentication", new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build())
+            );
             //fine istruction login
 
 

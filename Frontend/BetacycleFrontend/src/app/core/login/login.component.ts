@@ -58,16 +58,17 @@ export class LoginComponent {
         console.log(error)
       }
       console.log(resp)
-      if(resp.status == HttpStatusCode.Created){
+      if(resp.status == HttpStatusCode.Created || resp.status == HttpStatusCode.Ok){
         console.log("login ok");
         this.disabled = true;
-        console.log(resp.body.$values[0].userId);
+        console.log(resp)
+        console.log(resp.body);
         if(!this.stayConnected){
-          sessionStorage.setItem('userId', window.btoa(resp.body.$values[0].userId));
+          sessionStorage.setItem('userId', window.btoa(resp.body));
           sessionStorage.setItem('token', window.btoa(`${this.credentials.email}:${this.credentials.password}`));
         }
         else{
-          localStorage.setItem('userId', window.btoa(resp.body.$values[0].userId));
+          localStorage.setItem('userId', window.btoa(resp.body));
           localStorage.setItem('token', window.btoa(`${this.credentials.email}:${this.credentials.password}`));
         }
 
