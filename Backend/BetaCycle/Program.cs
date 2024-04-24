@@ -35,11 +35,11 @@ namespace BetaCycle
             {
                 ValidateIssuer = true, //validate who gave a token
                 ValidateAudience = true,//validate who sends a token
-                ValidateLifetime = true, //validate lifetime of a token
+                ValidateLifetime = false, //validate lifetime of a token
                 ValidateIssuerSigningKey = true, //validate secret key
                 ValidIssuer = jwtSettings.Issuer, //issuer value
                 ValidAudience = jwtSettings.Audience, //audience value
-                RequireExpirationTime = true,
+                //RequireExpirationTime = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
             });
             //end jwt authentication

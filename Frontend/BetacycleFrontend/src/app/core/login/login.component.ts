@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpServicesService } from '../../shared/services/http-services.service';
 import { Credentials } from '../../shared/models/credentials';
-import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -13,7 +12,7 @@ import { User } from '../../shared/models/user';
 import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
-import { AuthenticationService } from '../../shared/services/authentication.service';
+import { AuthService } from '../../shared/services/Auth.service';
 
 @Component({
   selector: 'app-login',
@@ -23,17 +22,13 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private http:HttpServicesService, public router: Router, private authentication:AuthenticationService){
-    if(sessionStorage.getItem('token') != null){
-      this.disabled = false;
-      this.router.navigate(['home'])
-    }
-    else if(localStorage.getItem('token') != null){
-      this.disabled = false;
+  constructor(private http:HttpServicesService, public router: Router, private AuthService:AuthService){
+    if(AuthService.getLoggedStatus()){
       this.router.navigate(['home'])
     }
   }
 
+  
   credentials: Credentials = new Credentials();
   disabled: boolean = false;
   stayConnected: boolean = false;
@@ -41,23 +36,22 @@ export class LoginComponent {
   newCredentials: Credentials = new Credentials();
 
   login(){
-    this.authentication.Login(this.credentials).subscribe(resp => {
-      next: (response: any) => {
-        console.log('in next: '+response)
-        switch(response.status){
-          case HttpStatusCode.Ok:
-            console.log("login ok!!!")
-            break;
-          case HttpStatusCode.NoContent:
-            console.log("nessun contenuto!!!")
-            break;
+    this.AuthService.Login(this.credentials).subscribe(resp => {
+      // next: (response: any) => {
+      //   console.log('in next: '+response)
+      //   switch(response.status){
+      //     case HttpStatusCode.Ok:
+      //       console.log("login ok!!!")
+      //       break;
+      //     case HttpStatusCode.NoContent:
+      //       console.log("nessun contenuto!!!")
+      //       break;
           
-        }
-      }
-      error: (error:any) => {
-        console.log(error)
-      }
-      console.log(resp)
+      //   }
+      // }
+      // error: (error:any) => {
+      //   console.log(error)
+      // }
       if(resp.status == HttpStatusCode.Created || resp.status == HttpStatusCode.Ok){
         console.log("login ok");
         this.disabled = true;
@@ -71,9 +65,8 @@ export class LoginComponent {
           localStorage.setItem('userId', window.btoa(resp.body));
           localStorage.setItem('token', window.btoa(`${this.credentials.email}:${this.credentials.password}`));
         }
-
+        
         this.router.navigate(['home'])
-        // localStorage.setItem('token1',)
 
         
           // const jsonString: string =`{"Authorization": "Basic ${window.btoa(this.credentials.email+':'+this.credentials.password)}"}`;
@@ -86,12 +79,28 @@ export class LoginComponent {
     });
   }
 
+  loginJwt(){
+    this.AuthService.LoginJWT(this.credentials).subscribe(resp => {
+      console.log(resp)
+      if(resp.status == HttpStatusCode.Ok){
+        this.AuthService.setLoggedStatus(this.stayConnected, resp);
+        this.router.navigate(['home'])
+        // const jsonString: string =`{"Authorization": "Basic ${window.btoa(this.credentials.email+':'+this.credentials.password)}"}`;
+        // localStorage.setItem('header', JSON.stringify(jsonString));
+      }
+      else{
+        console.log("login non riuscito: "+resp.status);
+      }
+      
+    })
+  }
+
   register(){
-    this.authentication.registerUserData(this.newUser).subscribe({
+    this.AuthService.registerUserData(this.newUser).subscribe({
       next: (jsData: any) => {
         console.log(jsData)
         this.newCredentials.userId = jsData.userId;
-        this.authentication.registerCredentials(this.newCredentials).subscribe({
+        this.AuthService.registerCredentials(this.newCredentials).subscribe({
           next: (jsData: any) =>{
             console.log(jsData)
           },

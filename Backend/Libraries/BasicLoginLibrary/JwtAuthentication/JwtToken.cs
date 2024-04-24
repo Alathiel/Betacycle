@@ -22,7 +22,7 @@ namespace LoginLibrary.JwtAuthentication
             var secretKey = _jwtSettings.SecretKey;
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secretKey);
-            //defining identity header
+            
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -30,7 +30,7 @@ namespace LoginLibrary.JwtAuthentication
                     new Claim(ClaimTypes.Email, email),
                     new Claim(ClaimTypes.Name, password)
                 }),
-                Expires = DateTime.Now.AddMinutes(_jwtSettings.ExpirationMinutes),
+                //Expires = DateTime.Now.AddMinutes(_jwtSettings.ExpirationMinutes),
                 Issuer = _jwtSettings.Issuer,
                 Audience = _jwtSettings.Audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),

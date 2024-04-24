@@ -29,19 +29,26 @@ namespace BetaCycle.Controllers
 
         
         [HttpPost("/JwtLogin")]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login(Credential credentials)
         {
-            //var cred = _context.Credentials.Where(e => e.Email == credentials.Email).ToList();
-            var cred = _context.Credentials.Where(e => e.Email == email).ToList();
+            var cred = _context.Credentials.Where(e => e.Email == credentials.Email).ToList();
+            //var cred = _context.Credentials.Where(e => e.Email == email).ToList();
 
             if (cred.Count > 0)
             {
-                var pw = EncryptionData.EncryptionData.SaltDecrypt(password, cred[0].PasswordSalt);
-                if(pw == cred[0].Password)
+                var pw = EncryptionData.EncryptionData.SaltDecrypt(credentials.Password, cred[0].PasswordSalt);
+                //var pw = EncryptionData.EncryptionData.SaltDecrypt(password, cred[0].PasswordSalt);
+                if (pw == cred[0].Password)
                 {
-                    //var token = this.token.GenerateJwtToken(credentials.Email, credentials.Password);
-                    var token = this.token.GenerateJwtToken(email, password);
-                    return Ok(new { token });
+                    var token = this.token.GenerateJwtToken(credentials.Email, credentials.Password);
+                    //var token = this.token.GenerateJwtToken(email, password);
+                    return Ok(new
+                    {
+                        userId = cred[0].UserId,
+                        Status = 200,
+                        Token = token
+
+                    });
                 }
                 else
                     return BadRequest("Wrong Password");

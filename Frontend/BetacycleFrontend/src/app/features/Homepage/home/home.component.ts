@@ -15,13 +15,18 @@ import { ProductsViewerComponent } from '../../../core/products-viewer/products-
 })
 
 export class HomeComponent {
+  token: any;
   constructor(private router: Router, private http: HttpServicesService){
-
     if(sessionStorage.getItem('token') === null && localStorage.getItem('token') === null){
       alert("Devi prima eseguire il login!!!!");
       this.router.navigate(['login'])
     }
-    this.http.getProducts().subscribe({
+    else if(sessionStorage.getItem('token') != null)
+      this.token = sessionStorage.getItem('token');
+    else
+      this.token = localStorage.getItem('token');
+    
+    this.http.getProducts(this.token).subscribe({
       next: (JsData: any) => {
         console.log(JsData)
         this.products = JsData.$values
