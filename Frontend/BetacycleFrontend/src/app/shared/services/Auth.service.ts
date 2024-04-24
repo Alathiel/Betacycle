@@ -39,7 +39,7 @@ export class AuthService {
 
   setLoggedStatus(stayConnected: boolean, resp: any){
     //var temp = jwtDecode(resp.token)
-    //console.log(temp)
+    //console.log(resp)
     if(!stayConnected){
       sessionStorage.setItem('userId', window.btoa(resp.userId));
       sessionStorage.setItem('token', resp.token);
@@ -71,7 +71,7 @@ export class AuthService {
 
   LoginJWT(credentials: Credentials): Observable<any>
   {
-    return this.http.post('https://localhost:7044/JwtLogin',credentials)
+    return this.http.post('https://localhost:7044/JwtLogin',credentials, {observe: 'response'})
   }
 
 }

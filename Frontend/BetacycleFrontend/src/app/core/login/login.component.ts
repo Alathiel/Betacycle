@@ -83,7 +83,7 @@ export class LoginComponent {
     this.AuthService.LoginJWT(this.credentials).subscribe(resp => {
       console.log(resp)
       if(resp.status == HttpStatusCode.Ok){
-        this.AuthService.setLoggedStatus(this.stayConnected, resp);
+        this.AuthService.setLoggedStatus(this.stayConnected, resp.body);
         this.router.navigate(['home'])
         // const jsonString: string =`{"Authorization": "Basic ${window.btoa(this.credentials.email+':'+this.credentials.password)}"}`;
         // localStorage.setItem('header', JSON.stringify(jsonString));
