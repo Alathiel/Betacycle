@@ -84,6 +84,7 @@ export class LoginComponent {
       console.log(resp)
       if(resp.status == HttpStatusCode.Ok){
         this.AuthService.setLoggedStatus(this.stayConnected, resp.body);
+        localStorage.setItem('userId', window.btoa(resp.body.userId));
         this.router.navigate(['home'])
         // const jsonString: string =`{"Authorization": "Basic ${window.btoa(this.credentials.email+':'+this.credentials.password)}"}`;
         // localStorage.setItem('header', JSON.stringify(jsonString));

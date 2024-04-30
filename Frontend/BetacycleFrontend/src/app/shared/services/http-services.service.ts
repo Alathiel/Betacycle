@@ -33,9 +33,22 @@ export class HttpServicesService {
     console.log(this.authJwtHeader)
 
     return this.http.get('https://localhost:7044/api/Products', {headers: 
-    {
-      'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`}});
+      {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+  }
+
+  getAddresses(token: string, id: string):Observable<any>{
+    return this.http.get('https://localhost:7044/api/Users/Addresses/'+id, {headers: 
+      {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      observe: 'response'
+    });
   }
 }

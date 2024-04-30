@@ -18,14 +18,14 @@ namespace BetaCycle.Controllers
             _context = context;
         }
 
-        // GET: api/Users
+        #region HttpGet
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)
         {
@@ -38,6 +38,25 @@ namespace BetaCycle.Controllers
 
             return user;
         }
+
+
+
+        [HttpGet("[Action]/{id}")]
+        public async Task<ActionResult<List<Address>>> Addresses(int id)
+        {
+            var addresses = await _context.Addresses.Where(address => address.UserId == id).ToListAsync();
+
+            if (addresses.Count <= 0)
+            {
+                return NotFound();
+            }
+
+            return addresses;
+        }
+
+
+        #endregion
+
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -70,8 +89,7 @@ namespace BetaCycle.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
@@ -80,6 +98,28 @@ namespace BetaCycle.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult<User>> PostAddress(Address address)
+        {
+            User user = await _context.Users.FirstOrDefaultAsync( user => user.UserId == address.UserId);
+
+            if (user == null)
+            {
+                return BadRequest("Invalid");
+            }
+
+            address.User = user;
+            _context.Addresses.Add(address);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                code = 201,
+                address
+            });
         }
 
         // DELETE: api/Users/5

@@ -10,7 +10,7 @@ namespace LoginLibrary.JwtAuthentication
 {
     public class JwtToken
     {
-        private JwtSettings _jwtSettings;
+        private readonly JwtSettings _jwtSettings;
 
         public JwtToken(JwtSettings jwtSettings)
         {
@@ -27,8 +27,7 @@ namespace LoginLibrary.JwtAuthentication
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Email, email),
-                    new Claim(ClaimTypes.Name, password)
+                    new Claim(ClaimTypes.Email, email)
                 }),
                 //Expires = DateTime.Now.AddMinutes(_jwtSettings.ExpirationMinutes),
                 Issuer = _jwtSettings.Issuer,
