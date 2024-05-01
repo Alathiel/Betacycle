@@ -9,7 +9,7 @@ public partial class Transaction
 
     public long ProductId { get; set; }
 
-    public long TransactionId { get; set; }
+    public Guid OrderId { get; set; }
 
     public int Quantity { get; set; }
 

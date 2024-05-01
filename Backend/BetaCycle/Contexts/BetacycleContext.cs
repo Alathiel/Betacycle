@@ -22,11 +22,11 @@ public partial class BetacycleContext : DbContext
 
     public virtual DbSet<Category> Categories { get; set; }
 
-    public virtual DbSet<DealsView> DealsViews { get; set; }
-
     public virtual DbSet<Log> Logs { get; set; }
 
     public virtual DbSet<Model> Models { get; set; }
+
+    public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
@@ -35,6 +35,8 @@ public partial class BetacycleContext : DbContext
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<ViewDeal> ViewDeals { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=ConnectionStrings:BetaCycle");
@@ -106,30 +108,6 @@ public partial class BetacycleContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<DealsView>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("Deals_view");
-
-            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
-            entity.Property(e => e.Color)
-                .HasMaxLength(15)
-                .IsUnicode(false);
-            entity.Property(e => e.Culture)
-                .HasMaxLength(5)
-                .IsUnicode(false);
-            entity.Property(e => e.Description)
-                .HasMaxLength(1000)
-                .IsUnicode(false);
-            entity.Property(e => e.NameProduct)
-                .HasMaxLength(30)
-                .IsUnicode(false);
-            entity.Property(e => e.ProductId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ProductID");
-        });
-
         modelBuilder.Entity<Log>(entity =>
         {
             entity.Property(e => e.LogId).ValueGeneratedNever();
@@ -155,10 +133,23 @@ public partial class BetacycleContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<Order>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.ProductId, e.TransactionId }).HasName("PK_Transaction");
+
+            entity.ToTable("Order");
+
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Transaction_User");
+        });
+
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK_Product_1");
-
             entity.ToTable("Product", tb => tb.HasTrigger("DeleteModel"));
 
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
@@ -177,6 +168,10 @@ public partial class BetacycleContext : DbContext
             entity.Property(e => e.NameProduct)
                 .HasMaxLength(30)
                 .IsUnicode(false);
+            entity.Property(e => e.ProductNumber)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Rowguid).HasColumnName("rowguid");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
@@ -208,15 +203,12 @@ public partial class BetacycleContext : DbContext
 
         modelBuilder.Entity<Transaction>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.ProductId, e.TransactionId });
+            entity.HasKey(e => new { e.UserId, e.ProductId, e.OrderId }).HasName("PK_Transaction_1");
 
             entity.ToTable("Transaction");
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
-            entity.Property(e => e.TransactionId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("TransactionID");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.ProductId)
@@ -226,7 +218,7 @@ public partial class BetacycleContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Transaction_User");
+                .HasConstraintName("FK_Transaction_User1");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -242,6 +234,27 @@ public partial class BetacycleContext : DbContext
             entity.Property(e => e.Surname)
                 .HasMaxLength(20)
                 .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<ViewDeal>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_Deals");
+
+            entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
+            entity.Property(e => e.Culture)
+                .HasMaxLength(5)
+                .IsUnicode(false);
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000)
+                .IsUnicode(false);
+            entity.Property(e => e.NameProduct)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.ProductId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("ProductID");
         });
 
         OnModelCreatingPartial(modelBuilder);

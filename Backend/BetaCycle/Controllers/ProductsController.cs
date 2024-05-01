@@ -9,6 +9,8 @@ using BetaCycle.Models;
 using BetaCycle.Contexts;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using Model = BetaCycle.Models.Model;
 
 namespace BetaCycle.Controllers
 {
@@ -52,9 +54,9 @@ namespace BetaCycle.Controllers
         }
 
         [HttpGet("/Deals")]
-        public async Task<ActionResult<IEnumerable<DealsView>>> GetDeals()
+        public async Task<ActionResult<IEnumerable<ViewDeal>>> GetDeals()
         {
-            var product = await _context.DealsViews.ToListAsync();
+            var product = await _context.ViewDeals.ToListAsync();
 
             if (product == null || product.Count<=0)
             {
@@ -100,6 +102,17 @@ namespace BetaCycle.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
+            Model model = await _context.Models.FindAsync(product.ModelId);
+            Category category = await _context.Categories.FindAsync(product.CategoryId);
+
+            if (category == null )
+            {
+                return BadRequest();
+            }
+
+            product.Model = model;
+            product.Category = category;
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
