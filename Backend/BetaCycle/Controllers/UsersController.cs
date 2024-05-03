@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
 using BetaCycle.Contexts;
 using Microsoft.AspNetCore.Authorization;
+using NLog;
 
 namespace BetaCycle.Controllers
 {
@@ -11,6 +12,9 @@ namespace BetaCycle.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
+        //LogFactory.GetCurrentClassLogger<UsersController>()
+
         private readonly BetacycleContext _context;
 
         public UsersController(BetacycleContext context)
@@ -23,20 +27,29 @@ namespace BetaCycle.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
+
             return await _context.Users.ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)
         {
+            try { 
             var user = await _context.Users.FindAsync(id);
-
+            int x = 0;
+            Console.WriteLine(1 / x);
             if (user == null)
             {
                 return NotFound();
             }
 
-            return user;
+                return user;
+            }
+            catch (Exception e)
+            {
+                _logger.Error("{e}",e);
+                return BadRequest();
+            }
         }
 
 

@@ -29,7 +29,7 @@ namespace BetaCycle.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Skip(0).Take(10).ToListAsync();
         }
 
         [HttpGet("/Categories")]

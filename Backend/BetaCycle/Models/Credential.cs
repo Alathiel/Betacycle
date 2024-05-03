@@ -13,5 +13,7 @@ public partial class Credential
 
     public string Email { get; set; } = null!;
 
+    public DateOnly LastModified { get; set; }
+
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }
