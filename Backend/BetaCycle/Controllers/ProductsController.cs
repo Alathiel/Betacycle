@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
 using Model = BetaCycle.Models.Model;
+using NLog;
 
 namespace BetaCycle.Controllers
 {
@@ -18,18 +19,29 @@ namespace BetaCycle.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         private readonly BetacycleContext _context;
 
         public ProductsController(BetacycleContext context)
         {
             _context = context;
         }
-        [Authorize]
+        
         // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.Skip(0).Take(10).ToListAsync();
+            try
+            {
+                int x = 0;
+                Console.WriteLine(1 / x);
+                return await _context.Products.Skip(0).Take(10).ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.Error("{e}", e);
+                return BadRequest();
+            }
         }
 
         [HttpGet("/Categories")]

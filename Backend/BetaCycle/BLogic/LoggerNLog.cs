@@ -1,6 +1,4 @@
-﻿using BetaCycle.Models;
-using global::BetaCycle.Models;
-using Microsoft.DotNet.Scaffolding.Shared;
+﻿using MongoDB.Bson;
 using NLog;
 using NLog.Mongo;
 using NLog.Targets;
@@ -12,56 +10,25 @@ namespace BetaCycle.BLogic
     {
         private static Logger nLogLogger = LogManager.GetCurrentClassLogger();
 
-        public LoggerNLog(string connectionString)
+        public LoggerNLog(IConfigurationSection opts, string connectionString = "")
         {
+            
             var config = new NLog.Config.LoggingConfiguration();
-
-            // Targets where to log to: File and Console
-            var logfile = new FileTarget("logfile") { FileName = "file.txt" };
-            var logconsole = new ColoredConsoleTarget("logconsole");
-            logconsole.Layout = "${longdate} - ${level:uppercase=true} - ${logger} - ${callsite} - ${message}";
-            var dbtarget = new DatabaseTarget()
-            {
-                Name = "Betacycle",
-                ConnectionString = connectionString,
-                CommandText = "insert into Logs(Date,Type, Description, BrowserOrigin) values(@Date,@Type,@Description,@local);",
-                Parameters =
-                    {
-                        new DatabaseParameterInfo("@Date", new NLog.Layouts.SimpleLayout(DateTime.Now.ToString())),
-                        new DatabaseParameterInfo("@Type", new NLog.Layouts.SimpleLayout("${level:uppercase=true}")),
-                        new DatabaseParameterInfo("@Description", new NLog.Layouts.SimpleLayout("${callsite}")),
-                        new DatabaseParameterInfo("@local", new NLog.Layouts.SimpleLayout("${machinename}"))
-                }
-            };
-
-            var dbMongoTarget = new MongoTarget()
-            {
-                CollectionName = "Logs",
-                DatabaseName = "BetaCycleLogs",
-                ConnectionString = "mongodb://localhost:27017/",
-
-                Fields =
-                {
-                    new MongoField("Date","${shortdate}","DateTime"),
-                    new MongoField("Level","${level:uppercase=true}"),
-                    new MongoField("Host","${machinename}")
-                },
-
-                CappedCollectionSize = 20000000
-                
-            };
+            
+            var logConsole = new ColoredConsoleTarget("logconsole");
+            logConsole.Layout = "${longdate} - ${level:uppercase=true} - ${logger} - ${callsite} - ${message}";
 
             // Rules for mapping loggers to targets            
-            config.AddRule(LogLevel.Error, LogLevel.Fatal, dbtarget);
-            config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
-            config.AddRule(LogLevel.Error, LogLevel.Fatal, dbMongoTarget);
+            //config.AddRule(LogLevel.Error, LogLevel.Fatal, SetupMySql(connectionString));
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logConsole);
+            config.AddRule(LogLevel.Error, LogLevel.Fatal, SetupMongo(opts));
 
             // Apply config           
             LogManager.Configuration = config;
             TestNLogMethod();
         }
 
-        private void TestNLogMethod()
+        public void TestNLogMethod()
         {
             int x = 0;
             try
@@ -72,9 +39,45 @@ namespace BetaCycle.BLogic
             {
                     //automatically takes the first parameter as {x} - structured logs
                     nLogLogger.Error("{error}", e);
-                
-                
             }
+        }
+
+        private static MongoTarget SetupMongo(IConfigurationSection opts)
+        {
+            return new MongoTarget()
+            {
+                CollectionName = opts.GetSection("Collection").Value,
+                DatabaseName = opts.GetSection("DatabaseName").Value,
+                ConnectionString = opts.GetSection("ConnectionString").Value,
+
+                Fields =
+                {
+                    new MongoField("Date","${shortdate}", "String"),
+                    new MongoField("Level","${level:uppercase=true}"),
+                    new MongoField("Host","${machinename}"),
+                    new MongoField("Callsite","${callsite}"),
+                    new MongoField("Timestamp","${time}")
+                },
+
+                CappedCollectionSize = 20000000
+            };
+        }
+
+        private static DatabaseTarget SetupMySql(string connectionString)
+        {
+            return new DatabaseTarget()
+            {
+                Name = "Betacycle",
+                ConnectionString = connectionString,
+                CommandText = "insert into Logs(Date,Type, Description, BrowserOrigin) values(@Date,@Type,@Description,@local);",
+                Parameters =
+                {
+                    new DatabaseParameterInfo("@Date", new NLog.Layouts.SimpleLayout(DateTime.Now.ToString())),
+                    new DatabaseParameterInfo("@Type", new NLog.Layouts.SimpleLayout("${level:uppercase=true}")),
+                    new DatabaseParameterInfo("@Description", new NLog.Layouts.SimpleLayout("${callsite}")),
+                    new DatabaseParameterInfo("@local", new NLog.Layouts.SimpleLayout("${machinename}"))
+                }
+            };
         }
     }
 

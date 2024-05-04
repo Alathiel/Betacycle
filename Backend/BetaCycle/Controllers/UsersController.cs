@@ -12,8 +12,9 @@ namespace BetaCycle.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         //LogFactory.GetCurrentClassLogger<UsersController>()
+        
 
         private readonly BetacycleContext _context;
 
@@ -34,14 +35,11 @@ namespace BetaCycle.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)
         {
-            try { 
-            var user = await _context.Users.FindAsync(id);
-            int x = 0;
-            Console.WriteLine(1 / x);
-            if (user == null)
-            {
-                return NotFound();
-            }
+            try 
+            { 
+                var user = await _context.Users.FindAsync(id);
+                if (user == null)
+                    return NotFound();
 
                 return user;
             }
@@ -70,6 +68,44 @@ namespace BetaCycle.Controllers
 
         #endregion
 
+
+        #region HttpPost
+
+
+        [HttpPost]
+        public async Task<ActionResult<User>> PostUser(User user)
+        {
+            _context.Users.Add(user);
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult<User>> PostAddress(Address address)
+        {
+            User user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == address.UserId);
+
+            if (user == null)
+            {
+                return BadRequest("Invalid");
+            }
+
+            address.User = user;
+            _context.Addresses.Add(address);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                code = 201,
+                address
+            });
+        }
+
+
+        #endregion
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -103,37 +139,7 @@ namespace BetaCycle.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.Users.Add(user);
-
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
-        }
-
-        [HttpPost("[action]")]
-        public async Task<ActionResult<User>> PostAddress(Address address)
-        {
-            User user = await _context.Users.FirstOrDefaultAsync( user => user.UserId == address.UserId);
-
-            if (user == null)
-            {
-                return BadRequest("Invalid");
-            }
-
-            address.User = user;
-            _context.Addresses.Add(address);
-
-            await _context.SaveChangesAsync();
-
-            return Ok(new
-            {
-                code = 201,
-                address
-            });
-        }
+        
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
