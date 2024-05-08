@@ -26,6 +26,9 @@ namespace BetaCycle.Controllers
         {
             _context = context;
         }
+
+        #region HttpGet
+
         
         // GET: api/Products
         [HttpGet]
@@ -33,9 +36,9 @@ namespace BetaCycle.Controllers
         {
             try
             {
-                int x = 0;
-                Console.WriteLine(1 / x);
+                //return await _context.Products.Skip(0).Take(10).ToListAsync();
                 return await _context.Products.Skip(0).Take(10).ToListAsync();
+                //return await _context.Products.Include(p => p.Model).Include(p => p.Category).Skip(0).Take(10).ToListAsync();
             }
             catch (Exception e)
             {
@@ -77,6 +80,8 @@ namespace BetaCycle.Controllers
 
             return product;
         }
+
+        #endregion
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

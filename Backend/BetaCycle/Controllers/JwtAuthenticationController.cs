@@ -27,7 +27,8 @@ namespace BetaCycle.Controllers
             token = new(_jwtSettings);
         }
 
-        
+        #region Users
+
         [HttpPost("/JwtLogin")]
         public IActionResult Login(Credential credentials)
         {
@@ -83,8 +84,75 @@ namespace BetaCycle.Controllers
                 else
                     throw;
             }
-            return CreatedAtAction("GetCredential", new { id = credential.UserId }, credential);
+            //return CreatedAtAction("GetCredential", new { id = credential.UserId }, credential);
+            return Created();
+        }
+
+        #endregion
+
+        #region Admin
+
+        [HttpPost("[action]")]
+        public IActionResult AdminLogin(AdminCredential credential)
+        {
+            var cred = _context.AdminCredentials.Where(e => e.Email == credential.Email).ToList();
+            //var cred = _context.Credentials.Where(e => e.Email == email).ToList();
+
+            if (cred.Count > 0)
+            {
+                var pw = EncryptionData.EncryptionData.SaltDecrypt(credential.Password, cred[0].PasswordSalt);
+                //var pw = EncryptionData.EncryptionData.SaltDecrypt(password, cred[0].PasswordSalt);
+                if (pw == cred[0].Password)
+                {
+                    if ((DateOnly.FromDateTime(DateTime.Now).DayNumber - cred[0].LastModified.DayNumber) > 100)
+                        return BadRequest(new
+                        {
+                            Status = 401,
+                            Description = "Password expired"
+                        });
+
+                    var token = this.token.GenerateJwtToken(credential.Email, credential.Password);
+                    //var token = this.token.GenerateJwtToken(email, password);
+                    return Ok(new
+                    {
+                        userId = cred[0].UserId,
+                        Status = 200,
+                        Token = token
+
+                    });
+                }
+                else
+                    return BadRequest("Wrong Password");
+            }
+            else
+                return BadRequest();
+        }
+
+
+        [HttpPost("[action]")]
+        public async Task<ActionResult<Credential>> RegisterAdmin(AdminCredential credential)
+        {
+            KeyValuePair<string, string> temp;
+            temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
+            credential.Password = temp.Key;
+            credential.PasswordSalt = temp.Value;
+            _context.AdminCredentials.Add(credential);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (_context.AdminCredentials.Any(e => e.Email == credential.Email))
+                    return Conflict();
+                else
+                    throw;
+            }
+            //return CreatedAtAction("GetCredential", new { id = credential.UserId }, credential);
+            return Created();
         }
         
+        #endregion
+
     }
 }

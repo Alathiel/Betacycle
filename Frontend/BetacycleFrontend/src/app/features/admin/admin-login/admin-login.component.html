@@ -1,0 +1,17 @@
+<div class="main-container">
+
+    <div class="card">
+        <form class="form" #form='ngForm' (submit)="loginJwt()">
+           
+                        <input #email ngModel pattern="[a-zA-Z ]*" [(ngModel)]="credentials.email" name="email" required minlength="1"><br>
+                        <input #pw [(ngModel)]="credentials.password" name="pw" required  minlength="1" type="password"><br>
+                        <div>
+                        <input type="checkbox" (change)="stayConnected = !stayConnected"><label>Resta Connesso</label>
+                        </div>
+                  <button type="submit">Login JWT</button>
+
+          </form>
+
+    </div>
+
+</div>

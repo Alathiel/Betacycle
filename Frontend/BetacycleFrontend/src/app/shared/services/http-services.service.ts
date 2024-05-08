@@ -25,24 +25,40 @@ export class HttpServicesService {
   }
 
   getProducts(token: string):Observable<any>{
-    console.log(token)
-    this.authJwtHeader = this.authJwtHeader.set(
-      'Authorization',
-      'Bearer ' + token
-    );
-    console.log(this.authJwtHeader)
-
     return this.http.get('https://localhost:7044/api/Products', {headers: 
       {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-      }
+      },
+      observe: 'response'
     });
   }
 
   getAddresses(token: string, id: string):Observable<any>{
     return this.http.get('https://localhost:7044/api/Users/Addresses/'+id, {headers: 
+      {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      observe: 'response'
+    });
+  }
+
+  getLogs(token: string):Observable<any>{
+    return this.http.get('https://localhost:7044/api/Logs', {headers: 
+      {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      observe: 'response'
+    });
+  }
+
+  getLogsByDate(token: string, value: string):Observable<any>{
+    return this.http.get('https://localhost:7044/api/Logs/GetLogsByDate/'+value, {headers: 
       {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

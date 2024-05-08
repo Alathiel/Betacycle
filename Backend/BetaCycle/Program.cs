@@ -13,6 +13,7 @@ using System.Configuration;
 using NLog.Extensions.Logging;
 using System;
 using Microsoft.Extensions.Options;
+using BetaCycle.Models.Mongo;
 
 namespace BetaCycle
 {
@@ -32,7 +33,7 @@ namespace BetaCycle
 
                 LoggerNLog logger = new(
                     builder.Configuration.GetSection("MongoDB"),
-                    builder!.Configuration.GetConnectionString("BetaCycle")
+                    builder.Configuration.GetConnectionString("BetaCycle")
                 );
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddControllers();

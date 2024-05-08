@@ -1,0 +1,36 @@
+<div class="main-container">
+
+    <div>
+        
+        <fa-icon [icon]="backIcon" (click)="redirect('admin-menu')"></fa-icon>
+        <!-- <select [(ngModel)]="selectedValue">
+            
+            <option  value="all" hidden disabled selected>Category</option>
+            <option *ngFor="let c of categories" [value]="c.name">{{c.name}}</option>
+          </select> -->
+        <select [(ngModel)]="selectedValue">
+            <option  value="all" hidden disabled selected>Filters</option>
+            <option value="Date">Date</option>
+        </select>
+        <input type="text" [(ngModel)]="search"  (keydown.enter)="filter()">
+        <button (click)="filter()">Search</button>
+        
+    </div>
+    <div class="viewer">
+        <details *ngFor="let log of logs">
+            <summary><label style="font-weight: bold;">[{{log.date}} - {{log.timestamp}} - Level {{log.level}}]</label></summary>
+            <div style="display: flex; flex-direction: column;">
+                <label>{{log.date}} - {{log.timestamp}}</label>
+                <label>Level: {{log.level}}</label>
+                <label>Callsite: {{log.callsite}}</label>
+                <label>Message: {{log.message}}</label>
+                <details>
+                    <summary>Props</summary>
+                    <label *ngFor="let l of log.props.$values">{{l.key}}: {{l.value}}</label>
+                </details>
+                <hr>
+            </div>
+        </details>
+    </div>
+
+</div>

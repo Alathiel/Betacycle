@@ -1,4 +1,4 @@
-﻿namespace BetaCycle.Models
+﻿namespace BetaCycle.Models.Mongo
 {
     public class MongoSettings
     {

@@ -16,6 +16,8 @@ public partial class BetaSecurityContext : DbContext
     {
     }
 
+    public virtual DbSet<AdminCredential> AdminCredentials { get; set; }
+
     public virtual DbSet<Credential> Credentials { get; set; }
 
     public virtual DbSet<Payment> Payments { get; set; }
@@ -25,6 +27,23 @@ public partial class BetaSecurityContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AdminCredential>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("PK_AdminCredentials");
+
+            entity.ToTable("AdminCredential");
+
+            entity.Property(e => e.Email)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.Password)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.PasswordSalt)
+                .HasMaxLength(50)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Credential>(entity =>
         {
             entity.HasKey(e => e.UserId).HasName("PK_Credenziali");

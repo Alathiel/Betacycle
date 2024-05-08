@@ -1,0 +1,34 @@
+<div class="main-container">
+
+    <div>
+        
+        <fa-icon [icon]="backIcon" (click)="redirect('admin-menu')"></fa-icon>
+        <!-- <select [(ngModel)]="selectedValue">
+            
+            <option  value="all" hidden disabled selected>Category</option>
+            <option *ngFor="let c of categories" [value]="c.name">{{c.name}}</option>
+          </select> -->
+        <select [(ngModel)]="selectedValue">
+            <option  value="all" hidden disabled selected>Filters</option>
+            <option value="Date">Date</option>
+        </select>
+        <!-- <input type="text" [(ngModel)]="search"  (keydown.enter)="filter()">
+        <button (click)="filter()">Search</button> -->
+        
+    </div>
+    <div class="viewer">
+        <details *ngFor="let log of logs">
+            <summary><label style="font-weight: bold;">[{{log.productId}} - {{log.nameProduct}}]</label></summary>
+            <div style="display: flex; flex-direction: column;">
+                <div *ngFor="let l of log | keyvalue">
+                <!-- <label *ngIf="l.key!='carts' && l.key!='category' && l.key!='model' && l.key!='storages' && l.key!='transactions'">{{l.key}}: {{l.value}}</label></div> -->
+                    <div *ngIf="!checkValue(l)">
+                        <label>{{l.key}}: {{l.value}}</label> <fa-icon [icon]="editIcon"></fa-icon>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </details>
+    </div>
+
+</div>

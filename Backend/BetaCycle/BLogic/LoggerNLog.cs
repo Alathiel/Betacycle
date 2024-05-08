@@ -9,23 +9,22 @@ namespace BetaCycle.BLogic
     public class LoggerNLog
     {
         private static Logger nLogLogger = LogManager.GetCurrentClassLogger();
-
         public LoggerNLog(IConfigurationSection opts, string connectionString = "")
         {
-            
             var config = new NLog.Config.LoggingConfiguration();
             
             var logConsole = new ColoredConsoleTarget("logconsole");
             logConsole.Layout = "${longdate} - ${level:uppercase=true} - ${logger} - ${callsite} - ${message}";
+            MongoTarget mongoDB = SetupMongo(opts);
 
             // Rules for mapping loggers to targets            
             //config.AddRule(LogLevel.Error, LogLevel.Fatal, SetupMySql(connectionString));
             config.AddRule(LogLevel.Info, LogLevel.Fatal, logConsole);
-            config.AddRule(LogLevel.Error, LogLevel.Fatal, SetupMongo(opts));
+            config.AddRule(LogLevel.Error, LogLevel.Fatal, mongoDB);
 
             // Apply config           
             LogManager.Configuration = config;
-            TestNLogMethod();
+            //TestNLogMethod();
         }
 
         public void TestNLogMethod()
@@ -42,6 +41,13 @@ namespace BetaCycle.BLogic
             }
         }
 
+        #region Private methods
+
+        /// <summary>
+        /// Given all settings setup a Mongo database for logs
+        /// </summary>
+        /// <param name="opts"></param>
+        /// <returns>MongoTarget object</returns>
         private static MongoTarget SetupMongo(IConfigurationSection opts)
         {
             return new MongoTarget()
@@ -63,6 +69,11 @@ namespace BetaCycle.BLogic
             };
         }
 
+        /// <summary>
+        /// Given all settings setup a MySql database for logs
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <returns>DatabaseTarget object</returns>
         private static DatabaseTarget SetupMySql(string connectionString)
         {
             return new DatabaseTarget()
@@ -79,6 +90,20 @@ namespace BetaCycle.BLogic
                 }
             };
         }
+
+
+        /*public static void SetField()
+        {
+            mongoDB.Fields.Insert(0, new MongoField("Date", "${shortdate}", "String"));
+        }
+
+        public static void RemoveField(MongoTarget db)
+        {
+            db.Fields.RemoveAt(0);
+        }*/
+
+        #endregion
+
     }
 
 }
