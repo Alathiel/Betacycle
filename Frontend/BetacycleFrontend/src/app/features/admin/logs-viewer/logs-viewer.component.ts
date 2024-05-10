@@ -6,6 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import { Route, Router, RouterModule } from '@angular/router';
 
+
 @Component({
   selector: 'app-logs-viewer',
   standalone: true,
@@ -31,17 +32,15 @@ export class LogsViewerComponent {
   }
 
   filter(){
-    if(this.selectedValue === 'Date'){
-      this.http.getLogsByDate(sessionStorage.getItem('token')+'',this.search).subscribe({
-        next: (jsData:any) => {
-          console.log(jsData.body.$values);
-          this.logs = jsData.body.$values
-        },
-        error: (error:any) => {
-          console.log(error);
-        }
-      })
-    }
+    this.http.getLogsByFilter(sessionStorage.getItem('token')+'',this.search, this.selectedValue).subscribe({
+      next: (jsData:any) => {
+        console.log(jsData.body.$values);
+        this.logs = jsData.body.$values
+      },
+      error: (error:any) => {
+        console.log(error);
+      }
+    })
   }
 
   redirect(route: string){

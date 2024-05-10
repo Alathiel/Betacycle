@@ -18,12 +18,13 @@ namespace BetaCycle.Controllers
     public class JwtAuthenticationController : ControllerBase
     {
         private readonly BetaSecurityContext _context;
-        private JwtSettings _jwtSettings;
+        private JwtSettings _jwtSettings, _jwtAdminSettings;
         private JwtToken token;
-        public JwtAuthenticationController(JwtSettings jwtSettings, BetaSecurityContext context)
+        public JwtAuthenticationController(JwtSettings jwtSettings, JwtSettings jwtAdminSettings, BetaSecurityContext context)
         {
             _context = context;
             _jwtSettings = jwtSettings;
+            _jwtAdminSettings = jwtAdminSettings;
             token = new(_jwtSettings);
         }
 
@@ -47,7 +48,7 @@ namespace BetaCycle.Controllers
                             Description = "Password expired"
                         });
                     
-                    var token = this.token.GenerateJwtToken(credentials.Email, credentials.Password);
+                    var token = this.token.GenerateJwtToken(credentials.Email, cred[0].UserId);
                     //var token = this.token.GenerateJwtToken(email, password);
                     return Ok(new
                     {
@@ -111,7 +112,7 @@ namespace BetaCycle.Controllers
                             Description = "Password expired"
                         });
 
-                    var token = this.token.GenerateJwtToken(credential.Email, credential.Password);
+                    var token = this.token.GenerateJwtToken(credential.Email, cred[0].UserId);
                     //var token = this.token.GenerateJwtToken(email, password);
                     return Ok(new
                     {

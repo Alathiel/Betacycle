@@ -17,7 +17,7 @@ namespace LoginLibrary.JwtAuthentication
             _jwtSettings = jwtSettings;
         }
 
-        public string GenerateJwtToken(string email, string password)
+        public string GenerateJwtToken(string email, long id)
         {
             var secretKey = _jwtSettings.SecretKey;
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -27,9 +27,34 @@ namespace LoginLibrary.JwtAuthentication
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Email, email)
+                    new Claim(ClaimTypes.Email, email),
+                    new Claim(ClaimTypes.NameIdentifier, id.ToString())
                 }),
                 //Expires = DateTime.Now.AddMinutes(_jwtSettings.ExpirationMinutes),
+                Issuer = _jwtSettings.Issuer,
+                Audience = _jwtSettings.Audience,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+        }
+
+        public string GenerateJwtAdminToken(string email, long id)
+        {
+            var secretKey = _jwtSettings.SecretKey;
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(secretKey);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Email, email),
+                    new Claim(ClaimTypes.NameIdentifier, id.ToString())
+                }),
+                Expires = DateTime.Now.AddMinutes(_jwtSettings.ExpirationMinutes),
                 Issuer = _jwtSettings.Issuer,
                 Audience = _jwtSettings.Audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),

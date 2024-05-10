@@ -27,7 +27,7 @@ namespace BetaCycle.Controllers
         }
 
         #region HttpGet
-        [Authorize]
+        [Authorize(Policy = "Admin")]
         [HttpGet]
         public async Task<IEnumerable<Models.Mongo.Log>> GetLogs()
         {
@@ -59,18 +59,19 @@ namespace BetaCycle.Controllers
             return logs;
         }
 
-        [HttpGet("[action]/{date}")]
-        public async Task<IEnumerable<Models.Mongo.Log>> GetLogsByDate(string date)
+        [HttpGet("[action]/{date}/{filterData}/{pageNumber}")]
+        public async Task<IEnumerable<Models.Mongo.Log>> GetLogsByDate(string date, string filterData, int pageNumber = 1)
         {
             BsonDocument filter = new BsonDocument
             {
                 {
-                    "Date", new BsonRegularExpression($"{date}","i")
+                    filterData, new BsonRegularExpression($"{date}","i")
                 }
             };
 
-
-            var bson = await mongoBsCollection.Find(filter).Limit(0).ToListAsync();
+            if (pageNumber <= 0)
+                pageNumber = 1;
+            var bson = await mongoBsCollection.Find(filter).Skip((pageNumber-1)*10).Limit(10).ToListAsync();
             List<Models.Mongo.Log> logs = [];
 
             foreach (var val in bson)

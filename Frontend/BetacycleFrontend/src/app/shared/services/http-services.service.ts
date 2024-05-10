@@ -57,8 +57,8 @@ export class HttpServicesService {
     });
   }
 
-  getLogsByDate(token: string, value: string):Observable<any>{
-    return this.http.get('https://localhost:7044/api/Logs/GetLogsByDate/'+value, {headers: 
+  getLogsByFilter(token: string, value: string, filter: string):Observable<any>{
+    return this.http.get('https://localhost:7044/api/Logs/GetLogsByDate/'+value+'/'+filter, {headers: 
       {
         'Accept': 'application/json',
         'Content-Type': 'application/json',

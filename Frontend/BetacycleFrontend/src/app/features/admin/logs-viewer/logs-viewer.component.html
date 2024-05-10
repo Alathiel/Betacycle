@@ -11,6 +11,7 @@
         <select [(ngModel)]="selectedValue">
             <option  value="all" hidden disabled selected>Filters</option>
             <option value="Date">Date</option>
+            <option value="Level">Level</option>
         </select>
         <input type="text" [(ngModel)]="search"  (keydown.enter)="filter()">
         <button (click)="filter()">Search</button>
@@ -20,14 +21,15 @@
         <details *ngFor="let log of logs">
             <summary><label style="font-weight: bold;">[{{log.date}} - {{log.timestamp}} - Level {{log.level}}]</label></summary>
             <div style="display: flex; flex-direction: column;">
-                <label>{{log.date}} - {{log.timestamp}}</label>
-                <label>Level: {{log.level}}</label>
-                <label>Callsite: {{log.callsite}}</label>
-                <label>Message: {{log.message}}</label>
-                <details>
+                <pre>
+                    <code style="display: flex; flex-direction: column;">
+                    <label *ngFor="let logVariable of log |keyvalue"><div *ngIf="logVariable.key != '$id' && logVariable.key != 'props'">{{logVariable.key}}: {{logVariable.value}}</div></label>
+                <details style="display: flex; flex-direction: column;">
                     <summary>Props</summary>
                     <label *ngFor="let l of log.props.$values">{{l.key}}: {{l.value}}</label>
                 </details>
+                    </code>
+                </pre>
                 <hr>
             </div>
         </details>

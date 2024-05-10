@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net;
 using Model = BetaCycle.Models.Model;
 using NLog;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace BetaCycle.Controllers
 {
@@ -29,20 +30,26 @@ namespace BetaCycle.Controllers
 
         #region HttpGet
 
-        
         // GET: api/Products
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        [HttpGet("[action]/{pageNumber}")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int pageNumber = 1)
         {
+            if (pageNumber <= 0)
+                pageNumber = 1;
             try
             {
+                //_context.Products.FromSql($"Select NameProduct from Products").OrderBy(ob => ob.NameProduct).Take(10);
                 //return await _context.Products.Skip(0).Take(10).ToListAsync();
-                return await _context.Products.Skip(0).Take(10).ToListAsync();
+                return await _context.Products.Skip((pageNumber-1)*10).Take(10).ToListAsync();
                 //return await _context.Products.Include(p => p.Model).Include(p => p.Category).Skip(0).Take(10).ToListAsync();
             }
             catch (Exception e)
             {
-                _logger.Error("{e}", e);
+                @HttpContext.Request.Headers.TryGetValue("Authorization", out var tokenString);
+                var jwtEncodedString = tokenString.ToString().Substring(7);
+                var token = new JwtSecurityToken(jwtEncodedString);
+                var userId = token.Claims.First(c => c.Type == "nameid").Value;
+                _logger.Error("user {userId} error {error}", userId,  e.Message);
                 return BadRequest();
             }
         }

@@ -8,7 +8,7 @@
 }
 
 .viewer{
-    overflow: scroll;
+    overflow: auto;
     gap: 10px;
     display: flex;
     flex-direction: column;

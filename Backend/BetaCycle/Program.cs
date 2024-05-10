@@ -41,9 +41,12 @@ namespace BetaCycle
                 
                 //jwt authentication
                 JwtSettings? jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
+                JwtSettings? jwtSettingsAdmin = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
                 builder.Services.AddSingleton(jwtSettings); //add singleton object to services so everyone can see it
+                builder.Services.AddSingleton(jwtSettingsAdmin);
 
-                builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
+                builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer("User",opts =>
                 opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
                     ValidateIssuer = true, //validate who gave a token
@@ -54,6 +57,28 @@ namespace BetaCycle
                     ValidAudience = jwtSettings.Audience, //audience value
                     //RequireExpirationTime = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+                })
+                .AddJwtBearer("Admin",opts =>
+                opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateIssuer = true, //validate who gave a token
+                    ValidateAudience = true,//validate who sends a token
+                    ValidateLifetime = true, //validate lifetime of a token
+                    ValidateIssuerSigningKey = true, //validate secret key
+                    ValidIssuer = jwtSettingsAdmin.Issuer, //issuer value
+                    ValidAudience = jwtSettingsAdmin.Audience, //audience value
+                    RequireExpirationTime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+                });
+
+                builder.Services.AddAuthorization(options =>
+                {
+                    var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
+                        JwtBearerDefaults.AuthenticationScheme,
+                        "User");
+                    defaultAuthorizationPolicyBuilder = defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+                    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+                    options.AddPolicy("Admin", new AuthorizationPolicyBuilder().RequireAuthenticatedUser().AddAuthenticationSchemes("Admin").RequireClaim("role","Admin").Build());
                 });
 
                 /*builder.Services.AddLogging(loggingBuilder =>
