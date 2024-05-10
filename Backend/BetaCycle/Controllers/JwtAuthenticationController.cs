@@ -112,7 +112,7 @@ namespace BetaCycle.Controllers
                             Description = "Password expired"
                         });
 
-                    var token = this.token.GenerateJwtToken(credential.Email, cred[0].UserId);
+                    var token = this.token.GenerateJwtAdminToken(credential.Email, cred[0].UserId);
                     //var token = this.token.GenerateJwtToken(email, password);
                     return Ok(new
                     {

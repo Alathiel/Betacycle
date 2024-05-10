@@ -27,6 +27,7 @@ namespace BetaCycle.Controllers
         }
 
         #region HttpGet
+
         [Authorize(Policy = "Admin")]
         [HttpGet]
         public async Task<IEnumerable<Models.Mongo.Log>> GetLogs()
@@ -59,6 +60,7 @@ namespace BetaCycle.Controllers
             return logs;
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpGet("[action]/{date}/{filterData}/{pageNumber}")]
         public async Task<IEnumerable<Models.Mongo.Log>> GetLogsByDate(string date, string filterData, int pageNumber = 1)
         {
@@ -97,6 +99,7 @@ namespace BetaCycle.Controllers
             return logs;
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpGet("[action]/{id}")]
         public async Task<IEnumerable<Models.Mongo.Log>> GetLogsByUserId(string id)
         {
