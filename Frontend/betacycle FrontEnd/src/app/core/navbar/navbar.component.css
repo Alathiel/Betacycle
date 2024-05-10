@@ -1,0 +1,10 @@
+img{
+    height: 60px;
+}
+li{
+    display: inline-block;
+    margin-right: 20px;
+}
+.container-fluid{
+    justify-content:  flex-end;
+}

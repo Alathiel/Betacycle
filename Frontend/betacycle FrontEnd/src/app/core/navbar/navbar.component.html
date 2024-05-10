@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <img src="assets/intestazione.png" alt="" routerLink="/home">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/home">Home</a>
+        </li> -->
+        <!-- barra di ricerca -->
+          <div class="container-fluid">
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Cerca..." aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Cerca</button>
+            </form>
+          </div>
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="login">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/loginjwt">Login</a>
+          </li>
+        </ul>
+        <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/register">Register</a>
+          </li>
+        </ul> -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLinkActive="true" routerLink="/product">Prodotti</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a *ngIf="authStatus.getLoginStatus()" class="nav-link active" aria-current="page"
+              routerLink="/sale">Acquisti</a>
+          </li>
+        </ul>
+        <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a *ngIf="authStatus.getLoginStatus()" class="nav-link active" aria-current="page"
+              routerLink="/customer">Clienti</a>
+          </li>
+        </ul> -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a *ngIf="authStatus.getLoginStatus()" class="nav-link active" aria-current="page"
+              routerLink="/logout">Logout</a>
+          </li>
+        </ul>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>

@@ -119,7 +119,7 @@ h4{
   button:hover {
     background-color: #0069d9;
   } */
-  /* body {
+   body {
     background-color:#666;}
     
    #login {
@@ -173,7 +173,7 @@ h4{
     text-shadow:2px 2px 5px rgba(212,212,212,1);
     color:#fff;
     font-size:20px;
-    -webkit-border-radius:10px;
+    border-radius:10px;
     border:1px solid #fff;
    
     background: #fc8600; 
@@ -212,23 +212,19 @@ h4{
    
     
     padding:5px;}
-    
-   .testo:hover{
-
-    }
-    
+        
    .testo:focus, .testo:hover{
 
     height:35px;
     width:355px;
-    } */
+    } 
 
-    /* *{
+    /* {
     margin: 0;
     padding: 0;
     outline: 0;
     font-family: 'Work Sans', sans-serif;
-}
+} */
 section{
     width: 100%;
     height: 100vh;
@@ -274,4 +270,4 @@ section aside h2{
     border: #c9c9c9 solid 1px;
     border-radius: 3px ;
     transition: 0.3s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
-} */
+} 
