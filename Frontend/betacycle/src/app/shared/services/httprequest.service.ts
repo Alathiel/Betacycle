@@ -5,6 +5,7 @@ import { Credentials } from '../models/credentials';
 import { User } from '../models/user';
 import { loginservice } from './loginservice.service';
 import { Credential } from '../models/credential';
+import { Address } from '../models/address';
 
 @Injectable({
   providedIn: 'root'
@@ -17,37 +18,6 @@ export class HttprequestService {
   });
 
   constructor(private http: HttpClient, private auth: loginservice) { }
-
-  /*LoginCredentials(credential: Credentials): Observable<any>
-  {
-    var token = ""+localStorage.getItem('token');
-    if(token === 'null')
-      {
-        this.newHeader = this.newHeader.set(
-          'Authorization',
-          'Basic '+window.btoa(credential.email+":"+credential.password)
-        )
-      }
-    else
-    {
-      this.newHeader = this.newHeader.set(
-        'Authorization', "Basic "+token
-      )
-    }
-
-    /*this.newHeader = this.newHeader.set(
-      'Authorization',
-      'Basic '+window.btoa(credential.usrname+":"+credential.password)
-    )
-
-    this.user = window.btoa(credential.email);
-    this.pass = window.btoa(credential.password)
-    return this.http.get(`https://localhost:7044/Authentication/${this.user}/${this.pass}`, 
-    {
-      headers: this.newHeader,
-      observe: 'response'
-    });
-  }*/
 
   LoginCredentialsJWT(credential: Credential): Observable<any>
   {
@@ -95,6 +65,11 @@ export class HttprequestService {
   PatchCredentials(id: number, credentials: Credentials)
   {
     return this.http.patch(`https://localhost:7044/api/Credentials/${id}`, credentials);
+  }
+
+  PatchAddress(id: number, address: Address)
+  {
+    return this.http.patch(`https://localhost:7044/api/Users/${id}`, address);
   }
 
 }

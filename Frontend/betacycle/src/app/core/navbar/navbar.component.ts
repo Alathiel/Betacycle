@@ -11,11 +11,12 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../shared/models/user';
 import { jwtDecode } from 'jwt-decode';
 import { HttprequestService } from '../../shared/services/httprequest.service';
+import { UsersettingsComponent } from '../../features/usersettings/usersettings.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, LoginComponent, NewUserPwdComponent, ProductComponent, HomeComponent, CommonModule, FormsModule],
+  imports: [RouterLink, RouterOutlet, LoginComponent, NewUserPwdComponent, ProductComponent, HomeComponent, CommonModule, FormsModule, UsersettingsComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -43,7 +44,6 @@ export class NavbarComponent {
   DisplayUserInfo()
   {
     this.jwtToken = localStorage.getItem('jwtToken');
-    console.log(this.jwtToken)
     this.decodedTokenPayload = jwtDecode(this.jwtToken);
     this.user.userId = this.decodedTokenPayload.unique_name;
 
@@ -52,7 +52,7 @@ export class NavbarComponent {
         ({
           next: (data: any) => {
             this.user = data
-            //console.log(this.user);
+            //console.log(data);
           },
           error: (err: any) => {
             console.log("Errore: " + err.status);
@@ -69,6 +69,11 @@ export class NavbarComponent {
     //window.location.reload();
     this.route.navigate(['/home']);
     window.location.reload();
+  }
+
+  GoToUserSettings()
+  {
+    this.route.navigate(['/settings']);
   }
 
   Research(name: HTMLInputElement)

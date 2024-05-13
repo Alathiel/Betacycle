@@ -18,8 +18,8 @@
             <div class="dropdown">
               <button class="dropbtn">{{user.firstName}} {{user.lastName}}</button>
               <div class="dropdown-content">
-                <a href="#">Settings</a>
-                <a href="#">Cart</a>
+                <a (click)="GoToUserSettings()">Settings</a>
+                <a >Cart</a>
                 <a href="#" (click)="LogOut()">Logout</a>
               </div>
             </div>

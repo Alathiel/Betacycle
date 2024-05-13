@@ -4,10 +4,10 @@ export class Address
 {
     userId: number = 0;
     city: string = '';
-    address: string = '';
+    address1: string = '';
     cap: string = '';
     province: string = '';
     nation: string = '';
-    addressID: number = 0;
-    user: User = new User();
+    addressId: number = 0;
+    //user: User = new User();
 }

@@ -5,6 +5,7 @@ import { ProductComponent } from './features/product/product.component';
 import { NewUserPwdComponent } from './core/newuserpwd/newuserpwd.component';
 import { RegisterComponent } from './core/register/register.component';
 import { HomeComponent } from './core/home/home.component';
+import { UsersettingsComponent } from './features/usersettings/usersettings.component';
 
 export const routes: Routes = 
 [
@@ -14,5 +15,6 @@ export const routes: Routes =
     {path:'newuserpwd',component:NewUserPwdComponent},
     {path:'register',component:RegisterComponent},
     {path:'home',component:HomeComponent},
+    {path:'settings',component:UsersettingsComponent},
     {path:'', redirectTo:'/home',pathMatch:'full'}
 ];
