@@ -18,12 +18,12 @@
     </div>
     <div class="viewer">
         <details *ngFor="let log of logs">
-            <summary><label style="font-weight: bold;">[{{log.productId}} - {{log.nameProduct}}]</label></summary>
+            <summary><label style="font-weight: bold;">[{{log.productId}} - {{log.nameProduct}}]</label></summary>  <fa-icon [icon]="editIcon" (click)="test()"></fa-icon>
             <div style="display: flex; flex-direction: column;">
                 <div *ngFor="let l of log | keyvalue">
                 <!-- <label *ngIf="l.key!='carts' && l.key!='category' && l.key!='model' && l.key!='storages' && l.key!='transactions'">{{l.key}}: {{l.value}}</label></div> -->
                     <div *ngIf="!checkValue(l)">
-                        <label>{{l.key}}: {{l.value}}</label> <fa-icon [icon]="editIcon"></fa-icon>
+                        <label>{{l.key}}: {{l.value}}</label> 
                     </div>
                 </div>
                 <hr>

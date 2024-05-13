@@ -58,7 +58,7 @@ namespace BetaCycle
                             ValidAudience = jwtSettings.Audience, //audience value
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
                         })
-                    .AddJwtBearer("ADMIN",opts =>
+                    .AddJwtBearer("Admin",opts =>
                         opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                         {
                             ValidateIssuer = true, //validate who gave a token
@@ -75,7 +75,7 @@ namespace BetaCycle
                 {
                     options.AddPolicy("Admin", policy =>
                     {
-                        policy.AuthenticationSchemes.Add("ADMIN");
+                        policy.AuthenticationSchemes.Add("Admin");
                         policy.RequireAuthenticatedUser();
                         policy.RequireClaim(ClaimTypes.Role, "Admin");
                     });

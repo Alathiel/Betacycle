@@ -41,11 +41,9 @@ export class AuthService {
     //var temp = jwtDecode(resp.token)
     //console.log(resp)
     if(!stayConnected){
-      sessionStorage.setItem('userId', window.btoa(resp.userId));
       sessionStorage.setItem('token', resp.token);
     }
     else{
-      localStorage.setItem('userId', window.btoa(resp.userId));
       localStorage.setItem('token', resp.token);
     }
   }
@@ -58,6 +56,15 @@ export class AuthService {
       return true;
     else
       return false;
+  }
+
+  getToken(){
+    if(sessionStorage.getItem('token') != null)
+      return sessionStorage.getItem('token');
+    else if(localStorage.getItem('token') != null)
+      return localStorage.getItem('token');
+    else
+      return '';
   }
 
   getDecodedToken(){
@@ -77,6 +84,11 @@ export class AuthService {
   AdminLoginJWT(credentials: Credentials): Observable<any>
   {
     return this.http.post('https://localhost:7044/JwtAuthentication/AdminLogin',credentials, {observe: 'response'})
+  }
+
+  Logout(){
+    localStorage.clear()
+    sessionStorage.clear()
   }
 
 }

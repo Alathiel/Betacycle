@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 
 namespace LoginLibrary.JwtAuthentication
 {
@@ -16,6 +17,9 @@ namespace LoginLibrary.JwtAuthentication
         {
             _jwtSettings = jwtSettings;
         }
+
+
+        #region Token Generators
 
         public string GenerateJwtToken(string email, long id)
         {
@@ -65,6 +69,21 @@ namespace LoginLibrary.JwtAuthentication
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        #endregion
+
+        private static JwtSecurityToken TokenDecoder(HttpContext context)
+        {
+            context.Request.Headers.TryGetValue("Authorization", out var tokenString);
+            var jwtEncodedString = tokenString.ToString().Substring(7);
+            return new JwtSecurityToken(jwtEncodedString);
+        }
+
+        public static string GetUserId(HttpContext context)
+        {
+            var token = TokenDecoder(context);
+            return token.Claims.FirstOrDefault(c => c.Type == "nameid", new Claim("nameid", "null")).Value;
         }
     }
 }

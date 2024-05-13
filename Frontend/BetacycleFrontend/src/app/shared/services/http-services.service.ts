@@ -25,7 +25,7 @@ export class HttpServicesService {
   }
 
   getProducts(token: string):Observable<any>{
-    return this.http.get('https://localhost:7044/api/Products', {headers: 
+    return this.http.get('https://localhost:7044/api/Products/GetProducts', {headers: 
       {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -47,12 +47,7 @@ export class HttpServicesService {
   }
 
   getLogs(token: string):Observable<any>{
-    return this.http.get('https://localhost:7044/api/Logs', {headers: 
-      {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
+    return this.http.get('https://localhost:7044/api/Logs', {
       observe: 'response'
     });
   }

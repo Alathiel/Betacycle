@@ -50,6 +50,10 @@ export class ProductsViewerComponent {
     this.router.navigate([route])
   }
 
+  test(){
+    alert('aaa')
+  }
+
 }
 
 

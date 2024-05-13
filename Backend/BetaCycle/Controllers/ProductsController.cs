@@ -13,6 +13,7 @@ using System.Net;
 using Model = BetaCycle.Models.Model;
 using NLog;
 using System.IdentityModel.Tokens.Jwt;
+using LoginLibrary.JwtAuthentication;
 
 namespace BetaCycle.Controllers
 {
@@ -30,26 +31,22 @@ namespace BetaCycle.Controllers
 
         #region HttpGet
 
-        // GET: api/Products
-        [HttpGet("[action]/{pageNumber}")]
+        [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int pageNumber = 1)
         {
+            //_context.Products.FromSql($"Select NameProduct from Products").OrderBy(ob => ob.NameProduct).Take(10);
             if (pageNumber <= 0)
                 pageNumber = 1;
             try
             {
-                //_context.Products.FromSql($"Select NameProduct from Products").OrderBy(ob => ob.NameProduct).Take(10);
-                //return await _context.Products.Skip(0).Take(10).ToListAsync();
-                return await _context.Products.Skip((pageNumber-1)*10).Take(10).ToListAsync();
-                //return await _context.Products.Include(p => p.Model).Include(p => p.Category).Skip(0).Take(10).ToListAsync();
+                var products = await _context.Products.Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                if(products == null || products.Count<=0)
+                    return NotFound();
+                return products;
             }
             catch (Exception e)
             {
-                @HttpContext.Request.Headers.TryGetValue("Authorization", out var tokenString);
-                var jwtEncodedString = tokenString.ToString().Substring(7);
-                var token = new JwtSecurityToken(jwtEncodedString);
-                var userId = token.Claims.First(c => c.Type == "nameid").Value;
-                _logger.Error("user {userId} error {error}", userId,  e.Message);
+                _logger.Error("user {userId} error {error}", JwtToken.GetUserId(@HttpContext),  e.Message);
                 return BadRequest();
             }
         }
@@ -65,33 +62,44 @@ namespace BetaCycle.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(long id)
         {
-            var product = await _context.Products.FindAsync(id);
-
-            if (product == null)
+            try
             {
-                return NotFound();
-            }
+                var product = await _context.Products.FindAsync(id);
+                if (product == null)
+                    return NotFound();
 
-            return product;
+                return product;
+            }
+            catch (Exception e)
+            {
+                _logger.Error("user {userId} error {error}", JwtToken.GetUserId(@HttpContext), e.Message);
+                return BadRequest();
+            }
         }
 
         [HttpGet("/Deals")]
         public async Task<ActionResult<IEnumerable<ViewDeal>>> GetDeals()
         {
-            var product = await _context.ViewDeals.ToListAsync();
-
-            if (product == null || product.Count<=0)
+            try
             {
-                return NotFound();
-            }
+                var product = await _context.ViewDeals.ToListAsync();
+                if (product == null || product.Count <= 0)
+                    return NotFound();
 
-            return product;
+                return product;
+            }
+            catch (Exception e)
+            {
+                _logger.Error("user {userId} error {error}", JwtToken.GetUserId(@HttpContext), e.Message);
+                return BadRequest();
+            }
         }
 
         #endregion
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Policy = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProduct(long id, Product product)
         {
@@ -123,6 +131,7 @@ namespace BetaCycle.Controllers
 
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
@@ -144,6 +153,7 @@ namespace BetaCycle.Controllers
         }
 
         // DELETE: api/Products/5
+        [Authorize(Policy = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(long id)
         {

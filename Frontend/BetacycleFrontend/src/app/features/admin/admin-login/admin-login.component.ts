@@ -5,32 +5,42 @@ import { HttpStatusCode } from '@angular/common/http';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastComponent } from '../../../shared/components/toast/toast.component';
+import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
+
 @Component({
   selector: 'app-admin-login',
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule],
+  imports: [RouterModule, CommonModule, FormsModule, ToastComponent],
   templateUrl: './admin-login.component.html',
   styleUrl: './admin-login.component.css'
 })
 export class AdminLoginComponent {
-  constructor(private AuthService: AuthService, private router: Router){}
+  constructor(private AuthService: AuthService, private router: Router, private toast: ToastService){
+    if(AuthService.getLoggedStatus())
+      this.router.navigate(['admin-menu']);
+  }
   credentials: Credentials = new Credentials()
   stayConnected: boolean = false
+  successfull: boolean = false;
+  showsToast = false
+  toastType = ''
+  
 
   loginJwt(){
-    this.AuthService.AdminLoginJWT(this.credentials).subscribe(resp => {
-      console.log(resp)
-      if(resp.status == HttpStatusCode.Ok){
-        this.AuthService.setLoggedStatus(this.stayConnected, resp.body);
-        localStorage.setItem('userId', window.btoa(resp.body.userId));
-        this.router.navigate(['admin-menu'])
-        // const jsonString: string =`{"Authorization": "Basic ${window.btoa(this.credentials.email+':'+this.credentials.password)}"}`;
-        // localStorage.setItem('header', JSON.stringify(jsonString));
+    this.AuthService.AdminLoginJWT(this.credentials).subscribe({
+      next: (resp:any) => {
+        console.log(resp)
+        if(resp.status == HttpStatusCode.Ok){
+          this.AuthService.setLoggedStatus(this.stayConnected, resp.body);
+          this.toast.dismissToast()
+          this.router.navigate(['admin-menu']);
+        }
+      },
+      error: (error:any) =>{
+        this.toast.showToast(TOAST_STATE.error, 'Email o password non corretti')
       }
-      else{
-        console.log("login non riuscito: "+resp.status);
-      }
-      
     })
   }
 }
+
