@@ -11,23 +11,33 @@ export class LoggedInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler):Observable<any>
   {
-    // Get the auth token from the service.
+    let authReq = req;
     const authToken = this.auth.getToken();
+    if (authToken) {
+      const payload = this.auth.getDecodedToken()
+      
+      const {exp} = payload as {exp: number}
+      if (Date.now() >= exp * 1000) { // Check token exp.
 
-    // Clone the request and replace the original headers with
-    // cloned headers, updated with the   authorization.
-    const authReq = req.clone({
-      setHeaders:{Authorization: 'Bearer ' + authToken}
-    });
+        throw ('Token expired');
+      }
+
+      // If we have a token, we set it to the header
+      authReq = req.clone({
+        setHeaders:{Authorization: 'Bearer ' + authToken}
+      });
+    }
+    
     // send cloned request with header to the next handler.
     return next.handle(authReq).pipe(
       catchError((error) => {
         if(error instanceof HttpErrorResponse){
           if(error.status === 401){
             alert("Token scaduto")
+
           }
         }
-        return throwError(error);
+        return (error);
       })
     );
   }

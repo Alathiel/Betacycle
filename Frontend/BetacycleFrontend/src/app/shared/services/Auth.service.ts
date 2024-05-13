@@ -73,7 +73,7 @@ export class AuthService {
     else if(localStorage.getItem('token') != null)
       return jwtDecode(localStorage.getItem('token')+'');
     else
-      return null;
+      return '';
   }
 
   LoginJWT(credentials: Credentials): Observable<any>
