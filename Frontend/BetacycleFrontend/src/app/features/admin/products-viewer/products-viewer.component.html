@@ -18,18 +18,18 @@
         
     </div>
     <div class="viewer">
-        <ng-container *ngIf="logs != undefined">
-            <details *ngFor="let log of logs">
-                <summary><label style="font-weight: bold;">[{{log.productId}} - {{log.productName}}]</label></summary>
+        <ng-container *ngIf="products != undefined">
+            <details *ngFor="let item of products">
+                <summary><label style="font-weight: bold;">[{{item.productId}} - {{item.productName}}]</label></summary>
                 <div style="display: flex; flex-direction: column;">
-                    <div *ngFor="let l of log | keyvalue">
+                    <div *ngFor="let l of item | keyvalue">
                     <!-- <label *ngIf="l.key!='carts' && l.key!='category' && l.key!='model' && l.key!='storages' && l.key!='transactions'">{{l.key}}: {{l.value}}</label></div> -->
                         <div *ngIf="!checkValue(l)">
                             <label>{{l.key}}: {{l.value}}</label> 
                         </div>
                     </div>
                     <div>
-                        <fa-icon [icon]="editIcon" (click)="openDialog('0ms', '0ms', log)"></fa-icon>
+                        <fa-icon [icon]="editIcon" (click)="openDialog('0ms', '0ms', item)"></fa-icon>
                         <label>Edit</label>
                     </div>
                     <hr>
@@ -37,5 +37,5 @@
             </details>
         </ng-container>
     </div>
-
+    <app-toast></app-toast>
 </div>

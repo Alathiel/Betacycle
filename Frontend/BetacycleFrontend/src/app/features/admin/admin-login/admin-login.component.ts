@@ -23,9 +23,6 @@ export class AdminLoginComponent {
   credentials: Credentials = new Credentials()
   stayConnected: boolean = false
   successfull: boolean = false;
-  showsToast = false
-  toastType = ''
-  
 
   loginJwt(){
     this.AuthService.AdminLoginJWT(this.credentials).subscribe({

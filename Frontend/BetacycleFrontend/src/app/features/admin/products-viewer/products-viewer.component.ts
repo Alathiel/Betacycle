@@ -9,24 +9,27 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { NoAuthCalls } from '../../../shared/services/noAuth-calls.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAnimationsExampleDialog } from '../dialog-template/dialog-template.component';
+import { AuthCalls } from '../../../shared/services/auth-calls.service';
+import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
+import { ToastComponent } from '../../../shared/components/toast/toast.component';
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
 }
 @Component({
   selector: 'app-products-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, FontAwesomeModule, ToastComponent],
   templateUrl: './products-viewer.component.html',
   styleUrl: './products-viewer.component.css'
 })
 export class ProductsViewerComponent {
-  logs: any;
+  products: any;
   keys: any[] = [];
   selectedValue = "all"
   search = ""
   backIcon = faArrowLeft
   editIcon = faPenToSquare
-  constructor(private http: NoAuthCalls, private router: Router, public dialog: MatDialog){
+  constructor(private http: NoAuthCalls, private router: Router, public dialog: MatDialog, private httpAuth: AuthCalls, private toast: ToastService){
     this.getAllDatas()
   }
 
@@ -38,6 +41,7 @@ export class ProductsViewerComponent {
 
 
   redirect(route: string){
+    this.toast.dismissToast()
     this.router.navigate([route])
   }
 
@@ -46,7 +50,7 @@ export class ProductsViewerComponent {
     this.http.getProducts().subscribe({
       next: (jsData:any) => {
         console.log(jsData.body.$values);
-        this.logs = jsData.body.$values
+        this.products = jsData.body.$values
       },
       error: (error:any) => {
         console.log(error);
@@ -59,14 +63,14 @@ export class ProductsViewerComponent {
       this.http.getFilteredProducts(this.selectedValue, this.search).subscribe({
         next: (response:any) => {
           console.log(response)
-          this.logs = response.body.$values
+          this.products = response.body.$values
           if(response.status == HttpStatusCode.NotFound)
             console.log('aa')
         },
         error: (error:HttpErrorResponse) => {
           console.log(error)
           if(error.status == 404)
-            this.logs = undefined
+            this.products = undefined
         }
       })
     }
@@ -74,19 +78,30 @@ export class ProductsViewerComponent {
       this.getAllDatas()
   }
 
-
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, log:any): void {
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, product:any): void {
     const dialogRef = this.dialog.open(DialogAnimationsExampleDialog, {
-      width: '250px',
       enterAnimationDuration,
       exitAnimationDuration,
-      data: {
-        log,
-      }
+      data: product,
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      console.log('Dialog result: '+ result);
+      if(result !== undefined)
+        if(result.state)
+        this.editProduct(result)
+    })
+  }
+
+  editProduct(result:any){
+    result.productDatas.category = {categoryId:0,name:''}
+    result.productDatas.model = {modelId:0,name:''}
+    this.httpAuth.putProduct(result.productDatas).subscribe({
+      next: (response:any) => {
+        this.toast.showToast(TOAST_STATE.success, 'Operation Completed')
+      },
+      error: (error:any) => {
+        console.log(error)
+        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      }
     })
   }
 

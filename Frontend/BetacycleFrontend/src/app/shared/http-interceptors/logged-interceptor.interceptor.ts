@@ -21,6 +21,8 @@ export class LoggedInterceptorService implements HttpInterceptor {
         const {exp} = payload as {exp: number}
         if (Date.now() >= exp * 1000) { // Check token exp.
           this.router.navigate(['admin-login'])
+          localStorage.clear()
+          sessionStorage.clear()
           alert("Login expired, please login again.")
           throw ('Token expired');
         }

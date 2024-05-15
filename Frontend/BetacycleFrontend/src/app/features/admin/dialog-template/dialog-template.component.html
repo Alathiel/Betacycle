@@ -1,8 +1,25 @@
-<h2 mat-dialog-title>Delete file</h2>
+<h2 mat-dialog-title>Editing Product</h2>
 <mat-dialog-content>
-  Would you like to delete cat.jpeg?
+  <div style="display: flex; flex-direction: column;">
+    <div style="padding: 10px;">
+      <label style="padding-right: 10px;">Product name</label><input type = 'text' placeholder="ProductName" [(ngModel)]="productDatas.productName" />
+    </div>
+    <div style="padding: 10px;">
+      <label style="padding-right: 10px;">Product price</label><input type = 'text' placeholder="ProductName" [(ngModel)]="productDatas.actualPrice"/>
+    </div>
+    <!-- <div style="padding: 10px;">
+      <label style="padding-right: 10px;">Product name</label><input type = 'text' placeholder="ProductName" [value]="data.productName"/>
+    </div>
+    <div style="padding: 10px;">
+      <label style="padding-right: 10px;">Product name</label><input type = 'text' placeholder="ProductName" [value]="data.productName"/>
+    </div>
+    <div style="padding: 10px;">
+      <label style="padding-right: 10px;">Product name</label><input type = 'text' placeholder="ProductName" [value]="data.productName"/>
+    </div> -->
+    
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button mat-dialog-close cdkFocusInitial [mat-dialog-close]="true">Ok</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close cdkFocusInitial [mat-dialog-close]="{state: true, productDatas}">Confirm</button>
 </mat-dialog-actions>

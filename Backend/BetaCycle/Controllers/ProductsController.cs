@@ -50,8 +50,8 @@ namespace BetaCycle.Controllers
             {
                 _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
                 {
-                    new KeyValuePair<string, object>("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    new KeyValuePair<string, object>("Exception", e),
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
                 }).Log();
                 return BadRequest();
             }
@@ -83,8 +83,8 @@ namespace BetaCycle.Controllers
             {
                 _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
                 {
-                    new KeyValuePair<string, object>("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    new KeyValuePair<string, object>("Exception", e),
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
                 }).Log();
                 return BadRequest();
             }
@@ -143,34 +143,38 @@ namespace BetaCycle.Controllers
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Policy = "Admin")]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(long id, Product product)
+        [HttpPut("[action]")]
+        public async Task<ActionResult<Product>> PutProduct(Product product)
         {
-            if (id != product.ProductId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(product).State = EntityState.Modified;
-
             try
             {
+                product.Model = await _context.Models.FindAsync(product.ModelId);
+                product.Category = await _context.Categories.FindAsync(product.CategoryId);
+                _context.Entry(product).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException e)
             {
-                if (!ProductExists(id))
+                if (!ProductExists(product.ProductId))
                 {
+                    _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                    {
+                        new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                        new ("Exception", e),
+                    }).Log();
                     return NotFound();
                 }
-                else
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
                 {
-                    throw;
-                }
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has occurred.");
             }
 
-            return NoContent();
+            return product;
         }
+
 
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

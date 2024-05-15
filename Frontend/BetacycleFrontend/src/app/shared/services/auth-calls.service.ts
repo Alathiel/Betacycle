@@ -41,4 +41,9 @@ export class AuthCalls {
         .append("value", value)
     return this.http.get('https://localhost:7044/api/Logs/GetFilteredLogs', {params: params, observe: 'response'});
   }
+
+  putProduct(product: any): Observable<any>
+  {
+    return this.http.put('https://localhost:7044/api/Products/PutProduct',product);
+  }
 }

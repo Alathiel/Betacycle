@@ -10,16 +10,20 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import { DialogData } from '../products-viewer/products-viewer.component';
+import { AuthCalls } from '../../../shared/services/auth-calls.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'dialog-animations-example-dialog',
   templateUrl: 'dialog-template.component.html',
   standalone: true,
-  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
+  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, FormsModule],
 })
 export class DialogAnimationsExampleDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    console.log(data)
+  editResult: boolean = false;
+  productDatas: any;
+  
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http:AuthCalls,) {
+    this.productDatas = data;
   }
 }
