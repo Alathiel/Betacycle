@@ -27,7 +27,7 @@ namespace BetaCycle.Controllers
             _context = context;
             _jwtSettings = jwtSettings;
             _jwtAdminSettings = jwtAdminSettings;
-            token = new(_jwtSettings);
+            token = new(jwtSettings, jwtAdminSettings);
         }
 
         #region Users
@@ -150,7 +150,7 @@ namespace BetaCycle.Controllers
                 return BadRequest();
         }
 
-
+        /*[Authorize(Policy = "Admin")]
         [HttpPost("[action]")]
         public async Task<ActionResult<Credential>> RegisterAdmin(AdminCredential credential)
         {
@@ -172,7 +172,7 @@ namespace BetaCycle.Controllers
             }
             //return CreatedAtAction("GetCredential", new { id = credential.UserId }, credential);
             return Created();
-        }
+        }*/
         
         #endregion
 
