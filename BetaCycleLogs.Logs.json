@@ -1,0 +1,1074 @@
+[{
+  "_id": {
+    "$oid": "663677e4ed72dc3305eff73c"
+  },
+  "Date": "2024-05-04",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 36",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "20:01:08.3722",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 36"
+  }
+},
+{
+  "_id": {
+    "$oid": "66367847392887b31a746599"
+  },
+  "Date": "2024-05-04",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 36",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "20:02:47.8092",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 36"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636bbcb886449b0eb13cec2"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 36",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "00:50:51.1123",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 36"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636bc4db06835f6a379b4b4"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 36",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "00:53:01.6827",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 36"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636c230131d2d37eac2dcfd"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "01:18:08.6571",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636c25fda7ff3882da303ba"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "01:18:55.0693",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636c2994757b0896cc668aa"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "01:19:52.9332",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636c2bf34309def1ff758c8"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "01:20:31.1998",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636c31a4269241ad24bcf2d"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "01:22:02.2034",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636c3224269241ad24bcf2e"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUser",
+  "Timestamp": "01:22:10.3739",
+  "Properties": {
+    "user": "1"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636c3f8cf6a4ed01cc472b9"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "01:25:44.5637",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6636c402cf6a4ed01cc472ba"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "Attempted to divide by zero.",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUser",
+  "Timestamp": "01:25:54.8332",
+  "Properties": {
+    "user": "1"
+  }
+},
+{
+  "_id": {
+    "$oid": "663762e9f16e7003fa8aa76a"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "12:43:53.2172",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "663762eb1e7cf0412587bc0c"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "12:43:55.2941",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "663762f12771685610b8c79b"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "12:44:00.8634",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6637631b975cd08b070eba7f"
+  },
+  "Date": "2024-05-05",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "12:44:43.5745",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638861d2b64462dfbcce4c8"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:26:20.8898",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "663887428a0071e605d9358b"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:31:13.8596",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "663889018611e66ec1518895"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:38:40.9687",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "66388922a011129130a6c117"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:39:14.0652",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638899fb226373513afe29e"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:41:18.7388",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "66388a5505154974c93f34ed"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:44:21.2083",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "66388a941833fef89ce4502e"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:45:24.3767",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "66388bbf9264858a752b75ce"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:50:23.7954",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "66388bf61b6f5fcf78d67b72"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:51:18.0282",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "66388c3404215a82b70a20cc"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:52:20.5594",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "66388c8a4e2358b5397161cb"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "09:53:46.6363",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "66388f8c4f22595f01533c4c"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "10:06:36.1072",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "663892001912996b97788c00"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "10:17:03.9206",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638926f5876af4fe0c21396"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "10:18:55.8101",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "663893ebe336215fbf8aff3f"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "10:25:15.4698",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 34"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638a0598152280e30daa938"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 35",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "11:18:17.2146",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 35"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638a1954c029f124c297e6e"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod()",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "11:23:33.3754",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod()"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638a3be4e38d451f30599ac"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 35",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "11:32:46.3729",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 35"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638a5074e38d451f30599ad"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.GetProducts",
+  "Timestamp": "11:38:15.8301",
+  "Properties": {
+    "e": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638a64a4e38d451f30599ae"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.GetProducts",
+  "Timestamp": "11:43:38.8460",
+  "Properties": {
+    "e": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638af10a05c056a631ddd8b"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 35",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "12:21:03.8459",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 35"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638af10607bac7189302c5a"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.BLogic.LoggerNLog",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 35",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.BLogic.LoggerNLog.TestNLogMethod",
+  "Timestamp": "12:21:04.2182",
+  "Properties": {
+    "error": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.BLogic.LoggerNLog.TestNLogMethod() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\BLogic\\LoggerNLog.cs:line 35"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638b6d57a4362c067c71f41"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.GetProducts",
+  "Timestamp": "12:54:12.7997",
+  "Properties": {
+    "e": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40"
+  }
+},
+{
+  "_id": {
+    "$oid": "6638b6fb7a4362c067c71f42"
+  },
+  "Date": "2024-05-06",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.GetProducts",
+  "Timestamp": "12:54:51.6265",
+  "Properties": {
+    "e": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40"
+  }
+},
+{
+  "_id": {
+    "$oid": "6639ea912b4c69a5c14bcc65"
+  },
+  "Date": "2024-05-07",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.GetProducts",
+  "Timestamp": "10:47:13.1611",
+  "Properties": {
+    "e": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40"
+  }
+},
+{
+  "_id": {
+    "$oid": "6639eab62b4c69a5c14bcc66"
+  },
+  "Date": "2024-05-07",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.GetProducts",
+  "Timestamp": "10:47:50.8078",
+  "Properties": {
+    "e": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 40"
+  }
+},
+{
+  "_id": {
+    "$oid": "663a36504076fce5b6090fc4"
+  },
+  "Date": "2024-05-07",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "System.InvalidOperationException: The expression 'p.CategoryId' is invalid inside an 'Include' operation, since it does not represent a property access: 't => t.MyProperty'. To target navigations declared on derived types, use casting ('t => ((Derived)t).MyProperty') or the 'as' operator ('t => (t as Derived).MyProperty'). Collection navigation access can be filtered by composing Where, OrderBy(Descending), ThenBy(Descending), Skip or Take operations. For more information on including related data, see https://go.microsoft.com/fwlink/?LinkID=746393.\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.PopulateIncludeTree(IncludeTreeNode includeTreeNode, Expression expression, Boolean setLoaded)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.ProcessInclude(NavigationExpansionExpression source, Expression expression, Boolean thenInclude, Boolean setLoaded)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.VisitMethodCall(MethodCallExpression methodCallExpression)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.Expand(Expression query)\r\n   at Microsoft.EntityFrameworkCore.Query.QueryTranslationPreprocessor.Process(Expression query)\r\n   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)\r\n   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass12_0`1.<ExecuteAsync>b__0()\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.IncludableQueryable`2.GetAsyncEnumerator(CancellationToken cancellationToken)\r\n   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()\r\n   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 41",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.GetProducts",
+  "Timestamp": "16:10:23.8019",
+  "Properties": {
+    "e": "System.InvalidOperationException: The expression 'p.CategoryId' is invalid inside an 'Include' operation, since it does not represent a property access: 't => t.MyProperty'. To target navigations declared on derived types, use casting ('t => ((Derived)t).MyProperty') or the 'as' operator ('t => (t as Derived).MyProperty'). Collection navigation access can be filtered by composing Where, OrderBy(Descending), ThenBy(Descending), Skip or Take operations. For more information on including related data, see https://go.microsoft.com/fwlink/?LinkID=746393.\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.PopulateIncludeTree(IncludeTreeNode includeTreeNode, Expression expression, Boolean setLoaded)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.ProcessInclude(NavigationExpansionExpression source, Expression expression, Boolean thenInclude, Boolean setLoaded)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.VisitMethodCall(MethodCallExpression methodCallExpression)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.NavigationExpandingExpressionVisitor.Expand(Expression query)\r\n   at Microsoft.EntityFrameworkCore.Query.QueryTranslationPreprocessor.Process(Expression query)\r\n   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)\r\n   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass12_0`1.<ExecuteAsync>b__0()\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.IncludableQueryable`2.GetAsyncEnumerator(CancellationToken cancellationToken)\r\n   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()\r\n   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)\r\n   at BetaCycle.Controllers.ProductsController.GetProducts() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\ProductsController.cs:line 41"
+  }
+},
+{
+  "_id": {
+    "$oid": "664326f43334d7433765a0fe"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "u error \"The LINQ expression 'DbSet<Product>()\r\n    .Where(p => p.ProductName.Contains(\r\n        value: __productName_0, \r\n        comparisonType: CurrentCultureIgnoreCase))' could not be translated. Additional information: Translation of method 'string.Contains' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "10:55:16.8335",
+  "Properties": {
+    "error": "The LINQ expression 'DbSet<Product>()\r\n    .Where(p => p.ProductName.Contains(\r\n        value: __productName_0, \r\n        comparisonType: CurrentCultureIgnoreCase))' could not be translated. Additional information: Translation of method 'string.Contains' failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432beecd02af0cb241daed"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"The key value at position 0 of the call to 'DbSet<Product>.Find' was of type 'int', which does not match the property type of 'long'.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:16:30.4826",
+  "Properties": {
+    "userId": "0",
+    "error": "The key value at position 0 of the call to 'DbSet<Product>.Find' was of type 'int', which does not match the property type of 'long'."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432d8b514e7732eda4f49c"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:23:22.8383",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432d8b514e7732eda4f49d"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:23:23.0139",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432d8c514e7732eda4f49e"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:23:24.1030",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432d8e514e7732eda4f49f"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:23:26.8450",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432d90514e7732eda4f4a0"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:23:28.6119",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432d91514e7732eda4f4a1"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:23:29.8719",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432d92514e7732eda4f4a2"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:23:30.7486",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432d94514e7732eda4f4a3"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:23:32.4341",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432e10514e7732eda4f4a4"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:25:36.1929",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432e11514e7732eda4f4a5"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:25:37.0809",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432e11514e7732eda4f4a6"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:25:37.7710",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432e12514e7732eda4f4a7"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:25:38.5158",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432e13514e7732eda4f4a8"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:25:39.1617",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432e13514e7732eda4f4a9"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:25:39.8479",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432e14514e7732eda4f4aa"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:25:40.4208",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432e15514e7732eda4f4ab"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:25:41.1079",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66432e17514e7732eda4f4ac"
+  },
+  "Date": "2024-05-14",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.ProductsController",
+  "Message": "user \"0\" error \"Object reference not set to an instance of an object.\"",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.ProductsController.FilterProducts",
+  "Timestamp": "11:25:43.5958",
+  "Properties": {
+    "userId": "0",
+    "error": "Object reference not set to an instance of an object."
+  }
+},
+{
+  "_id": {
+    "$oid": "66446adf6c173f648a984de3"
+  },
+  "Date": "2024-05-15",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "Attempted to divide by zero.",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUser",
+  "Timestamp": "09:57:19.2655",
+  "Properties": {
+    "userId": "50"
+  }
+},
+{
+  "_id": {
+    "$oid": "66446ae66c173f648a984de4"
+  },
+  "Date": "2024-05-15",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "Attempted to divide by zero.",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUser",
+  "Timestamp": "09:57:26.5531",
+  "Properties": {
+    "userId": "50"
+  }
+},
+{
+  "_id": {
+    "$oid": "66446b37784b080fdce81e3a"
+  },
+  "Date": "2024-05-15",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "Attempted to divide by zero.",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUser",
+  "Timestamp": "09:58:47.2249",
+  "Properties": {
+    "UserId": "50",
+    "Exception": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.UsersController.GetUser(Int64 id) in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\UsersController.cs:line 54"
+  }
+},
+{
+  "_id": {
+    "$oid": "66446bf5cf5aee4aa00b8b84"
+  },
+  "Date": "2024-05-15",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "Attempted to divide by zero.",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUser",
+  "Timestamp": "10:01:57.1001",
+  "Properties": {
+    "UserId": "50",
+    "Exception": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.UsersController.GetUser(Int64 id) in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\UsersController.cs:line 58"
+  }
+},
+{
+  "_id": {
+    "$oid": "66446ced7b5ea20f3e0c98a5"
+  },
+  "Date": "2024-05-15",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "The key value at position 0 of the call to 'DbSet<User>.Find' was of type 'string', which does not match the property type of 'long'.",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUser",
+  "Timestamp": "10:06:05.1805",
+  "Properties": {
+    "UserId": "50",
+    "Exception": "System.ArgumentException: The key value at position 0 of the call to 'DbSet<User>.Find' was of type 'string', which does not match the property type of 'long'.\r\n   at Microsoft.EntityFrameworkCore.Internal.EntityFinder`1.FindTracked(Object[] keyValues)\r\n   at Microsoft.EntityFrameworkCore.Internal.EntityFinder`1.FindAsync(Object[] keyValues, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.FindAsync(Object[] keyValues)\r\n   at BetaCycle.Controllers.UsersController.GetUser() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\UsersController.cs:line 57"
+  }
+},
+{
+  "_id": {
+    "$oid": "66446ec11654b3b7b2f546cb"
+  },
+  "Date": "2024-05-15",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "Invalid column name 'Name'.\r\nInvalid column name 'Surname'.",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUser",
+  "Timestamp": "10:13:53.3106",
+  "Properties": {
+    "UserId": "50",
+    "Exception": "Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'Name'.\r\nInvalid column name 'Surname'.\r\n   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)\r\n   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n--- End of stack trace from previous location ---\r\n   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)\r\n   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)\r\n--- End of stack trace from previous location ---\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()\r\n   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)\r\n   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)\r\n   at BetaCycle.Controllers.UsersController.GetUser() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\UsersController.cs:line 57\r\nClientConnectionId:0de41c8f-0bb6-4b80-8bb7-2c69b4bb7fd9\r\nError Number:207,State:1,Class:16"
+  }
+},
+{
+  "_id": {
+    "$oid": "66448199736280f477c73fd9"
+  },
+  "Date": "2024-05-15",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "Attempted to divide by zero.",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUsers",
+  "Timestamp": "11:34:16.7452",
+  "Properties": {
+    "UserId": "0",
+    "Exception": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.UsersController.GetUsers() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\UsersController.cs:line 39"
+  }
+},
+{
+  "_id": {
+    "$oid": "664481b2736280f477c73fda"
+  },
+  "Date": "2024-05-15",
+  "Level": "ERROR",
+  "Logger": "BetaCycle.Controllers.UsersController",
+  "Message": "Attempted to divide by zero.",
+  "Host": "DESKTOP-5BBAMIC",
+  "Callsite": "BetaCycle.Controllers.UsersController.GetUsers",
+  "Timestamp": "11:34:42.6165",
+  "Properties": {
+    "UserId": "0",
+    "Exception": "System.DivideByZeroException: Attempted to divide by zero.\r\n   at BetaCycle.Controllers.UsersController.GetUsers() in F:\\Projects\\Betacycle\\Backend\\BetaCycle\\Controllers\\UsersController.cs:line 39"
+  }
+}]
