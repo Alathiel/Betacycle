@@ -110,7 +110,6 @@ public partial class BetacycleContext : DbContext
 
         modelBuilder.Entity<Log>(entity =>
         {
-            entity.Property(e => e.LogId).ValueGeneratedNever();
             entity.Property(e => e.BrowserOrigin)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -165,7 +164,7 @@ public partial class BetacycleContext : DbContext
                 .HasMaxLength(1000)
                 .IsUnicode(false);
             entity.Property(e => e.LastModify).HasColumnType("datetime");
-            entity.Property(e => e.NameProduct)
+            entity.Property(e => e.ProductName)
                 .HasMaxLength(30)
                 .IsUnicode(false);
             entity.Property(e => e.ProductNumber)
@@ -225,13 +224,13 @@ public partial class BetacycleContext : DbContext
         {
             entity.ToTable("User");
 
-            entity.Property(e => e.Name)
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.LastName)
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Phone)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-            entity.Property(e => e.Surname)
                 .HasMaxLength(20)
                 .IsUnicode(false);
         });

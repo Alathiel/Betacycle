@@ -9,6 +9,7 @@ using BetaCycle.Contexts;
 using BetaCycle.Models;
 using Microsoft.AspNetCore.Authorization;
 using NLog;
+using System.Security.Claims;
 
 namespace BetaCycle.Controllers
 {
@@ -30,7 +31,7 @@ namespace BetaCycle.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Address>>> GetAddresses()
         {
-            return await _context.Addresses.ToListAsync();
+            return await _context.Addresses.Where(address => address.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier))).ToListAsync();
         }
 
         [Authorize]
@@ -38,7 +39,6 @@ namespace BetaCycle.Controllers
         public async Task<ActionResult<Address>> GetAddress(long id)
         {
             var address = await _context.Addresses.FindAsync(id);
-
             if (address == null)
             {
                 return NotFound();
@@ -49,9 +49,69 @@ namespace BetaCycle.Controllers
 
         #endregion
 
+
+        // POST: api/Addresses
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult<Address>> PostAddress(Address address)
+        {
+            try
+            {
+                User user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                if (user == null)
+                {
+                    return BadRequest("Invalid");
+                }
+                address.User = user;
+                _context.Addresses.Add(address);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+
+            return CreatedAtAction("GetAddress", new { id = address.UserId }, address);
+        }
+
+        // DELETE: api/Addresses/5
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAddress(long id)
+        {
+            try
+            {
+                var address = await _context.Addresses.FindAsync(id);
+                if (address == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Addresses.Remove(address);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+        }
+
         // PUT: api/Addresses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        /*[HttpPut("{id}")]
         public async Task<IActionResult> PutAddress(long id, Address address)
         {
             if (id != address.UserId)
@@ -78,50 +138,7 @@ namespace BetaCycle.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Addresses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Address>> PostAddress(Address address)
-        {
-            User user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == address.UserId);
-
-            if (user == null)
-            {
-                return BadRequest("Invalid");
-            }
-
-            address.User = user;
-            _context.Addresses.Add(address);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                _logger.ForErrorEvent().Message(e.Message).Property("user", 1).Log();
-                return BadRequest();
-            }
-
-            return CreatedAtAction("GetAddress", new { id = address.UserId }, address);
-        }
-
-        // DELETE: api/Addresses/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAddress(long id)
-        {
-            var address = await _context.Addresses.FindAsync(id);
-            if (address == null)
-            {
-                return NotFound();
-            }
-
-            _context.Addresses.Remove(address);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
+        }*/
 
         private bool AddressExists(long id)
         {

@@ -31,16 +31,15 @@ namespace BetaCycle
                 builder.Services.AddDbContext<BetacycleContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("BetaCycle")));
                 builder.Services.AddDbContext<BetaSecurityContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("BetaSecurity")));
                 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("MongoDB"));
-
+                //setup logger
                 LoggerNLog logger = new(
                     builder.Configuration.GetSection("MongoDB"),
                     builder.Configuration.GetConnectionString("BetaCycle")
                 );
-                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
                 
-                //jwt authentication
+                //setup authentication
                 JwtSettings? jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
                 JwtSettings? jwtSettingsAdmin = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
                 builder.Services.AddSingleton(jwtSettings); //add singleton object to services so everyone can see it
@@ -50,12 +49,12 @@ namespace BetaCycle
                     .AddJwtBearer(opts =>
                         opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                         {
-                            ValidateIssuer = true, //validate who gave a token
-                            ValidateAudience = true, //validate who sends a token
-                            ValidateLifetime = false, //validate lifetime of a token
-                            ValidateIssuerSigningKey = true, //validate secret key
-                            ValidIssuer = jwtSettings.Issuer, //issuer value
-                            ValidAudience = jwtSettings.Audience, //audience value
+                            ValidateIssuer = true, 
+                            ValidateAudience = true, 
+                            ValidateLifetime = false, 
+                            ValidateIssuerSigningKey = true, 
+                            ValidIssuer = jwtSettings.Issuer, 
+                            ValidAudience = jwtSettings.Audience, 
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
                         })
                     .AddJwtBearer("Admin",opts =>

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using NLog;
 
 namespace BetaCycle.Controllers
 {
@@ -17,6 +18,7 @@ namespace BetaCycle.Controllers
     [ApiController]
     public class JwtAuthenticationController : ControllerBase
     {
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         private readonly BetaSecurityContext _context;
         private JwtSettings _jwtSettings, _jwtAdminSettings;
         private JwtToken token;
@@ -34,59 +36,78 @@ namespace BetaCycle.Controllers
         public IActionResult Login(Credential credentials)
         {
             var cred = _context.Credentials.Where(e => e.Email == credentials.Email).ToList();
-            //var cred = _context.Credentials.Where(e => e.Email == email).ToList();
-
-            if (cred.Count > 0)
+            try
             {
-                var pw = EncryptionData.EncryptionData.SaltDecrypt(credentials.Password, cred[0].PasswordSalt);
-                //var pw = EncryptionData.EncryptionData.SaltDecrypt(password, cred[0].PasswordSalt);
-                if (pw == cred[0].Password)
+                if (cred.Count > 0)
                 {
-                    if ((DateOnly.FromDateTime(DateTime.Now).DayNumber - cred[0].LastModified.DayNumber) > 100)
-                        return BadRequest(new {
-                            Status = 401,
-                            Description = "Password expired"
-                        });
-                    
-                    var token = this.token.GenerateJwtToken(credentials.Email, cred[0].UserId);
-                    //var token = this.token.GenerateJwtToken(email, password);
-                    return Ok(new
+                    var pw = EncryptionData.EncryptionData.SaltDecrypt(credentials.Password, cred[0].PasswordSalt);
+                    //var pw = EncryptionData.EncryptionData.SaltDecrypt(password, cred[0].PasswordSalt);
+                    if (pw == cred[0].Password)
                     {
-                        userId = cred[0].UserId,
-                        Status = 200,
-                        Token = token
+                        if ((DateOnly.FromDateTime(DateTime.Now).DayNumber - cred[0].LastModified.DayNumber) > 100)
+                            return BadRequest(new {
+                                Status = 401,
+                                Description = "Password expired"
+                            });
+                        var token = this.token.GenerateJwtToken(credentials.Email, cred[0].UserId); 
+                        //var token = this.token.GenerateJwtToken(email, password);
+                        return Ok(new
+                        {
+                            userId = cred[0].UserId,
+                            Status = 200,
+                            Token = token
 
-                    });
-                }
-                else
+                        });
+                    }
                     return BadRequest("Wrong Password");
+                }
+                return BadRequest("Email not found");
             }
-            else
-                return BadRequest();
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
         }
 
 
         [HttpPost("[action]")]
         public async Task<ActionResult<Credential>> Register(Credential credential)
         {
-            KeyValuePair<string, string> temp;
-            temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
-            credential.Password = temp.Key;
-            credential.PasswordSalt = temp.Value;
-            _context.Credentials.Add(credential);
             try
             {
-                await _context.SaveChangesAsync();
+                KeyValuePair<string, string> temp;
+                temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
+                credential.Password = temp.Key;
+                credential.PasswordSalt = temp.Value;
+                _context.Credentials.Add(credential);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    if (_context.Credentials.Any(e => e.UserId == credential.UserId || e.Email == credential.Email))
+                        return Conflict();
+                    else
+                        throw;
+                }
+                //return CreatedAtAction("GetCredential", new { id = credential.UserId }, credential);
+                return Created();
             }
-            catch (DbUpdateException)
+            catch (Exception e)
             {
-                if (_context.Credentials.Any(e => e.UserId == credential.UserId || e.Email == credential.Email))
-                    return Conflict();
-                else
-                    throw;
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
             }
-            //return CreatedAtAction("GetCredential", new { id = credential.UserId }, credential);
-            return Created();
         }
 
         #endregion

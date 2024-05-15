@@ -72,18 +72,5 @@ namespace LoginLibrary.JwtAuthentication
         }
 
         #endregion
-
-        private static JwtSecurityToken TokenDecoder(HttpContext context)
-        {
-            context.Request.Headers.TryGetValue("Authorization", out var tokenString);
-            var jwtEncodedString = tokenString.ToString().Substring(7);
-            return new JwtSecurityToken(jwtEncodedString);
-        }
-
-        public static string GetUserId(HttpContext context)
-        {
-            var token = TokenDecoder(context);
-            return token.Claims.FirstOrDefault(c => c.Type == "nameid", new Claim("nameid", "null")).Value;
-        }
     }
 }

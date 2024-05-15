@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { HttpServicesService } from '../../../shared/services/http-services.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Route, Router, RouterModule } from '@angular/router';
+import { AuthCalls } from '../../../shared/services/auth-calls.service';
 
 
 @Component({
@@ -18,11 +18,10 @@ export class LogsViewerComponent {
   logs: any;
   selectedValue = "all"
   search = ""
-  backIcon = faArrowCircleLeft
-  constructor(private http: HttpServicesService, private router: Router){
-    http.getLogs(sessionStorage.getItem('token')+'').subscribe({
+  backIcon = faArrowLeft
+  constructor(private http: AuthCalls, private router: Router){
+    http.getLogs().subscribe({
       next: (jsData:any) => {
-        console.log(jsData.body.$values);
         this.logs = jsData.body.$values
       },
       error: (error:any) => {
@@ -32,15 +31,19 @@ export class LogsViewerComponent {
   }
 
   filter(){
-    this.http.getLogsByFilter(sessionStorage.getItem('token')+'',this.search, this.selectedValue).subscribe({
-      next: (jsData:any) => {
-        console.log(jsData.body.$values);
-        this.logs = jsData.body.$values
-      },
-      error: (error:any) => {
-        console.log(error);
-      }
-    })
+    if(this.selectedValue === "all")
+      this.http.getLogs().subscribe((resp) => {this.logs = resp.body.$values})
+    else
+    {
+      this.http.getLogsByFilter(this.search, this.selectedValue).subscribe({
+        next: (jsData:any) => {
+            this.logs = jsData.body.$values
+        },
+        error: (error:any) => {
+          console.log(error);
+        }
+      })
+    }
   }
 
   redirect(route: string){

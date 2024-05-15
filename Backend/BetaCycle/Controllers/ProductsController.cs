@@ -14,6 +14,8 @@ using Model = BetaCycle.Models.Model;
 using NLog;
 using System.IdentityModel.Tokens.Jwt;
 using LoginLibrary.JwtAuthentication;
+using System.Data.SqlClient;
+using System.Security.Claims;
 
 namespace BetaCycle.Controllers
 {
@@ -46,7 +48,44 @@ namespace BetaCycle.Controllers
             }
             catch (Exception e)
             {
-                _logger.Error("user {userId} error {error}", JwtToken.GetUserId(@HttpContext),  e.Message);
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new KeyValuePair<string, object>("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new KeyValuePair<string, object>("Exception", e),
+                }).Log();
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(int pageNumber = 1, string productName = "", long id = 0)
+        {
+            //
+            if (pageNumber <= 0)
+                pageNumber = 1;
+            try
+            {
+                List<Product> products = [];
+                if(productName != "")
+                {
+                    //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
+                    products = await _context.Products
+                        .Where(product => product.ProductName.ToLower().Contains(productName.ToLower()))
+                        .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                }
+                else if(id != 0)
+                    products = await _context.Products.Where(product => product.ProductId == id).ToListAsync();
+                //if (products == null || products.Count<=0)
+                //    return NotFound();
+                return products;
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new KeyValuePair<string, object>("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new KeyValuePair<string, object>("Exception", e),
+                }).Log();
                 return BadRequest();
             }
         }
@@ -72,7 +111,11 @@ namespace BetaCycle.Controllers
             }
             catch (Exception e)
             {
-                _logger.Error("user {userId} error {error}", JwtToken.GetUserId(@HttpContext), e.Message);
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
                 return BadRequest();
             }
         }
@@ -90,7 +133,7 @@ namespace BetaCycle.Controllers
             }
             catch (Exception e)
             {
-                _logger.Error("user {userId} error {error}", JwtToken.GetUserId(@HttpContext), e.Message);
+                _logger.Error("User Type: Admin, Userid: {userId} error: {error}", User.FindFirstValue(ClaimTypes.NameIdentifier), e.Message);
                 return BadRequest();
             }
         }

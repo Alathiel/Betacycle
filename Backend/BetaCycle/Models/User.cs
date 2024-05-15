@@ -7,9 +7,9 @@ public partial class User
 {
     public long UserId { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string FirstName { get; set; } = null!;
 
-    public string Surname { get; set; } = null!;
+    public string LastName { get; set; } = null!;
 
     public DateOnly? BirthDate { get; set; }
 

@@ -25,14 +25,12 @@ export class HttpServicesService {
   }
 
   getProducts(token: string):Observable<any>{
-    return this.http.get('https://localhost:7044/api/Products/GetProducts', {headers: 
-      {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      observe: 'response'
-    });
+    return this.http.get('https://localhost:7044/api/Products/GetProducts', {observe: 'response'});
+  }
+
+  getFilteredProducts(filter: string, value: string):Observable<any>{
+    var params = new HttpParams().append(filter, value)
+    return this.http.get('https://localhost:7044/api/Products/FilterProducts', {params: params , observe: 'response'});
   }
 
   getAddresses(token: string, id: string):Observable<any>{

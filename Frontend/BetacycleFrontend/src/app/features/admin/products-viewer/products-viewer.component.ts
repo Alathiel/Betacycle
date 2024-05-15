@@ -3,9 +3,15 @@ import { HttpServicesService } from '../../../shared/services/http-services.serv
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowCircleLeft,faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft,faPenToSquare, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Route, Router, RouterModule } from '@angular/router';
-
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { NoAuthCalls } from '../../../shared/services/noAuth-calls.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAnimationsExampleDialog } from '../dialog-template/dialog-template.component';
+export interface DialogData {
+  animal: 'panda' | 'unicorn' | 'lion';
+}
 @Component({
   selector: 'app-products-viewer',
   standalone: true,
@@ -18,25 +24,10 @@ export class ProductsViewerComponent {
   keys: any[] = [];
   selectedValue = "all"
   search = ""
-  backIcon = faArrowCircleLeft
+  backIcon = faArrowLeft
   editIcon = faPenToSquare
-  constructor(private http: HttpServicesService, private router: Router){
-    http.getProducts(sessionStorage.getItem('token')+'').subscribe({
-      next: (jsData:any) => {
-        console.log(jsData.body.$values);
-        this.logs = jsData.body.$values
-        
-        // var map = new Map(this.logs[0]);
-        // console.log(map)
-        // this.logs.forEach((k:any) => 
-        //   this.keys.push(Object.keys(k)
-        // ))
-        console.log(this.keys)
-      },
-      error: (error:any) => {
-        console.log(error);
-      }
-    })
+  constructor(private http: NoAuthCalls, private router: Router, public dialog: MatDialog){
+    this.getAllDatas()
   }
 
   checkValue(l:any): boolean{
@@ -50,8 +41,53 @@ export class ProductsViewerComponent {
     this.router.navigate([route])
   }
 
-  test(){
-    alert('aaa')
+
+  getAllDatas(){
+    this.http.getProducts().subscribe({
+      next: (jsData:any) => {
+        console.log(jsData.body.$values);
+        this.logs = jsData.body.$values
+      },
+      error: (error:any) => {
+        console.log(error);
+      }
+    })
+  }
+
+  filter(){
+    if(this.search !== ""){
+      this.http.getFilteredProducts(this.selectedValue, this.search).subscribe({
+        next: (response:any) => {
+          console.log(response)
+          this.logs = response.body.$values
+          if(response.status == HttpStatusCode.NotFound)
+            console.log('aa')
+        },
+        error: (error:HttpErrorResponse) => {
+          console.log(error)
+          if(error.status == 404)
+            this.logs = undefined
+        }
+      })
+    }
+    else
+      this.getAllDatas()
+  }
+
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, log:any): void {
+    const dialogRef = this.dialog.open(DialogAnimationsExampleDialog, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {
+        log,
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      console.log('Dialog result: '+ result);
+    })
   }
 
 }

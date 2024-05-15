@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../services/Auth.service';
 import { HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class LoggedInterceptorService implements HttpInterceptor {
 
-  constructor(private auth:AuthService) { }
+  constructor(private auth:AuthService, private router:Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler):Observable<any>
   {
@@ -15,11 +16,14 @@ export class LoggedInterceptorService implements HttpInterceptor {
     const authToken = this.auth.getToken();
     if (authToken) {
       const payload = this.auth.getDecodedToken()
-      
-      const {exp} = payload as {exp: number}
-      if (Date.now() >= exp * 1000) { // Check token exp.
-
-        throw ('Token expired');
+      const {role} = payload as {role: string}
+      if(role === 'Admin'){
+        const {exp} = payload as {exp: number}
+        if (Date.now() >= exp * 1000) { // Check token exp.
+          this.router.navigate(['admin-login'])
+          alert("Login expired, please login again.")
+          throw ('Token expired');
+        }
       }
 
       // If we have a token, we set it to the header
@@ -33,8 +37,8 @@ export class LoggedInterceptorService implements HttpInterceptor {
       catchError((error) => {
         if(error instanceof HttpErrorResponse){
           if(error.status === 401){
-            alert("Token scaduto")
-
+            alert("Login expired, please login again.")
+            this.router.navigate(['admin-login'])
           }
         }
         return (error);

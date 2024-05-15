@@ -28,8 +28,4 @@
     <ProjectReference Include="..\Libraries\EncryptionData\EncryptionData.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
-  </ItemGroup>
-
 </Project>

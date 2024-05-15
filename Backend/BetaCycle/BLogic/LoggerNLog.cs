@@ -8,7 +8,7 @@ namespace BetaCycle.BLogic
 {
     public class LoggerNLog
     {
-        private static Logger nLogLogger = LogManager.GetCurrentClassLogger();
+        private static Logger _nLogLogger = LogManager.GetCurrentClassLogger();
         public LoggerNLog(IConfigurationSection opts, string connectionString = "")
         {
             var config = new NLog.Config.LoggingConfiguration();
@@ -24,22 +24,8 @@ namespace BetaCycle.BLogic
 
             // Apply config           
             LogManager.Configuration = config;
-            //TestNLogMethod();
         }
 
-        public void TestNLogMethod()
-        {
-            int x = 0;
-            try
-            {
-                Console.WriteLine(1 / x);
-            }
-            catch (Exception e)
-            {
-                    //automatically takes the first parameter as {x} - structured logs
-                    nLogLogger.Error("{error}", e);
-            }
-        }
 
         #region Private methods
 

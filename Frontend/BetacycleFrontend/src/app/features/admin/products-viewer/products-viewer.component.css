@@ -20,3 +20,12 @@
     background-color: #f2f2f2;
     transition: 0.3s;
 }
+
+
+fa-icon:hover{
+    cursor: pointer;
+}
+
+fa-icon{
+    padding: 1%;
+}

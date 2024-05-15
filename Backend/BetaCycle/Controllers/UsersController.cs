@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using NLog;
 using NLog.Fluent;
 using Log = BetaCycle.Models.Log;
+using System.Security.Claims;
 
 namespace BetaCycle.Controllers
 {
@@ -28,22 +29,32 @@ namespace BetaCycle.Controllers
 
         #region HttpGet
 
+        [Authorize(Policy = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            Console.WriteLine(@HttpContext.User.Identity.Name);
-            return await _context.Users.ToListAsync();
+            try
+            {
+                return await _context.Users.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
         }
 
         [Authorize]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(long id)
+        [HttpGet("[action]")]
+        public async Task<ActionResult<User>> GetUser()
         {
             try
             {
-                int x = 0;
-                Console.WriteLine(1/x);
-                var user = await _context.Users.FindAsync(id);
+                var user = await _context.Users.FindAsync(Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 if (user == null)
                     return NotFound();
 
@@ -51,9 +62,12 @@ namespace BetaCycle.Controllers
             }
             catch (Exception e)
             {
-                //_logger.Error(e);
-                _logger.ForErrorEvent().Message(e.Message).Property("user",1).Log();
-                return BadRequest();
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
             }
         }
 
@@ -66,34 +80,21 @@ namespace BetaCycle.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-            _context.Users.Add(user);
-
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
-        }
-
-        [Authorize]
-        [HttpPost("[action]")]
-        public async Task<ActionResult<User>> PostAddress(Address address)
-        {
-            User user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == address.UserId);
-
-            if (user == null)
+            try
             {
-                return BadRequest("Invalid");
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetUser", new { id = user.UserId }, user);
             }
-
-            address.User = user;
-            _context.Addresses.Add(address);
-
-            await _context.SaveChangesAsync();
-
-            return Ok(new
+            catch (Exception e)
             {
-                code = 201,
-                address
-            });
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
         }
 
 

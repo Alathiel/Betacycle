@@ -1,4 +1,5 @@
 ﻿
+using System.Security.Claims;
 using BetaCycle.BLogic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,10 @@ using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using NLog;
 using BetaCycle.Models.Mongo;
+using BetaCycle.Models;
+using LoginLibrary.JwtAuthentication;
+using Microsoft.AspNetCore.Authorization.Policy;
+using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
 
 namespace BetaCycle.Controllers
 {
@@ -30,111 +35,168 @@ namespace BetaCycle.Controllers
 
         [Authorize(Policy = "Admin")]
         [HttpGet]
-        public async Task<IEnumerable<Models.Mongo.Log>> GetLogs()
+        public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetLogs(int pageNumber = 1)
         {
-            var bson = await mongoBsCollection.Find(obj => true).Limit(0).ToListAsync();
             List<Models.Mongo.Log> logs = [];
-
-            foreach (var val in bson)
-            {
-                var props =val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
-                Models.Mongo.Log log = new()
-                {
-                    Date = val.Elements.ElementAt(1).Value.AsString,
-                    Level = val.Elements.ElementAt(2).Value.AsString,
-                    Logger = val.Elements.ElementAt(3).Value.AsString,
-                    Message = val.Elements.ElementAt(4).Value.AsString,
-                    Host = val.Elements.ElementAt(5).Value.AsString,
-                    Callsite = val.Elements.ElementAt(6).Value.AsString,
-                    Timestamp = val.Elements.ElementAt(7).Value.AsString
-                };
-                foreach (var bsonElement in props)
-                {
-                    log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name,bsonElement.Value.AsString));
-                }
-
-                logs.Add(log);
-            }
-
-            KeyValuePair<string, string>[] a = [];
-            return logs;
-        }
-
-        [Authorize(Policy = "Admin")]
-        [HttpGet("[action]/{date}/{filterData}/{pageNumber}")]
-        public async Task<IEnumerable<Models.Mongo.Log>> GetLogsByDate(string date, string filterData, int pageNumber = 1)
-        {
-            BsonDocument filter = new BsonDocument
-            {
-                {
-                    filterData, new BsonRegularExpression($"{date}","i")
-                }
-            };
-
             if (pageNumber <= 0)
                 pageNumber = 1;
-            var bson = await mongoBsCollection.Find(filter).Skip((pageNumber-1)*10).Limit(10).ToListAsync();
-            List<Models.Mongo.Log> logs = [];
-
-            foreach (var val in bson)
+            try
             {
-                var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
-                Models.Mongo.Log log = new()
+                var bson = await mongoBsCollection.Find(obj => true).Skip((pageNumber - 1) * 10).Limit(10).ToListAsync();
+                foreach (var val in bson)
                 {
-                    Date = val.Elements.ElementAt(1).Value.AsString,
-                    Level = val.Elements.ElementAt(2).Value.AsString,
-                    Logger = val.Elements.ElementAt(3).Value.AsString,
-                    Message = val.Elements.ElementAt(4).Value.AsString,
-                    Host = val.Elements.ElementAt(5).Value.AsString,
-                    Callsite = val.Elements.ElementAt(6).Value.AsString,
-                    Timestamp = val.Elements.ElementAt(7).Value.AsString
-                };
-                foreach (var bsonElement in props)
-                {
-                    log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name, bsonElement.Value.AsString));
+                    var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
+                    Models.Mongo.Log log = new()
+                    {
+                        Date = val.Elements.ElementAt(1).Value.AsString,
+                        Level = val.Elements.ElementAt(2).Value.AsString,
+                        Logger = val.Elements.ElementAt(3).Value.AsString,
+                        Message = val.Elements.ElementAt(4).Value.AsString,
+                        Host = val.Elements.ElementAt(5).Value.AsString,
+                        Callsite = val.Elements.ElementAt(6).Value.AsString,
+                        Timestamp = val.Elements.ElementAt(7).Value.AsString
+                    };
+                    foreach (var bsonElement in props)
+                    {
+                        log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name, bsonElement.Value.AsString));
+                    }
+                    logs.Add(log);
                 }
-
-                logs.Add(log);
+                KeyValuePair<string, string>[] a = [];
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
             }
             return logs;
         }
 
         [Authorize(Policy = "Admin")]
-        [HttpGet("[action]/{id}")]
-        public async Task<IEnumerable<Models.Mongo.Log>> GetLogsByUserId(string id)
+        [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetFilteredLogs(string value="", string filterC="Date", int pageNumber = 1)
         {
-            BsonDocument filter = new BsonDocument
-            {
-                {
-                    "Properties.user", new BsonRegularExpression($"{id}","i")
-                }
-            };
-
-
-            var bson = await mongoBsCollection.Find(filter).Limit(0).ToListAsync();
             List<Models.Mongo.Log> logs = [];
-
-            foreach (var val in bson)
+            try
             {
-                var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
-                Models.Mongo.Log log = new()
+                BsonDocument filter = new BsonDocument
                 {
-                    Date = val.Elements.ElementAt(1).Value.AsString,
-                    Level = val.Elements.ElementAt(2).Value.AsString,
-                    Logger = val.Elements.ElementAt(3).Value.AsString,
-                    Message = val.Elements.ElementAt(4).Value.AsString,
-                    Host = val.Elements.ElementAt(5).Value.AsString,
-                    Callsite = val.Elements.ElementAt(6).Value.AsString,
-                    Timestamp = val.Elements.ElementAt(7).Value.AsString
+                    {
+                        filterC, new BsonRegularExpression($"{value}", "i")
+                    }
                 };
-                foreach (var bsonElement in props)
-                {
-                    log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name, bsonElement.Value.AsString));
-                }
+                if (pageNumber <= 0)
+                    pageNumber = 1;
+                var bson = await mongoBsCollection.Find(filter).Skip((pageNumber - 1) * 10).Limit(10).ToListAsync();
 
-                logs.Add(log);
+                foreach (var val in bson)
+                {
+                    var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
+                    Models.Mongo.Log log = new()
+                    {
+                        Date = val.Elements.ElementAt(1).Value.AsString,
+                        Level = val.Elements.ElementAt(2).Value.AsString,
+                        Logger = val.Elements.ElementAt(3).Value.AsString,
+                        Message = val.Elements.ElementAt(4).Value.AsString,
+                        Host = val.Elements.ElementAt(5).Value.AsString,
+                        Callsite = val.Elements.ElementAt(6).Value.AsString,
+                        Timestamp = val.Elements.ElementAt(7).Value.AsString
+                    };
+                    foreach (var bsonElement in props)
+                    {
+                        log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name, bsonElement.Value.AsString));
+                    }
+
+                    logs.Add(log);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+
+            return logs;
+        }
+
+        [Authorize(Policy = "Admin")]
+        [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetLogsByUserId(string id)
+        {
+            List<Models.Mongo.Log> logs = [];
+            try
+            {
+                BsonDocument filter = new BsonDocument
+                {
+                    {
+                        "Properties.UserId", id
+                    }
+                };
+
+                var bson = await mongoBsCollection.Find(filter).Limit(0).ToListAsync();
+                foreach (var val in bson)
+                {
+                    var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
+                    Models.Mongo.Log log = new()
+                    {
+                        Date = val.Elements.ElementAt(1).Value.AsString,
+                        Level = val.Elements.ElementAt(2).Value.AsString,
+                        Logger = val.Elements.ElementAt(3).Value.AsString,
+                        Message = val.Elements.ElementAt(4).Value.AsString,
+                        Host = val.Elements.ElementAt(5).Value.AsString,
+                        Callsite = val.Elements.ElementAt(6).Value.AsString,
+                        Timestamp = val.Elements.ElementAt(7).Value.AsString
+                    };
+                    foreach (var bsonElement in props)
+                    {
+                        log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name, bsonElement.Value.AsString));
+                    }
+
+                    logs.Add(log);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
             }
             return logs;
+        }
+
+        [Authorize(Policy = "Admin")]
+        [HttpPost("[action]")]
+        public ActionResult ToggleLogging()
+        {
+            if (LogManager.IsLoggingEnabled())
+            {
+                LogManager.DisableLogging();
+                return Ok("Logging disable");
+            }
+            else if (!LogManager.IsLoggingEnabled())
+            {
+                LogManager.EnableLogging();
+                return Ok("Logging enabled");
+            }
+            return BadRequest();
+        }
+
+        [Authorize(Policy = "Admin")]
+        [HttpGet("[action]")]
+        public bool GetLoggingStatus()
+        {
+            return LogManager.IsLoggingEnabled();
         }
 
         #endregion
