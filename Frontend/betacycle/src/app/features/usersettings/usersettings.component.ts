@@ -33,9 +33,19 @@ export class UsersettingsComponent {
             console.log("Errore: " + err.status);
           }
         })
+
+        /*this.http.GetAddresses(this.decodejwt.unique_name).subscribe
+        ({
+          next: (data: any) => {
+            console.log(data)
+          },
+          error: (err: any) => {
+            console.log("Errore: " + err.status);
+          }
+        })*/
   }
 
-  UpdateAddress(address: HTMLInputElement, city: HTMLInputElement, province: HTMLInputElement, nation: HTMLSelectElement, cap: HTMLInputElement)
+  AddAddress(address: HTMLInputElement, city: HTMLInputElement, province: HTMLInputElement, nation: HTMLSelectElement, cap: HTMLInputElement)
   {
     if(address.value != '' && city.value != '' && province.value != '' && nation.value != '' && cap.value != '')
       {
@@ -46,11 +56,12 @@ export class UsersettingsComponent {
         this.address.cap = cap.value;
         this.address.userId = this.decodejwt.unique_name;
 
-        this.http.PatchAddress(this.address.userId, this.address)
+        this.http.AddAddress(this.address)
         .subscribe
         ({
           next: (data: any) => {
             this.address = data;
+            window.location.reload();
           },
           error: (err: any) => {
             console.log(err);
@@ -62,6 +73,27 @@ export class UsersettingsComponent {
     {
       alert("You need to fill all the data!");
     }
+  }
+
+  DeleteAddress(idaddress: number, iduser: number)
+  {
+    this.http.DeleteAddress(iduser, idaddress)
+        .subscribe
+        ({
+          next: (data: any) => {
+            this.address = data;
+          },
+          error: (err: any) => {
+            console.log(err);
+          }
+        })
+
+        window.location.reload();
+  }
+
+  PatchAddress(patchaddress: Address)
+  {
+    console.log(patchaddress);
   }
 
 }

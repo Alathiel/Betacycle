@@ -67,9 +67,25 @@ export class HttprequestService {
     return this.http.patch(`https://localhost:7044/api/Credentials/${id}`, credentials);
   }
 
-  PatchAddress(id: number, address: Address)
+  AddAddress(address: Address)
   {
-    return this.http.patch(`https://localhost:7044/api/Users/${id}`, address);
+    return this.http.post(`https://localhost:7044/api/Addresses`, address);
+  }
+
+  DeleteAddress(id: number, iduser: number)
+  {
+    return this.http.delete(`https://localhost:7044/api/Addresses/${iduser}/${id}`);
+  }
+
+  GetAddresses(iduser: number, idaddress: number)
+  {
+    this.authJwtHeader = this.authJwtHeader.set
+    (
+      'Authorization',
+      'Bearer ' + localStorage.getItem('jwtToken')
+    )
+
+    return this.http.get(`https://localhost:7044/api/Addresses/${iduser}/${idaddress}`, {headers: this.authJwtHeader});
   }
 
 }

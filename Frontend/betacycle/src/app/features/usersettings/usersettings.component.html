@@ -1,29 +1,18 @@
-<p>usersettings works!</p>
+<p>usersettings work in progress</p>
 
-<div class="accordion" id="accordionExample" *ngFor="let a of getaddress">
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        Address
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <strong>
-          Address: {{a.address1}} -
-          City: {{a.city}} -
-          Province: {{a.province}} -
-          Nation: {{a.nation}} -
-          CAP: {{a.cap}}
-        </strong>
-        <button class="btn btn-outline-primary my-2 my-sm-0">Modify Address
-        </button>
-      </div>
-    </div>
+<div class="card" *ngFor="let a of getaddress">
+  <div class="card-body">
+    Address: {{a.address1}} -
+    City: {{a.city}} -
+    Province: {{a.province}} -
+    Nation: {{a.nation}} -
+    CAP: {{a.cap}}
+    <button (click)="PatchAddress(a)" class="btn btn-outline-primary my-2 my-sm-0">Modify Address
+    </button>
+    <button (click)="DeleteAddress(a.userId, a.addressId)" class="btn btn-outline-danger my-2 my-sm-0">Delete Address
+    </button>
   </div>
 </div>
-
-
 
 <div class="accordion" id="newaccordition">
   <div class="accordion-item">
@@ -64,7 +53,7 @@
             <input type="text" class="form-control" id="inputZip" #cap>
           </div>
         </div>
-        <button class="btn btn-primary" (click)="UpdateAddress(address, city, province, nation, cap)">Update
+        <button class="btn btn-primary" (click)="AddAddress(address, city, province, nation, cap)">Add
           Address</button>
       </div>
     </div>
