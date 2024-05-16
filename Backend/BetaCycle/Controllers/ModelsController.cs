@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
-
+using BetaCycle.Contexts;
+using BetaCycle.Contexts;
 namespace BetaCycle.Controllers
 {
     [Route("api/[controller]")]

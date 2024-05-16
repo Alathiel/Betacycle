@@ -7,7 +7,9 @@ public partial class Product
 {
     public long ProductId { get; set; }
 
-    public string NameProduct { get; set; } = null!;
+    public string ProductName { get; set; } = null!;
+
+    public string ProductNumber { get; set; } = null!;
 
     public long ModelId { get; set; }
 
@@ -28,6 +30,8 @@ public partial class Product
     public DateTime DateInsert { get; set; }
 
     public DateTime LastModify { get; set; }
+
+    public Guid Rowguid { get; set; }
 
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 

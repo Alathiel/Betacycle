@@ -7,9 +7,11 @@ public partial class User
 {
     public long UserId { get; set; }
 
-    public string FullName { get; set; } = null!;
+    public string FirstName { get; set; } = null!;
 
-    public DateOnly BirthDate { get; set; }
+    public string LastName { get; set; } = null!;
+
+    public DateOnly? BirthDate { get; set; }
 
     public string? Phone { get; set; }
 
@@ -18,6 +20,8 @@ public partial class User
     public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
+
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

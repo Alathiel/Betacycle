@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BetaCycle.Models;
 
-public partial class Credential
+public partial class AdminCredential
 {
     public long UserId { get; set; }
 
@@ -14,6 +14,4 @@ public partial class Credential
     public string Email { get; set; } = null!;
 
     public DateOnly LastModified { get; set; }
-
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }

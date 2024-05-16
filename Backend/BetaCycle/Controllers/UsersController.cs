@@ -2,41 +2,128 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
-using BasicLoginLibrary;
+using BetaCycle.Contexts;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
+using NLog;
+using NLog.Fluent;
+using Log = BetaCycle.Models.Log;
+using System.Security.Claims;
 
 namespace BetaCycle.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : Controller
     {
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
+        //LogFactory.GetCurrentClassLogger<UsersController>()
+        
+
         private readonly BetacycleContext _context;
 
         public UsersController(BetacycleContext context)
         {
             _context = context;
         }
-        [BasicAuthorizationAttributes]
-        // GET: api/Users
+
+        #region HttpGet
+
+        [Authorize(Policy = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            try
+            {
+                return await _context.Users.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(long id)
+        [Authorize]
+        [HttpGet("[action]")]
+        public async Task<ActionResult<User>> GetUser()
         {
-            var user = await _context.Users.FindAsync(id);
+            try
+            {
+                var user = await _context.Users.FindAsync(Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                if (user == null)
+                    return NotFound();
 
-            if (user == null)
+                return user;
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+        }
+
+        #endregion
+
+
+        #region HttpPost
+
+
+        [HttpPost]
+        public async Task<ActionResult<User>> PostUser(User user)
+        {
+            try
+            {
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+        }
+
+
+        #endregion
+
+
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> PutAddress(Address address)
+        {
+
+            if (await _context.Addresses.FindAsync(address.AddressId) == null)
             {
                 return NotFound();
             }
 
-            return user;
+            _context.Entry(address).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Property("userId", 1).Log();
+            }
+
+            return NoContent();
         }
+
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -69,17 +156,8 @@ namespace BetaCycle.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.Users.Add(user);
 
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
-        }
+        
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
