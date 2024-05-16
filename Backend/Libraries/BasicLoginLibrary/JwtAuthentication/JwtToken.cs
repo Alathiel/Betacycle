@@ -12,9 +12,9 @@ namespace LoginLibrary.JwtAuthentication
     public class JwtToken
     {
         private readonly JwtSettings _jwtSettings;
-        private readonly JwtSettings _jwtAdminSettings;
+        private readonly JwtAdminSettings _jwtAdminSettings;
 
-        public JwtToken(JwtSettings jwtSettings, JwtSettings jwtAdminSettings)
+        public JwtToken(JwtSettings jwtSettings, JwtAdminSettings jwtAdminSettings)
         {
             _jwtSettings = jwtSettings;
             _jwtAdminSettings = jwtAdminSettings;

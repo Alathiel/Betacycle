@@ -41,7 +41,7 @@ namespace BetaCycle
                 
                 //setup authentication
                 JwtSettings? jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
-                JwtSettings? jwtSettingsAdmin = builder.Configuration.GetSection("JwtAdminSettings").Get<JwtSettings>();
+                JwtAdminSettings? jwtSettingsAdmin = builder.Configuration.GetSection("JwtAdminSettings").Get<JwtAdminSettings>();
                 builder.Services.AddSingleton(jwtSettings); //add singleton object to services so everyone can see it
                 builder.Services.AddSingleton(jwtSettingsAdmin);
 
