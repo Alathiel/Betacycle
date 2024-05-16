@@ -181,12 +181,12 @@ namespace BetaCycle.Controllers
         {
             if (LogManager.IsLoggingEnabled())
             {
-                LogManager.DisableLogging();
+                LogManager.SuspendLogging();
                 return Ok("Logging disable");
             }
             else if (!LogManager.IsLoggingEnabled())
             {
-                LogManager.EnableLogging();
+                LogManager.ResumeLogging();
                 return Ok("Logging enabled");
             }
             return BadRequest();

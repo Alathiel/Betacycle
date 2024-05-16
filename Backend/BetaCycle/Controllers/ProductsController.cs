@@ -133,13 +133,19 @@ namespace BetaCycle.Controllers
             }
             catch (Exception e)
             {
-                _logger.Error("User Type: Admin, Userid: {userId} error: {error}", User.FindFirstValue(ClaimTypes.NameIdentifier), e.Message);
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
                 return BadRequest();
             }
         }
 
         #endregion
 
+
+        #region HttpPost
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Policy = "Admin")]
@@ -174,7 +180,7 @@ namespace BetaCycle.Controllers
 
             return product;
         }
-
+        #endregion
 
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
