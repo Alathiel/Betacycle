@@ -20,7 +20,8 @@ namespace BetaCycle.Controllers
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         private readonly BetaSecurityContext _context;
-        private JwtSettings _jwtSettings, _jwtAdminSettings;
+        private JwtSettings _jwtSettings;
+        private JwtAdminSettings _jwtAdminSettings;
         private JwtToken token;
         public JwtAuthenticationController(JwtSettings jwtSettings, JwtAdminSettings jwtAdminSettings, BetaSecurityContext context)
         {
