@@ -22,7 +22,7 @@ namespace BetaCycle.Controllers
         private readonly BetaSecurityContext _context;
         private JwtSettings _jwtSettings, _jwtAdminSettings;
         private JwtToken token;
-        public JwtAuthenticationController(JwtSettings jwtSettings, JwtSettings jwtAdminSettings, BetaSecurityContext context)
+        public JwtAuthenticationController(JwtSettings jwtSettings, JwtAdminSettings jwtAdminSettings, BetaSecurityContext context)
         {
             _context = context;
             _jwtSettings = jwtSettings;

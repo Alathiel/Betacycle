@@ -41,9 +41,9 @@ namespace BetaCycle
                 
                 //setup authentication
                 JwtSettings? jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
-                JwtSettings? jwtSettingsAdmin = builder.Configuration.GetSection("JwtAdminSettings").Get<JwtSettings>();
+                JwtAdminSettings? jwtAdminSettings = builder.Configuration.GetSection("JwtAdminSettings").Get<JwtAdminSettings>();
                 builder.Services.AddSingleton(jwtSettings); //add singleton object to services so everyone can see it
-                builder.Services.AddSingleton(jwtSettingsAdmin);
+                builder.Services.AddSingleton(jwtAdminSettings);
 
                 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(opts =>
@@ -64,10 +64,10 @@ namespace BetaCycle
                             ValidateAudience = true,//validate who sends a token
                             ValidateLifetime = true, //validate lifetime of a token
                             ValidateIssuerSigningKey = true, //validate secret key
-                            ValidIssuer = jwtSettingsAdmin.Issuer, //issuer value
-                            ValidAudience = jwtSettingsAdmin.Audience, //audience value
+                            ValidIssuer = jwtAdminSettings.Issuer, //issuer value
+                            ValidAudience = jwtAdminSettings.Audience, //audience value
                             RequireExpirationTime = true,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtAdminSettings.SecretKey))
                         });
 
                 builder.Services.AddAuthorization(options =>
