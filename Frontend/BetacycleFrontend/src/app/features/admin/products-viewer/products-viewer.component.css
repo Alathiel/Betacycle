@@ -22,10 +22,10 @@
 }
 
 
-fa-icon:hover{
+.clickable:hover{
     cursor: pointer;
 }
 
-fa-icon{
+.clickable{
     padding: 1%;
 }

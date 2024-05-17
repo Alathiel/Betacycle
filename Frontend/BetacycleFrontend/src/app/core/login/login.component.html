@@ -1,25 +1,12 @@
 
-    
-  <form #form='ngForm' (submit)="login()">
-    <mat-card style="max-width: 50%; max-height: fit-content; align-items: center;">
-        <mat-card-header>
-          <mat-card-title >Login</mat-card-title>
-          <mat-card-subtitle></mat-card-subtitle>
-        </mat-card-header>
-        <img mat-card-image src="" alt="">
-        <mat-card-content>
-            
-                <input matInput #email ngModel pattern="[a-zA-Z ]*" [(ngModel)]="credentials.email" name="email" required minlength="1"><br>
-                <input matInput #pw [(ngModel)]="credentials.password" name="pw" required  minlength="1" type="password"><br>
-                <input type="checkbox" (change)="stayConnected = !stayConnected"><label>Resta Connesso</label>
-           
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button type="submit">Login</button>
-        </mat-card-actions>
-      </mat-card>
-  </form>
-    <hr>
+ <div style="display: flex; flex-direction: row; width: 100%; height: 100%;">
+    <div class="left-side">
+      <img>
+    </div>
+    <div class="right-side">
+
+    </div>
+ </div>
     <form #form='ngForm' (submit)="loginJwt()">
       <mat-card style="max-width: 50%; max-height: fit-content; align-items: center;">
           <mat-card-header>

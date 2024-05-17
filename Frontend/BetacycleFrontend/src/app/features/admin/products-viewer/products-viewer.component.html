@@ -24,13 +24,19 @@
                 <div style="display: flex; flex-direction: column;">
                     <div *ngFor="let l of item | keyvalue">
                     <!-- <label *ngIf="l.key!='carts' && l.key!='category' && l.key!='model' && l.key!='storages' && l.key!='transactions'">{{l.key}}: {{l.value}}</label></div> -->
-                        <div *ngIf="!checkValue(l)">
+                        <div *ngIf="!checkValue(l)"> 
                             <label>{{l.key}}: {{l.value}}</label> 
                         </div>
                     </div>
-                    <div>
-                        <fa-icon [icon]="editIcon" (click)="openDialog('0ms', '0ms', item)"></fa-icon>
-                        <label>Edit</label>
+                    <div style="display:flex; flex-direction: row;">
+                        <div class="clickable" (click)="openDialog('0ms', '0ms', item)">
+                            <fa-icon class="clickable" [icon]="editIcon"></fa-icon>
+                            <label class="clickable" >Edit</label>
+                        </div>
+                        <div class="clickable" (click)="openDialog('0ms', '0ms', item)">
+                            <fa-icon class="clickable" [icon]="deleteIcon"></fa-icon>
+                            <label class="clickable" >Delete</label>
+                        </div>
                     </div>
                     <hr>
                 </div>

@@ -3,7 +3,7 @@ import { HttpServicesService } from '../../../shared/services/http-services.serv
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowCircleLeft,faPenToSquare, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faTrash,faPenToSquare, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Route, Router, RouterModule } from '@angular/router';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { NoAuthCalls } from '../../../shared/services/noAuth-calls.service';
@@ -28,6 +28,7 @@ export class ProductsViewerComponent {
   selectedValue = "all"
   search = ""
   backIcon = faArrowLeft
+  deleteIcon = faTrash
   editIcon = faPenToSquare
   constructor(private http: NoAuthCalls, private router: Router, public dialog: MatDialog, private httpAuth: AuthCalls, private toast: ToastService){
     this.getAllDatas()

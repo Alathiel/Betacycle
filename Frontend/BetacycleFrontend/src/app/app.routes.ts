@@ -7,9 +7,12 @@ import { AdminLoginComponent } from './features/admin/admin-login/admin-login.co
 import { AdminMenuComponent } from './features/admin/admin-menu/admin-menu.component';
 import { LogsViewerComponent } from './features/admin/logs-viewer/logs-viewer.component';
 import { ProductsViewerComponent } from './features/admin/products-viewer/products-viewer.component';
+import {CartComponent} from './features/cart/cart.component';
 
 export const routes: Routes = [
+    
     {path: 'login', component: LoginComponent},
+    {path: 'cart', component: CartComponent},
     {path: 'home', component: HomeComponent},
     {path: 'settings', component:SettingsComponent},
     {path: 'address', component:AddressComponent},

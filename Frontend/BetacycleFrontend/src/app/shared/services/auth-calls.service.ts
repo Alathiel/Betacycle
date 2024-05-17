@@ -46,4 +46,8 @@ export class AuthCalls {
   {
     return this.http.put('https://localhost:7044/api/Products/PutProduct',product);
   }
+
+  getCart(){
+    return this.http.get('cart');
+  }
 }
