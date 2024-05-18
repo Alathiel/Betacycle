@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { HttpServicesService } from '../../shared/services/http-services.service';
 import { Credentials } from '../../shared/models/credentials';
 import { CommonModule } from '@angular/common';
@@ -13,22 +13,28 @@ import { RouterModule } from '@angular/router';
 import { Router } from '@angular/router';
 import {MatCardModule} from '@angular/material/card';
 import { AuthService } from '../../shared/services/Auth.service';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { RegisterFormComponent } from './register-form/register-form.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSlideToggleModule, MatButtonModule, MatFormFieldModule, MatInputModule, RouterModule, MatCardModule],
+  imports: [CommonModule, FormsModule, MatSlideToggleModule, MatButtonModule, MatFormFieldModule, MatInputModule, RouterModule, MatCardModule, LoginFormComponent, RegisterFormComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  status:string = "login"
   constructor(private http:HttpServicesService, public router: Router, private AuthService:AuthService){
     if(AuthService.getLoggedStatus()){
       this.router.navigate(['home'])
     }
   }
-
-  
+  changeForm(status:any) {
+    this.status = status
+    console.log(this.status)
+  }
+  @Output() newItemEvent = new EventEmitter<string>();
   credentials: Credentials = new Credentials();
   disabled: boolean = false;
   stayConnected: boolean = false;
