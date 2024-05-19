@@ -10,7 +10,9 @@
 
 .input-group{
     justify-content: center;
-    row-gap: 30px;
+    row-gap: 15px;
+    align-content: center;
+    flex-direction: column;
 }
 
 .title{

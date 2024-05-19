@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { Credentials } from '../../../shared/models/credentials';
 import { AuthService } from '../../../shared/services/Auth.service';
 import { HttpStatusCode } from '@angular/common/http';
@@ -22,8 +22,8 @@ export class LoginFormComponent {
     this.newItemEvent.emit(value);
   }
 
-  loginJwt(){
-    if(this.credentials.email.length > 6 && this.credentials.password.length > 8){
+  loginJwt(email: NgModel, password:NgModel){
+    if(email.valid && password.valid){
       this.http.LoginJWT(this.credentials).subscribe(resp => {
         console.log(resp)
         if(resp.status == HttpStatusCode.Ok){
