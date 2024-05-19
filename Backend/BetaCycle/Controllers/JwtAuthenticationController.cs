@@ -84,6 +84,7 @@ namespace BetaCycle.Controllers
                 temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
                 credential.Password = temp.Key;
                 credential.PasswordSalt = temp.Value;
+                credential.LastModified = DateOnly.FromDateTime(DateTime.Now);
                 _context.Credentials.Add(credential);
                 try
                 {

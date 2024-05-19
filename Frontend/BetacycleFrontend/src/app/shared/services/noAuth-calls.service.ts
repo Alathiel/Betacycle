@@ -23,4 +23,8 @@ export class NoAuthCalls {
         var params = new HttpParams().append(filter, value)
         return this.http.get('https://localhost:7044/api/Products/FilterProducts', {params: params, observe: 'response'});
     }
+
+    deleteUserData(id: number):Observable<any>{
+        return this.http.delete(`https://localhost:7044/api/Users/${id}`);
+    }
 }

@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   registerCredentials(credentials: Credentials):Observable<any>{
-    return this.http.post("https://localhost:7044/Authentication",credentials);
+    return this.http.post("https://localhost:7044/JwtAuthentication/Register",credentials);
   }
 
   registerUserData(user: User):Observable<any>{
