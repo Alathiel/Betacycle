@@ -15,6 +15,10 @@ export class NoAuthCalls {
         return this.http.get('https://localhost:7044/Categories');
     }
 
+    getModels():Observable<any>{
+        return this.http.get('https://localhost:7044/api/Models');
+    }
+
     getProducts(page:number):Observable<any>{
         var params = new HttpParams().append("pageNumber", page)
         return this.http.get('https://localhost:7044/api/Products/GetProducts', {params: params, observe: 'response'});

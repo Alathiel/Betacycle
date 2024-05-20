@@ -199,7 +199,8 @@ namespace BetaCycle.Controllers
         {
             Model model = await _context.Models.FindAsync(product.ModelId);
             Category category = await _context.Categories.FindAsync(product.CategoryId);
-
+            product.DateInsert = DateOnly.FromDateTime(DateTime.Now);
+            product.LastModify = product.DateInsert;
             if (category == null )
             {
                 return BadRequest();

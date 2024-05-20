@@ -8,11 +8,12 @@ import { Route, Router, RouterModule } from '@angular/router';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { NoAuthCalls } from '../../../shared/services/noAuth-calls.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogAnimationsExampleDialog } from './add-dialog/dialog-template.component';
+import { AddDialog } from './add-dialog/add-dialog.component';
 import { AuthCalls } from '../../../shared/services/auth-calls.service';
 import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
 import { ToastComponent } from '../../../shared/components/toast/toast.component';
-import { DeleteDialog } from './delete-dialog/dialog-template.component';
+import { DeleteDialog } from './delete-dialog/delete-dialog.component';
+import { EditDialog } from './edit-dialog/edit-dialog.component';
 
 @Component({
   selector: 'app-products-viewer',
@@ -105,7 +106,7 @@ export class ProductsViewerComponent {
   }
 
   editDialog(enterAnimationDuration: string, exitAnimationDuration: string, product:any): void {
-    const dialogRef = this.dialog.open(DialogAnimationsExampleDialog, {
+    const dialogRef = this.dialog.open(EditDialog, {
       enterAnimationDuration,
       exitAnimationDuration,
       data: product,
@@ -130,14 +131,14 @@ export class ProductsViewerComponent {
   }
 
   AddDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    const dialogRef = this.dialog.open(DialogAnimationsExampleDialog, {
+    const dialogRef = this.dialog.open(AddDialog, {
       enterAnimationDuration,
       exitAnimationDuration,
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined)
         if(result.state)
-        this.editProduct(result)
+        this.addProduct(result.productDatas)
     })
   }
 
@@ -160,6 +161,18 @@ export class ProductsViewerComponent {
       next: (response:any) => {
         //this.toast.showToast(TOAST_STATE.success, 'Operation Completed')
         window.location.reload();
+      },
+      error: (error:any) => {
+        console.log(error)
+        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      } 
+    })
+  }
+
+  addProduct(product:any){
+    this.httpAuth.addProduct(product).subscribe({
+      next: (response:any) => {
+        this.toast.showToast(TOAST_STATE.success, 'Operation Completed refresh to see changes')
       },
       error: (error:any) => {
         console.log(error)
