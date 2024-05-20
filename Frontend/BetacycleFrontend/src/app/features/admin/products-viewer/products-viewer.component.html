@@ -18,10 +18,21 @@
                 </div>
             </div>
 
+            <div (click)="AddModelDialog('0ms', '0ms')" class="clickable add-button">
+                <fa-icon [icon]='addIcon' title="Add product" style="padding-right: 10px;"></fa-icon>
+                <label class="logs-disable-button" class="clickable">Add model</label>
+            </div>
+
+            <div (click)="AddCategoryDialog('0ms', '0ms')" class="clickable add-button">
+                <fa-icon [icon]='addIcon' title="Add category" style="padding-right: 10px;"></fa-icon>
+                <label class="logs-disable-button" class="clickable">Add category</label>
+            </div>
+
             <div (click)="AddDialog('0ms', '0ms')" class="clickable add-button">
                 <fa-icon [icon]='addIcon' title="Add product" style="padding-right: 10px;"></fa-icon>
                 <label class="logs-disable-button" class="clickable">Add product</label>
             </div>
+            
         </div>
     
         <div class="viewer">

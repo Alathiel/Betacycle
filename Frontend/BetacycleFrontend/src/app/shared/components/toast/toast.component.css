@@ -16,6 +16,7 @@
     padding: 1.5rem;  
     border-radius: 4px;  
     font-size: 0.9rem;
+    background-color: white;
 }
 
 .error-toast{

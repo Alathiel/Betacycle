@@ -80,4 +80,14 @@ export class AuthCalls {
   {
     return this.http.post("https://localhost:7044/api/Products", product, {observe: 'response'});
   }
+
+  addCategory(category: any):Observable<any>
+  {
+    return this.http.post("https://localhost:7044/api/Categories", category, {observe: 'response'});
+  }
+
+  addModel(model: any):Observable<any>
+  {
+    return this.http.post("https://localhost:7044/api/Models", model, {observe: 'response'});
+  }
 }

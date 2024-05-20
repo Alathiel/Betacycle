@@ -14,7 +14,8 @@ import { TOAST_STATE, ToastService } from '../../../shared/services/toast.servic
 import { ToastComponent } from '../../../shared/components/toast/toast.component';
 import { DeleteDialog } from './delete-dialog/delete-dialog.component';
 import { EditDialog } from './edit-dialog/edit-dialog.component';
-
+import { AddCategoryDialogComponent } from './add-category-dialog/add-category-dialog.component';
+import { AddModelDialogComponent } from './add-model-dialog/add-model-dialog.component';
 @Component({
   selector: 'app-products-viewer',
   standalone: true,
@@ -114,7 +115,11 @@ export class ProductsViewerComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined)
         if(result.state)
-        this.editProduct(result)
+          this.editProduct(result)
+        else
+          this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      else
+        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
     })
   }
 
@@ -126,7 +131,11 @@ export class ProductsViewerComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined)
         if(result)
-        this.deleteProduct(product)
+          this.deleteProduct(product)
+        else
+          this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      else
+        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
     })
   }
 
@@ -138,7 +147,67 @@ export class ProductsViewerComponent {
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined)
         if(result.state)
-        this.addProduct(result.productDatas)
+          this.addProduct(result.productDatas)
+        else
+          this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      else
+        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+    })
+  }
+
+  AddCategoryDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef = this.dialog.open(AddCategoryDialogComponent, {
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result !== undefined)
+        if(result.state)
+          this.addCategory(result.category);
+        else
+          this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      else
+        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+    })
+  }
+
+  AddModelDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef = this.dialog.open(AddModelDialogComponent, {
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result !== undefined)
+        if(result.state)
+          this.addModel(result.model)
+        else
+          this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      else
+        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+    })
+  }
+
+  addModel(model:any){
+    this.httpAuth.addModel(model).subscribe({
+      next: (response:any) => {
+        this.toast.showToast(TOAST_STATE.success, 'Operation Completed')
+      },
+      error: (error:any) => {
+        console.log(error)
+        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      }
+    })
+  }
+
+  addCategory(category:any){
+    this.httpAuth.addCategory(category).subscribe({
+      next: (response:any) => {
+        this.toast.showToast(TOAST_STATE.success, 'Operation Completed')
+      },
+      error: (error:any) => {
+        console.log(error)
+        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      }
     })
   }
 
