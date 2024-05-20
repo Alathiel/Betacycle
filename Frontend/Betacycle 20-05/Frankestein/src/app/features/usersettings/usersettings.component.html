@@ -1,0 +1,377 @@
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+        aria-expanded="true" aria-controls="collapseOne">
+        Indirizzi
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body" *ngFor="let a of getaddress">
+        <strong>
+          Address: {{a.address1}} -
+          City: {{a.city}} -
+          Province: {{a.province}} -
+          Nation: {{a.nation}} -
+          CAP: {{a.cap}}
+        </strong>
+        <button (click)="GoToUpdateAddress(a)" class="btn btn-outline-primary my-2 my-sm-0">Modify Address
+        </button>
+        <button (click)="DeleteAddress(a.addressId,a.userId)" class="btn btn-outline-danger  my-2 my-sm-0">Elimina
+        </button>
+      </div>
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+        aria-expanded="true" aria-controls="collapseTwo">Aggiungi Indirizzo</button>
+      <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#collapseOne">
+        <div class="accordion-body">
+          <form #postAddress (submit)="AddAddress()">
+            <div class="form-group col-md-6">
+              <label for="Indirizzo">Indirizzo </label>
+              <input type="text" class="form-control" placeholder="Via/Viale/Corso ecc..." matInput #address1 ngModel
+                [(ngModel)]="newAddress.address1" name="address1" required minlength="1">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="Citta">Città</label>
+              <input type="text" class="form-control" placeholder="Città" matInput #city [(ngModel)]="newAddress.city"
+                name="city" required minlength="1">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="Provincia">Provincia</label>
+              <input type="text" class="form-control" placeholder="Città" matInput #province
+                [(ngModel)]="newAddress.province" name="province" required minlength="1">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="Cap">CAP</label>
+              <input type="text" class="form-control" placeholder="Città" matInput #cap [(ngModel)]="newAddress.cap"
+                name="cap" required minlength="1">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="Nazione">Nazione</label>
+              <input type="text" class="form-control" placeholder="Città" matInput #nation
+                [(ngModel)]="newAddress.nation" name="nation" required minlength="1">
+            </div>
+            <div class="col-md-12 text-center ">
+              <button type="submit" class="btn btn-primary">Conferma</button>
+            </div>
+            <div class="col-md-12 ">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3"
+      aria-expanded="true" aria-controls="collapse3">
+      Aggiorna Anagrafica
+    </button>
+    <div id="collapse3" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <form #updateUserForm="ngForm" (submit)="UpdateUser()">
+          <div class="form-group">
+            <label for="firstName">Nome </label>
+            <input class="form-control " matInput #name [(ngModel)]="newUser.firstName" name="name" required
+              minlength="1" placeholder="Nome">
+          </div>
+          <div class="form-group">
+            <label for="lastName">Cognome </label>
+            <input class="form-control " matInput #lastName [(ngModel)]="newUser.lastName" name="lastName" required
+              minlength="1" placeholder="Cognome">
+          </div>
+          <div class="form-group">
+            <label for="birthDate">Data di nascita </label>
+            <input type="date" class="form-control " matInput #birthDate [(ngModel)]="newUser.birthDate"
+              name="birthDate" required placeholder="Data di Nascita">
+          </div>
+          <div class="form-group">
+            <label for="phone">Telefono</label>
+            <input class="form-control " matInput #phone [(ngModel)]="newUser.phone" name="phone" required minlength="1"
+              placeholder="Telefono">
+          </div>
+          <div class="col-md-12 text-center ">
+            <button type="submit" class="btn btn-primary">Aggiorna</button>
+          </div>
+          <div class="col-md-12 ">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4"
+      aria-expanded="true" aria-controls="collapse4">
+      Aggiorna Email
+    </button>
+    <div id="collapse4" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <form #updateCredForm="ngForm" (submit)="UpdateCredentialsEmail()">
+          <div class="form-group">
+            <label for="Email">Email </label>
+            <input class="form-control " matInput #email [(ngModel)]="newCred.email" name="email" required
+              minlength="1" placeholder="Email">
+          </div>
+          <div class="col-md-12 text-center ">
+            <button type="submit" class="btn btn-primary">Aggiorna</button>
+          </div>
+          <div class="col-md-12 ">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5"
+      aria-expanded="true" aria-controls="collapse5">
+      Aggiorna Password
+    </button>
+    <div id="collapse5" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <form #updatePasswordForm="ngForm" (submit)="UpdateCredentialsPassword()">
+          <div class="form-group">
+            <label for="password">Password </label>
+            <input class="form-control " matInput #password [(ngModel)]="newPassword" name="password" required
+              minlength="1" placeholder="Password" type="password">
+          </div>
+          <div class="col-md-12 text-center ">
+            <button type="submit" class="btn btn-primary">Aggiorna</button>
+          </div>
+          <div class="col-md-12 ">
+          </div>
+        </form>
+      </div>
+    </div>
+
+  <!--div class="container light-style flex-grow-1 container-p-y" style="margin-top: 100px;">
+
+  <h4 class="font-weight-bold py-3 mb-4">
+    Impostazioni account
+  </h4>
+
+  <div class="card overflow-hidden">
+    <div class="row no-gutters row-bordered row-border-light">
+      <div class="col-md-3 pt-0">
+        <div class="list-group list-group-flush account-settings-links">
+          <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">General</a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Change password</a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Social links</a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-connections">Connections</a>
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-notifications">Notifications</a>
+        </div>
+      </div>
+      
+      <div class="col-md-9">
+        <div class="tab-content">
+          <ng-template #tmplGeneral>
+          <div class="tab-pane fade active show" id="account-general">
+            <div class="card-body">
+
+              <div class="form-group">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-control" [(ngModel)]="user.firstName">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Cognome</label>
+                <input type="text" class="form-control" [(ngModel)]="user.lastName">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Data di nascita</label>
+                <input type="date" class="form-control mb-1" [(ngModel)]="user.birthDate">
+
+              </div>
+            </div>
+
+          </div>
+          </ng-template>
+          <div class="tab-pane fade" id="account-change-password">
+            <div class="card-body pb-2">
+
+              <div class="form-group">
+                <label class="form-label">Current password</label>
+                <input type="password" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">New password</label>
+                <input type="password" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Repeat new password</label>
+                <input type="password" class="form-control">
+              </div>
+
+            </div>
+          </div>
+          <div class="tab-pane fade" id="account-info">
+            <div class="card-body pb-2">
+
+              <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea class="form-control" rows="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nunc arcu, dignissim sit amet sollicitudin iaculis, vehicula id urna. Sed luctus urna nunc. Donec fermentum, magna sit amet rutrum pretium, turpis dolor molestie diam, ut lacinia diam risus eleifend sapien. Curabitur ac nibh nulla. Maecenas nec augue placerat, viverra tellus non, pulvinar risus.</textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Birthday</label>
+                <input type="text" class="form-control" value="May 3, 1995">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Country</label>
+                <select class="custom-select">
+                  <option>USA</option>
+                  <option selected="">Canada</option>
+                  <option>UK</option>
+                  <option>Germany</option>
+                  <option>France</option>
+                </select>
+              </div>
+
+
+            </div>
+            <hr class="border-light m-0">
+            <div class="card-body pb-2">
+
+              <h6 class="mb-4">Contacts</h6>
+              <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-control" value="+0 (123) 456 7891">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Website</label>
+                <input type="text" class="form-control" value="">
+              </div>
+
+            </div>
+    
+          </div>
+          <div class="tab-pane fade" id="account-social-links">
+            <div class="card-body pb-2">
+
+              <div class="form-group">
+                <label class="form-label">Twitter</label>
+                <input type="text" class="form-control" value="https://twitter.com/user">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Facebook</label>
+                <input type="text" class="form-control" value="https://www.facebook.com/user">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Google+</label>
+                <input type="text" class="form-control" value="">
+              </div>
+              <div class="form-group">
+                <label class="form-label">LinkedIn</label>
+                <input type="text" class="form-control" value="">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Instagram</label>
+                <input type="text" class="form-control" value="https://www.instagram.com/user">
+              </div>
+
+            </div>
+          </div>
+          <div class="tab-pane fade" id="account-connections">
+            <div class="card-body">
+              <button type="button" class="btn btn-twitter">Connect to <strong>Twitter</strong></button>
+            </div>
+            <hr class="border-light m-0">
+            <div class="card-body">
+              <h5 class="mb-2">
+                <a href="javascript:void(0)" class="float-right text-muted text-tiny"><i class="ion ion-md-close"></i> Remove</a>
+                <i class="ion ion-logo-google text-google"></i>
+                You are connected to Google:
+              </h5>
+              
+            </div>
+            <hr class="border-light m-0">
+            <div class="card-body">
+              <button type="button" class="btn btn-facebook">Connect to <strong>Facebook</strong></button>
+            </div>
+            <hr class="border-light m-0">
+            <div class="card-body">
+              <button type="button" class="btn btn-instagram">Connect to <strong>Instagram</strong></button>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="account-notifications">
+            <div class="card-body pb-2">
+
+              <h6 class="mb-4">Activity</h6>
+
+              <div class="form-group">
+                <label class="switcher">
+                  <input type="checkbox" class="switcher-input" checked="">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes"></span>
+                    <span class="switcher-no"></span>
+                  </span>
+                  <span class="switcher-label">Email me when someone comments on my article</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label class="switcher">
+                  <input type="checkbox" class="switcher-input" checked="">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes"></span>
+                    <span class="switcher-no"></span>
+                  </span>
+                  <span class="switcher-label">Email me when someone answers on my forum thread</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label class="switcher">
+                  <input type="checkbox" class="switcher-input">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes"></span>
+                    <span class="switcher-no"></span>
+                  </span>
+                  <span class="switcher-label">Email me when someone follows me</span>
+                </label>
+              </div>
+            </div>
+            <hr class="border-light m-0">
+            <div class="card-body pb-2">
+
+              <h6 class="mb-4">Application</h6>
+
+              <div class="form-group">
+                <label class="switcher">
+                  <input type="checkbox" class="switcher-input" checked="">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes"></span>
+                    <span class="switcher-no"></span>
+                  </span>
+                  <span class="switcher-label">News and announcements</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label class="switcher">
+                  <input type="checkbox" class="switcher-input">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes"></span>
+                    <span class="switcher-no"></span>
+                  </span>
+                  <span class="switcher-label">Weekly product updates</span>
+                </label>
+              </div>
+              <div class="form-group">
+                <label class="switcher">
+                  <input type="checkbox" class="switcher-input" checked="">
+                  <span class="switcher-indicator">
+                    <span class="switcher-yes"></span>
+                    <span class="switcher-no"></span>
+                  </span>
+                  <span class="switcher-label">Weekly blog digest</span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-right mt-3">
+    <button type="button" class="btn btn-primary">Save changes</button>&nbsp;
+    <button type="button" class="btn btn-default">Cancel</button>
+  </div>
+
+</div-->

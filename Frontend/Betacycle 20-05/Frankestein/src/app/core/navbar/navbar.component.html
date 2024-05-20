@@ -1,0 +1,104 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light"> <!--style="background-color: #776BCC;-->
+  <a class="navbar-brand" routerLink="/home">
+      <img src="../../../assets/intestazione.png" width="150" height="40" class="d-inline-block align-top" alt="">
+  </a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li>
+          <input class="form-control" type="search" placeholder="Search" aria-label="Search" #search>   
+      </li>
+      <li>
+          <button class="btn btn-outline-warning my-2 my-sm-0" >Search</button>
+      </li>
+      <li *ngIf="isLogged === false" class="nav-item ">
+          <a aria-current="page" class="nav-link" routerLink="/login" >Login</a>
+      </li>
+      <!-- <li *ngIf="isLogged === true" class="nav-item dropdown">
+          <div class="dropdown">
+            <div class="dropdown-content">
+              <a >Cart</a>
+              <a href="#" (click)="LogOut()">Logout</a>
+            </div>
+          </div>
+        </li> -->
+      <li class="nav-item ">
+        <a aria-current="page" class="nav-link" routerLink="/products">Products</a>
+    </li>
+    <li *ngIf="isLogged === true" class="nav-item dropdown">
+      <div class="dropdown">
+        <button class="dropbtn">{{user.firstName}} {{user.lastName}}</button>
+        <div class="dropdown-content">
+          <a style="cursor: pointer;" (click)="GoToUserSettings()">Settings</a>
+          <a >Cart</a>
+          <a href="#" (click)="LogOut()">Logout</a>
+        </div>
+      </div>
+    </li>
+    </ul>
+  </div>
+</nav>
+
+<router-outlet></router-outlet> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary" id="principale">
+  <img src="assets/intestazione.png" alt="" routerLink="/home">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="login">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" *ngIf="!authStatus.getLoginStatus()" routerLink="/loginjwt"><i class="bi bi-person-fill">Login</i></a>
+          </li>
+        </ul>
+
+
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="Product">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLinkActive="true" routerLink="/product"> <i class="bi bi-bag-fill"> Prodotti</i></a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a *ngIf="authStatus.getLoginStatus()" class="nav-link active" aria-current="page" routerLink="/sale"><i class="bi bi-cart3"></i> Carrello</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 logout">
+          <li class="nav-item">
+            <a class="nav-link active" *ngIf="authStatus.getLoginStatus()" (click)="authStatus.logout()" style="color: red" > <i class="bi bi-box-arrow-left"></i> Logout</a>            
+          </li>
+        </ul>
+
+      </ul>
+    </div>
+   
+    <div class="container-fluid" id="diminuire">
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Cerca..." aria-label="Search">
+        <button type="button" class="btn"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+            fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+</nav> -->
