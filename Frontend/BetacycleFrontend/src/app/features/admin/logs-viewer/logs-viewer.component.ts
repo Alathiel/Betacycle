@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Route, Router, RouterModule } from '@angular/router';
 import { AuthCalls } from '../../../shared/services/auth-calls.service';
 
@@ -18,32 +18,77 @@ export class LogsViewerComponent {
   logs: any;
   selectedValue = "all"
   search = ""
-  backIcon = faArrowLeft
+  currentLogs = 0;
+  totalLogs = 0
+  logsLoaded = 0;
+  page = 1
+  backIcon = faHome
+  loggingState = true;
   constructor(private http: AuthCalls, private router: Router){
-    http.getLogs().subscribe({
-      next: (jsData:any) => {
-        this.logs = jsData.body.$values
+    this.http.getLoggingState().subscribe({
+      next: (response:any) => {
+        this.loggingState = response
       },
       error: (error:any) => {
         console.log(error);
       }
-    })
+    });
+    this.getAllLogs();
   }
 
-  filter(){
+  filter(temp:string = 'a'){
+    if(temp === 'b'){
+      this.page = 1}
     if(this.selectedValue === "all")
-      this.http.getLogs().subscribe((resp) => {this.logs = resp.body.$values})
+      this.getAllLogs();
     else
     {
-      this.http.getLogsByFilter(this.search, this.selectedValue).subscribe({
+      this.http.getLogsByFilter(this.search, this.selectedValue, this.page).subscribe({
         next: (jsData:any) => {
-            this.logs = jsData.body.$values
+            this.logs = jsData.body.logs.$values
+            this.logsLoaded = this.logs.length
+            this.totalLogs = jsData.body.totalLogs
         },
         error: (error:any) => {
           console.log(error);
         }
       })
     }
+  }
+
+  toggleLogging(){
+    this.http.toggleLogging().subscribe((response) => console.log(response));
+    this.http.getLoggingState().subscribe((response) => this.loggingState = response)
+  }
+
+  prev(){
+    if(this.page > 1)
+    {
+      this.page--;
+      this.filter();
+    }
+  }
+
+  next(){
+    if(this.page < this.totalLogs/10)
+    {
+      this.page++;
+      this.filter();
+    }
+  }
+
+  getAllLogs(){
+    this.http.getLogs(this.page).subscribe({
+      next: (jsData:any) => {
+        this.logs = jsData.body.logs.$values
+        this.logsLoaded = this.logs.length
+        this.totalLogs = jsData.body.totalLogs
+        
+      },
+      error: (error:any) => {
+        console.log(error);
+      }
+    })
   }
 
   redirect(route: string){

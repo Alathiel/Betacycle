@@ -42,9 +42,15 @@ namespace BetaCycle.Controllers
             try
             {
                 var products = await _context.Products.Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                var totalProducts = await _context.Products.LongCountAsync();
+
                 if(products == null || products.Count<=0)
                     return NotFound();
-                return products;
+                return Ok(new
+                {
+                    products = products,
+                    totalProducts = totalProducts
+                });
             }
             catch (Exception e)
             {
@@ -66,18 +72,27 @@ namespace BetaCycle.Controllers
             try
             {
                 List<Product> products = [];
-                if(productName != "")
+                long totalProducts = 0;
+                if (productName != "")
                 {
                     //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
                     products = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower()))
                         .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                    totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())).LongCountAsync();
                 }
                 else if(id != 0)
+                {
                     products = await _context.Products.Where(product => product.ProductId == id).ToListAsync();
+                    totalProducts = await _context.Products.Where(product => product.ProductId == id).LongCountAsync();
+                }
                 //if (products == null || products.Count<=0)
                 //    return NotFound();
-                return products;
+                return Ok(new
+                {
+                    products = products,
+                    totalProducts = totalProducts
+                });
             }
             catch (Exception e)
             {
@@ -201,7 +216,7 @@ namespace BetaCycle.Controllers
 
         // DELETE: api/Products/5
         [Authorize(Policy = "Admin")]
-        [HttpDelete("{id}")]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteProduct(long id)
         {
             var product = await _context.Products.FindAsync(id);

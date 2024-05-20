@@ -1,47 +1,69 @@
 <div class="main-container">
-
-    <div>
-        
-        <fa-icon [icon]="backIcon" (click)="redirect('admin-menu')"  title="Home"></fa-icon>
-        <!-- <select [(ngModel)]="selectedValue">
-            
-            <option  value="all" hidden disabled selected>Category</option>
-            <option *ngFor="let c of categories" [value]="c.name">{{c.name}}</option>
-          </select> -->
-        <select [(ngModel)]="selectedValue">
-            <option  value="all" hidden disabled selected>Filters</option>
-            <option value="ProductName">ProductName</option>
-            <option value="id">Id</option>
-        </select>
-        <input type="text" [(ngModel)]="search"  (keydown.enter)="filter()">
-        <button (click)="filter()">Search</button> 
-        
-    </div>
-    <div class="viewer">
-        <ng-container *ngIf="products != undefined">
-            <details *ngFor="let item of products">
-                <summary><label style="font-weight: bold;">[{{item.productId}} - {{item.productName}}]</label></summary>
-                <div style="display: flex; flex-direction: column;">
-                    <div *ngFor="let l of item | keyvalue">
-                    <!-- <label *ngIf="l.key!='carts' && l.key!='category' && l.key!='model' && l.key!='storages' && l.key!='transactions'">{{l.key}}: {{l.value}}</label></div> -->
-                        <div *ngIf="!checkValue(l)"> 
-                            <label>{{l.key}}: {{l.value}}</label> 
-                        </div>
-                    </div>
-                    <div style="display:flex; flex-direction: row;">
-                        <div class="clickable" (click)="openDialog('0ms', '0ms', item)">
-                            <fa-icon class="clickable" [icon]="editIcon"></fa-icon>
-                            <label class="clickable" >Edit</label>
-                        </div>
-                        <div class="clickable" (click)="openDialog('0ms', '0ms', item)">
-                            <fa-icon class="clickable" [icon]="deleteIcon"></fa-icon>
-                            <label class="clickable" >Delete</label>
-                        </div>
-                    </div>
-                    <hr>
+    <div class="wrapper">
+        <div class="header">
+            <div (click)="redirect('admin-menu')" class="clickable" style="display: flex; flex-direction: row;">
+            <fa-icon [icon]="backIcon" title="Home"></fa-icon>
+            <label class="clickable" style="padding-left: 10px;">Home</label>
+            </div>
+    
+            <div class="search-bar">
+                <div  class="input-wrapper">
+                <select class="search-select" [(ngModel)]="selectedValue">
+                    <option  value="all" hidden disabled selected>Filters</option>
+                    <option value="ProductName">ProductName</option>
+                    <option value="id">Id</option>
+                </select>
+                <input type="text" style="height: 100%;" [(ngModel)]="search"  (keydown.enter)="filter('bb')">
+                <button  class="search-button" (click)="filter('bb')">Search</button>
                 </div>
-            </details>
-        </ng-container>
+            </div>
+
+            <div (click)="AddDialog('0ms', '0ms')" style="display: flex; flex-direction: row; width: 200px; border-radius: 15px; border: 1px solid #4c7a91; justify-content: center; height: 50px; align-items: center; background-color: #51829B; color: white;" class="clickable">
+                <fa-icon [icon]='addIcon' title="Add product" style="padding-right: 10px;"></fa-icon>
+                <label class="logs-disable-button" class="clickable">Add product</label>
+            </div>
+        </div>
+    
+        <div class="viewer">
+            <ng-container *ngIf="products != undefined">
+                <details *ngFor="let item of products">
+                    <summary><label style="font-weight: bold;">[{{item.productId}} - {{item.productName}}]</label></summary>
+                    <div style="display: flex; flex-direction: column;">
+                        <div *ngFor="let l of item | keyvalue">
+                        <!-- <label *ngIf="l.key!='carts' && l.key!='category' && l.key!='model' && l.key!='storages' && l.key!='transactions'">{{l.key}}: {{l.value}}</label></div> -->
+                            <div *ngIf="!checkValue(l)"> 
+                                <label>{{l.key}}: {{l.value}}</label> 
+                            </div>
+                        </div>
+                        <div style="display:flex; flex-direction: row;">
+                            <div class="clickable" (click)="editDialog('0ms', '0ms', item)">
+                                <fa-icon class="clickable" [icon]="editIcon"></fa-icon>
+                                <label class="clickable" >Edit</label>
+                            </div>
+                            <div class="clickable" (click)="deleteDialog('0ms', '0ms', item)">
+                                <fa-icon class="clickable" [icon]="deleteIcon"></fa-icon>
+                                <label class="clickable" >Delete</label>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </details>
+            </ng-container>
+        </div>
+
+        <div class="footer">
+            <div>
+                <ng-container *ngIf="totalProducts==0"> <label>Showing products {{0}} - {{totalProducts}} of {{totalProducts}}</label>  </ng-container>
+                <ng-container *ngIf="totalProducts<10 && totalProducts!=0"> <label>Showing products {{page}} - {{totalProducts}} of {{totalProducts}}</label>  </ng-container>
+                <ng-container *ngIf="page == 1 && totalProducts>=10"> <label>Showing products {{page}} - {{page*10}} of {{totalProducts}}</label>  </ng-container>
+                <ng-container *ngIf="page > 1 && totalProducts>=10"> <label>Showing products {{(page-1)*10}} - {{((page-1)*10)+loadedProducts}} of {{totalProducts}}</label>  </ng-container>
+            </div>
+        <div class="page-navigator-wrapper">
+                <a (click)="prev()" style="font-size: 1.4em; cursor: pointer;">Prev</a>
+                -
+                <a (click)="next()" style="font-size: 1.4em; cursor: pointer;">Next</a>
+            </div>
+        </div>
     </div>
     <app-toast></app-toast>
 </div>

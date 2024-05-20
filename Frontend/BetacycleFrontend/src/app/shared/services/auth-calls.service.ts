@@ -31,14 +31,17 @@ export class AuthCalls {
     return this.http.get('https://localhost:7044/api/Users/Addresses', {params: params, observe: 'response'});
   }
 
-  getLogs():Observable<any>{
-    return this.http.get('https://localhost:7044/api/Logs', {observe: 'response'});
+  getLogs(page:number):Observable<any>{
+    var params = new HttpParams()
+        .append("pageNumber", page)
+    return this.http.get('https://localhost:7044/api/Logs', {params: params, observe: 'response'});
   }
 
-  getLogsByFilter(value: string, filter: string):Observable<any>{
+  getLogsByFilter(value: string, filter: string, page:number):Observable<any>{
     var params = new HttpParams()
         .append("filterC", filter)
         .append("value", value)
+        .append("pageNumber", page)
     return this.http.get('https://localhost:7044/api/Logs/GetFilteredLogs', {params: params, observe: 'response'});
   }
 
@@ -49,5 +52,27 @@ export class AuthCalls {
 
   getCart(){
     return this.http.get('cart');
+  }
+
+  getLogsNumber():Observable<any>
+  {
+    return this.http.get('https://localhost:7044/api/Logs/GetLogsNumber');
+  }
+
+  deleteProduct(id:string):Observable<any>
+  {
+    var params = new HttpParams()
+      .append("id", id)
+    return this.http.delete('https://localhost:7044/api/Products/DeleteProduct',{params: params, observe: 'response'});
+  }
+
+  getLoggingState():Observable<any>
+  {
+    return this.http.get('https://localhost:7044/api/Logs/GetLoggingStatus');
+  }
+
+  toggleLogging():Observable<any>
+  {
+    return this.http.get('https://localhost:7044/api/Logs/ToggleLogging',{observe: 'response'});
   }
 }

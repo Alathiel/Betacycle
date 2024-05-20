@@ -15,12 +15,15 @@ export class NoAuthCalls {
         return this.http.get('https://localhost:7044/Categories');
     }
 
-    getProducts():Observable<any>{
-        return this.http.get('https://localhost:7044/api/Products/GetProducts', {observe: 'response'});
+    getProducts(page:number):Observable<any>{
+        var params = new HttpParams().append("pageNumber", page)
+        return this.http.get('https://localhost:7044/api/Products/GetProducts', {params: params, observe: 'response'});
     }
 
-    getFilteredProducts(filter: string, value: string):Observable<any>{
-        var params = new HttpParams().append(filter, value)
+    getFilteredProducts(filter: string, value: string, page:number):Observable<any>{
+        var params = new HttpParams()
+        .append(filter, value)
+        .append("pageNumber", page)
         return this.http.get('https://localhost:7044/api/Products/FilterProducts', {params: params, observe: 'response'});
     }
 

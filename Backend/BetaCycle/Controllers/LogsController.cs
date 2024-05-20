@@ -37,12 +37,15 @@ namespace BetaCycle.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetLogs(int pageNumber = 1)
         {
+            long totalLogs = 0;
             List<Models.Mongo.Log> logs = [];
             if (pageNumber <= 0)
                 pageNumber = 1;
             try
             {
                 var bson = await mongoBsCollection.Find(obj => true).Skip((pageNumber - 1) * 10).Limit(10).ToListAsync();
+                totalLogs = await mongoBsCollection.CountDocumentsAsync(boj => true);
+
                 foreach (var val in bson)
                 {
                     var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
@@ -73,13 +76,19 @@ namespace BetaCycle.Controllers
                 }).Log();
                 return BadRequest("Unexpected error has been encountered");
             }
-            return logs;
+            return Ok(new
+            {
+                logs = logs,
+                totalLogs = totalLogs
+
+            });
         }
 
         [Authorize(Policy = "Admin")]
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetFilteredLogs(string value="", string filterC="Date", int pageNumber = 1)
         {
+            long totalLogs = 0;
             List<Models.Mongo.Log> logs = [];
             try
             {
@@ -92,6 +101,7 @@ namespace BetaCycle.Controllers
                 if (pageNumber <= 0)
                     pageNumber = 1;
                 var bson = await mongoBsCollection.Find(filter).Skip((pageNumber - 1) * 10).Limit(10).ToListAsync();
+                totalLogs = await mongoBsCollection.CountDocumentsAsync(filter);
 
                 foreach (var val in bson)
                 {
@@ -124,7 +134,12 @@ namespace BetaCycle.Controllers
                 return BadRequest("Unexpected error has been encountered");
             }
 
-            return logs;
+            return Ok(new
+            {
+                logs = logs,
+                totalLogs = totalLogs
+
+            });
         }
 
         [Authorize(Policy = "Admin")]
@@ -176,7 +191,7 @@ namespace BetaCycle.Controllers
         }
 
         [Authorize(Policy = "Admin")]
-        [HttpPost("[action]")]
+        [HttpGet("[action]")]
         public ActionResult ToggleLogging()
         {
             if (LogManager.IsLoggingEnabled())
