@@ -1,0 +1,10 @@
+<div class="main-container">
+    <div class="content-container">
+        <h2>Prodotti presenti nel carrello</h2>
+        <hr>
+        <ng-container *ngFor="let product of cart">
+            <app-product-section [product]="product"></app-product-section>
+        </ng-container>
+    </div>
+
+</div>

@@ -1,7 +1,9 @@
 export class User{
-    fullName: string = ""
+    name: string = ""
+    firstName: string = ""
+    lastName: string = ""
     email: string = ""
-    birthDate: string = '2021-07-12'
+    birthDate: string = 'gg-mm-yyyy'
     phone: string = ""
     security: number = 0
 }

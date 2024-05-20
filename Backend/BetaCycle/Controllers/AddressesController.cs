@@ -38,24 +38,13 @@ namespace BetaCycle.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Address>> GetAddress(long id)
         {
-            try
+            var address = await _context.Addresses.FindAsync(id);
+            if (address == null)
             {
-                var address = await _context.Addresses.FindAsync(id);
-                if (address == null)
-                {
-                    return NotFound();
-                }
-                return address;
+                return NotFound();
             }
-            catch(Exception e)
-            {
-                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
-                {
-                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    new ("Exception", e),
-                }).Log();
-                return BadRequest("Unexpected error has been encountered");
-            }
+
+            return address;
         }
 
         #endregion

@@ -7,8 +7,9 @@
         public string? SecretKey { get; set; }
     }
 
-    public class JwtAdminSettings:JwtSettings
+    public class JwtAdminSettings: JwtSettings
     {
         public int ExpirationMinutes { get; set; }
     }
+
 }

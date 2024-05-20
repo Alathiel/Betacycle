@@ -159,18 +159,18 @@ public partial class BetacycleContext : DbContext
             entity.Property(e => e.Culture)
                 .HasMaxLength(5)
                 .IsUnicode(false);
-            entity.Property(e => e.DateInsert).HasColumnType("datetime");
             entity.Property(e => e.Description)
                 .HasMaxLength(1000)
                 .IsUnicode(false);
-            entity.Property(e => e.LastModify).HasColumnType("datetime");
             entity.Property(e => e.ProductName)
                 .HasMaxLength(30)
                 .IsUnicode(false);
             entity.Property(e => e.ProductNumber)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.Rowguid).HasColumnName("rowguid");
+            entity.Property(e => e.ThumbnailPhotoFileName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)

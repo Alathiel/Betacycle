@@ -1,0 +1,40 @@
+.toast-class{ 
+    position: absolute;
+    top: 0;
+    right: 0rem;  
+    margin: 2rem;  
+    display: inline-flex;  
+    min-width: 260px;    
+    min-height: 70px;  
+    max-height: 70px;  
+    box-shadow: 6px 6px 12px #00000040;  
+  
+    flex-flow: row nowrap;  
+    align-items: center;  
+    justify-content: space-between;  
+    border-left: 6px solid black;  
+    padding: 1.5rem;  
+    border-radius: 4px;  
+    font-size: 0.9rem;
+}
+
+.error-toast{
+    border-left: 6px solid red
+}
+
+.success-toast{
+    border-left: 6px solid green
+}
+
+.warning-toast{
+    border-left: 6px solid yellow
+}
+
+.msg-toast{
+    border-left: 6px solid gray
+}
+
+
+a:hover{
+    cursor: pointer;
+}

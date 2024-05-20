@@ -27,11 +27,13 @@ public partial class Product
 
     public long CategoryId { get; set; }
 
-    public DateTime DateInsert { get; set; }
+    public DateOnly DateInsert { get; set; }
 
-    public DateTime LastModify { get; set; }
+    public DateOnly LastModify { get; set; }
 
-    public Guid Rowguid { get; set; }
+    public byte[]? ThumbnailPhoto { get; set; }
+
+    public string? ThumbnailPhotoFileName { get; set; }
 
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 

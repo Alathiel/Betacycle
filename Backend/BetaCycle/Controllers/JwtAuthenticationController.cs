@@ -20,8 +20,7 @@ namespace BetaCycle.Controllers
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         private readonly BetaSecurityContext _context;
-        private JwtSettings _jwtSettings;
-        private JwtAdminSettings _jwtAdminSettings;
+        private JwtSettings _jwtSettings, _jwtAdminSettings;
         private JwtToken token;
         public JwtAuthenticationController(JwtSettings jwtSettings, JwtAdminSettings jwtAdminSettings, BetaSecurityContext context)
         {
@@ -85,6 +84,7 @@ namespace BetaCycle.Controllers
                 temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
                 credential.Password = temp.Key;
                 credential.PasswordSalt = temp.Value;
+                credential.LastModified = DateOnly.FromDateTime(DateTime.Now);
                 _context.Credentials.Add(credential);
                 try
                 {

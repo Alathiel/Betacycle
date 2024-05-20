@@ -101,6 +101,28 @@ namespace BetaCycle.Controllers
         #endregion
 
 
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> PutAddress(Address address)
+        {
+
+            if (await _context.Addresses.FindAsync(address.AddressId) == null)
+            {
+                return NotFound();
+            }
+
+            _context.Entry(address).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Property("userId", 1).Log();
+            }
+
+            return NoContent();
+        }
 
 
         // PUT: api/Users/5

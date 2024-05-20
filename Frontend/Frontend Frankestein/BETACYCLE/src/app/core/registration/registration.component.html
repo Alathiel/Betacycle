@@ -1,0 +1,23 @@
+<form  #formRegister='ngForm'  (submit)="register()">
+    <mat-card style="max-width: 50%; max-height: fit-content; align-items: center;">
+        <mat-card-header>
+          <mat-card-title >Register</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="" alt="">
+        <mat-card-content>
+            
+                
+            <input matInput #name [(ngModel)]="newUser.firstName" name="name" required minlength="1" placeholder="name">
+            <input matInput #surname [(ngModel)]="newUser.lastName" name="surname" required minlength="1" placeholder="surname">
+            <input type ="date" matInput #birthDate [(ngModel)]="newUser.birthDate" name="birthDate" required  placeholder="Data di Nascita">
+            <input matInput #nemail [(ngModel)]="newCredentials.email" name="nemail" required minlength="1" placeholder="email">
+            <input matInput #npw [(ngModel)]="newCredentials.password" name="npw" required  minlength="1"  placeholder="password" type="password">
+            
+           
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button type="submit">Register</button>
+        </mat-card-actions>
+      </mat-card>
+</form>
