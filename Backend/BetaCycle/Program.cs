@@ -12,9 +12,11 @@ using BetaCycle.BLogic;
 using System.Configuration;
 using NLog.Extensions.Logging;
 using System;
+using System.Drawing;
 using Microsoft.Extensions.Options;
 using BetaCycle.Models.Mongo;
 using System.Security.Claims;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BetaCycle
 {
@@ -44,7 +46,7 @@ namespace BetaCycle
                 JwtAdminSettings? jwtSettingsAdmin = builder.Configuration.GetSection("JwtAdminSettings").Get<JwtAdminSettings>();
                 builder.Services.AddSingleton(jwtSettings); //add singleton object to services so everyone can see it
                 builder.Services.AddSingleton(jwtSettingsAdmin);
-
+                
                 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(opts =>
                         opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters

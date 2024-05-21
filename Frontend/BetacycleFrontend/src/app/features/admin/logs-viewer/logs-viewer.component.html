@@ -34,16 +34,15 @@
                     <pre>
                         <code style="display: flex; flex-direction: column;">
                         <label *ngFor="let logVariable of log |keyvalue"><div *ngIf="logVariable.key != '$id' && logVariable.key != 'props'">{{logVariable.key}}: {{logVariable.value}}</div></label>
-                    <details style="display: flex; flex-direction: column;">
-                        <summary>Props</summary>
-                        <label *ngFor="let l of log.props.$values">{{l.key}}: {{l.value}}</label>
-                    </details>
+                        <details style="display: flex; flex-direction: column;">
+                            <summary>Props</summary>
+                            <label *ngFor="let l of log.props.$values">{{l.key}}: {{l.value}}</label>
+                        </details>
                         </code>
                     </pre>
                     <hr>
                 </div>
             </details>
-            
         </div>
 
         <div class="footer">

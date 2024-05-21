@@ -16,10 +16,13 @@ import { DeleteDialog } from './delete-dialog/delete-dialog.component';
 import { EditDialog } from './edit-dialog/edit-dialog.component';
 import { AddCategoryDialogComponent } from './add-category-dialog/add-category-dialog.component';
 import { AddModelDialogComponent } from './add-model-dialog/add-model-dialog.component';
+import { NgOptimizedImage } from '@angular/common'
+import * as base64 from "base64-js";
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-products-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule, ToastComponent],
+  imports: [CommonModule, FormsModule, FontAwesomeModule, ToastComponent, NgOptimizedImage],
   templateUrl: './products-viewer.component.html',
   styleUrl: './products-viewer.component.css'
 })
@@ -35,7 +38,8 @@ export class ProductsViewerComponent {
   deleteIcon = faTrash
   addIcon = faAdd
   editIcon = faPenToSquare
-  constructor(private http: NoAuthCalls, private router: Router, public dialog: MatDialog, private httpAuth: AuthCalls, private toast: ToastService){
+  image:any
+  constructor(private http: NoAuthCalls, private router: Router, public dialog: MatDialog, private httpAuth: AuthCalls, private toast: ToastService,private sanitizer: DomSanitizer){
     this.getAllDatas()
   }
 
@@ -249,6 +253,16 @@ export class ProductsViewerComponent {
       } 
     })
   }
+convert(buffer:any) {
+  base64.toByteArray
+  if(buffer!=null)
+    {
+      //var array = convertDatau
+        return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,'+buffer);
+    }
+  return ''
+}
+
 
 }
 

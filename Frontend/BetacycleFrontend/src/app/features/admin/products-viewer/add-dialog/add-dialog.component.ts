@@ -14,7 +14,7 @@ import { AuthCalls } from '../../../../shared/services/auth-calls.service';
 import { FormControl, FormGroup, FormsModule, NgModel, Validators } from '@angular/forms';
 import { NoAuthCalls } from '../../../../shared/services/noAuth-calls.service';
 import { CommonModule } from '@angular/common';
-
+import * as base64 from "base64-js";
 @Component({
   selector: 'add-dialog',
   templateUrl: 'add-dialog.component.html',
@@ -39,6 +39,7 @@ export class AddDialog{
     actualPrice: '',
     dateInsert: '2024-04-12',
     lastModify: '2024-04-12',
+    thumbnailPhoto: '',
     model:{
       name:''
     },
@@ -64,4 +65,20 @@ export class AddDialog{
     return false;
   }
     
+
+  getBase64(event:any) {
+    console.log(event)
+    let me = this;
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      var temp:any = reader.result;
+      me.productDatas.thumbnailPhoto = temp.substring(temp.indexOf(",")+1)
+    };
+    
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
 }

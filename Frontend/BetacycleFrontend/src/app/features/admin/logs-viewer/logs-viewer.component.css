@@ -7,6 +7,23 @@
     gap: 1%;
 }
 
+details[open] summary ~ * {
+    animation: sweep .5s ease-in-out;
+}
+
+@keyframes sweep {
+    0%    {opacity: 0; margin-top: -10px}
+    100%  {opacity: 1; margin-top: 0px}
+}
+
+summary{
+    border-radius: 20px;
+    background-color: #9BB0C1;
+    width: fit-content;
+    padding: 10px;
+    border: 1px solid #93a4b38f
+}
+
 .viewer{
     position: relative;
     overflow: auto;

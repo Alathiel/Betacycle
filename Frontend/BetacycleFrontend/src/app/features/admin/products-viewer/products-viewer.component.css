@@ -7,6 +7,42 @@
     gap: 10px;
 }
 
+details[open] summary ~ * {
+    animation: sweep .5s ease-in-out;
+}
+
+@keyframes sweep {
+    0%    {opacity: 0; margin-top: -10px}
+    100%  {opacity: 1; margin-top: 0px}
+}
+
+.card-product{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    height: fit-content;
+    background-color: #f2f2f2;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+summary{
+    border-radius: 15px;
+    /* background-color: #9BB0C1; */
+    /* width: fit-content; */
+    padding: 10px
+}
+
+.add-button-wrapper{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.icon-wrapper{
+    padding: 10px;
+}
+
 .viewer{
     position: relative;
     overflow: auto;
@@ -17,8 +53,8 @@
     border-radius: 5px;
     padding: 10px;
     width: 100%;
-    height: 90%;
-    background-color: #f2f2f2;
+    height: 100%;
+    /* background-color: #f2f2f2; */
     transition: 0.3s;
 }
 
@@ -44,6 +80,7 @@
     display: flex; 
     width: 100%;
     padding-bottom: 10px;
+    flex-wrap: nowrap;
 }
 
 .header{

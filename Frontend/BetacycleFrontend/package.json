@@ -23,6 +23,7 @@
     "@fortawesome/angular-fontawesome": "^0.14.1",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "base64-js": "^1.5.1",
     "bootstrap": "^5.3.3",
     "jwt-decode": "^4.0.0",
     "rxjs": "~7.8.0",
