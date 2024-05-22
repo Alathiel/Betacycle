@@ -68,8 +68,8 @@ export class AuthService {
   }
 
   getDecodedToken(){
-    if(sessionStorage.getItem('token') != null)
-      return jwtDecode(sessionStorage.getItem('token')+'');
+    if(sessionStorage.getItem('token') != null){
+      return jwtDecode(sessionStorage.getItem('token')+'');}
     else if(localStorage.getItem('token') != null)
       return jwtDecode(localStorage.getItem('token')+'');
     else

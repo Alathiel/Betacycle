@@ -6,10 +6,7 @@ import { HttpBackend, HttpClient, HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class NoAuthCalls {
-    private http: HttpClient;
-    constructor(handler: HttpBackend) {
-        this.http = new HttpClient(handler);
-    }
+    constructor(private http: HttpClient) {}
 
     getCategories():Observable<any>{
         return this.http.get('https://localhost:7044/Categories');

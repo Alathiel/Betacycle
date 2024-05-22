@@ -118,12 +118,12 @@ export class ProductsViewerComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined)
+      {
         if(result.state)
           this.editProduct(result)
         else
           this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
-      else
-        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      }
     })
   }
 
@@ -134,12 +134,12 @@ export class ProductsViewerComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined)
+      {
         if(result)
           this.deleteProduct(product)
         else
           this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
-      else
-        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      }
     })
   }
 
@@ -150,12 +150,12 @@ export class ProductsViewerComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined)
+      {
         if(result.state)
           this.addProduct(result.productDatas)
         else
           this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
-      else
-        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      }
     })
   }
 
@@ -166,12 +166,12 @@ export class ProductsViewerComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined)
+      {
         if(result.state)
-          this.addCategory(result.category);
+          this.addCategory(result.category)
         else
           this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
-      else
-        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      }
     })
   }
 
@@ -182,12 +182,12 @@ export class ProductsViewerComponent {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result !== undefined)
+      {
         if(result.state)
           this.addModel(result.model)
         else
           this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
-      else
-        this.toast.showToast(TOAST_STATE.error, 'An unexpected error occurred')
+      }
     })
   }
 
@@ -254,12 +254,8 @@ export class ProductsViewerComponent {
     })
   }
 convert(buffer:any) {
-  base64.toByteArray
   if(buffer!=null)
-    {
-      //var array = convertDatau
-        return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,'+buffer);
-    }
+    return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,'+buffer);
   return ''
 }
 

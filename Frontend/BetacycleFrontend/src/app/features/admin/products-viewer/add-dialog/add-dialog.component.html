@@ -40,11 +40,12 @@
     </select>
     </div>
 
-    <button (click)="uploader.click()">
-      Upload
-  </button>
+    <div class="dropzone">
+      <button (click)="uploader.click()">Upload</button>
+      <fa-icon [icon]="uploadIcon"></fa-icon>
+    </div>
   
-  <input type="file" #uploader (change)="getBase64($event)"/>
+  <input hidden type="file" #uploader (change)="getBase64($event)"/>
     
   </div>
 </mat-dialog-content>

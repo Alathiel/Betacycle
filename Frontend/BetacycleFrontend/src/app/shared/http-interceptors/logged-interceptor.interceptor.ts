@@ -3,12 +3,14 @@ import { AuthService } from '../services/Auth.service';
 import { HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { LoggingService } from '../services/logging.service';
+import { ErrorLog } from '../models/errorLog';
 @Injectable({
   providedIn: 'root'
 })
 export class LoggedInterceptorService implements HttpInterceptor {
 
-  constructor(private auth:AuthService, private router:Router) { }
+  constructor(private auth:AuthService, private router:Router, private logger:LoggingService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler):Observable<any>
   {
@@ -37,7 +39,12 @@ export class LoggedInterceptorService implements HttpInterceptor {
     // send cloned request with header to the next handler.
     return next.handle(authReq).pipe(
       catchError((error) => {
+        console.log(JSON.stringify(error))
+        this.logger.logError(this.logger.populateLog(error)).subscribe(response => {
+          console.log(response)
+        })
         if(error instanceof HttpErrorResponse){
+
           if(error.status === 401){
             alert("Login expired, please login again.")
             this.router.navigate(['admin-login'])

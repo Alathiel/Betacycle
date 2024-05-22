@@ -11,18 +11,21 @@ import {
 } from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { AuthCalls } from '../../../../shared/services/auth-calls.service';
-import { FormControl, FormGroup, FormsModule, NgModel, Validators } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { NoAuthCalls } from '../../../../shared/services/noAuth-calls.service';
 import { CommonModule } from '@angular/common';
-import * as base64 from "base64-js";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faUpload} from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'add-dialog',
   templateUrl: 'add-dialog.component.html',
   styleUrl: './add-dialog.component.css',
   standalone: true,
-  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, FormsModule, CommonModule],
+  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, FormsModule, CommonModule, FontAwesomeModule],
 })
 export class AddDialog{
+  uploadIcon = faUpload
   selectedModel = 0
   selectedCategory = 0
   editResult: boolean = false;
@@ -63,11 +66,9 @@ export class AddDialog{
     if(name.valid && price.valid && color.valid && description.valid && productNumber.valid && weight.valid && this.selectedCategory!= 0 && this.selectedModel != 0)
       return true;
     return false;
-  }
-    
+  } 
 
   getBase64(event:any) {
-    console.log(event)
     let me = this;
     let file = event.target.files[0];
     let reader = new FileReader();
@@ -76,7 +77,6 @@ export class AddDialog{
       var temp:any = reader.result;
       me.productDatas.thumbnailPhoto = temp.substring(temp.indexOf(",")+1)
     };
-    
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
