@@ -73,7 +73,7 @@ export class AuthCalls {
 
   toggleLogging():Observable<any>
   {
-    return this.http.post('https://localhost:7044/api/Logs/ToggleLogging', "",{observe: 'response'});
+    return this.http.get('https://localhost:7044/api/Logs/ToggleLogging',{observe: 'response'});
   }
 
   addProduct(product: any):Observable<any>

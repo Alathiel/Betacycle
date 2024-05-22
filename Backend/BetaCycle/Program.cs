@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using BetaCycle.Models.Mongo;
 using System.Security.Claims;
 using static System.Net.Mime.MediaTypeNames;
+using DnsClient;
 
 namespace BetaCycle
 {
@@ -40,7 +41,8 @@ namespace BetaCycle
                 );
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
-                
+                //setup signalR
+                builder.Services.AddSignalR();
                 //setup authentication
                 JwtSettings? jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
                 JwtAdminSettings? jwtSettingsAdmin = builder.Configuration.GetSection("JwtAdminSettings").Get<JwtAdminSettings>();
@@ -110,8 +112,16 @@ namespace BetaCycle
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
-
                 app.UseCors("Policies");
+
+                app.UseRouting();
+
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapHub<SupportChatHub>("/SupportChatHub");
+                    endpoints.MapControllers();
+                });
+
                 app.UseHttpsRedirection();
                 app.UseAuthorization();//for login
                 app.MapControllers();
@@ -119,6 +129,7 @@ namespace BetaCycle
             }
             catch(Exception e)
             {
+                Console.WriteLine(e);
             }
             finally
             {

@@ -31,4 +31,8 @@ export class NoAuthCalls {
     deleteUserData(id: number):Observable<any>{
         return this.http.delete(`https://localhost:7044/api/Users/${id}`);
     }
+
+    getConnectionsOpen():Observable<any>{
+        return this.http.get("https://localhost:7044/GetConnectionsOpen");
+    }
 }

@@ -8,9 +8,12 @@ import { AdminMenuComponent } from './features/admin/admin-menu/admin-menu.compo
 import { LogsViewerComponent } from './features/admin/logs-viewer/logs-viewer.component';
 import { ProductsViewerComponent } from './features/admin/products-viewer/products-viewer.component';
 import {CartComponent} from './features/cart/cart.component';
+import { SupportChatUserComponent } from './features/admin/support-chat/support-chat.component';
+import { SupportChatComponent } from './features/support-chat/support-chat.component';
+
 
 export const routes: Routes = [
-    
+    {path: 'support-user-chat', component:SupportChatUserComponent},
     {path: 'login', component: LoginComponent},
     {path: 'cart', component: CartComponent},
     {path: 'home', component: HomeComponent},
@@ -20,5 +23,7 @@ export const routes: Routes = [
     {path: 'admin-menu', component:AdminMenuComponent},
     {path: 'logs-viewer', component:LogsViewerComponent},
     {path: 'products-viewer', component:ProductsViewerComponent},
+    {path: 'support-chat', component:SupportChatComponent},
+
     {path: '', redirectTo:'login', pathMatch: 'full'}
 ];
