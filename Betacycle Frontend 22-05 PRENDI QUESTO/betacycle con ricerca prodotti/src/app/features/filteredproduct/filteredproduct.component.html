@@ -1,0 +1,33 @@
+<p>Products work in progress</p>
+
+<div class="product-list-wrapper">
+    <div class="row">
+      <div class="col-sm-3" *ngFor="let item of filteredproducts">
+        <div class="product-item" style="background-color: white;">
+          <img src="https://www.givemebike.com/wp-content/uploads/15.png" alt="">
+        <div class="product-details">
+          <h6 class="name-head">{{item.productName}}</h6>
+          <div class="product-price">
+            <h6>Price: {{item.actualPrice}}</h6>
+          </div>
+          <div class="product-color">
+            <h6>Color:{{item.color}}</h6>
+          </div>
+        </div>
+        <div class="product-footer">
+          <a routerLink="">View Details</a>
+          <a href="#">Add to Cart</a>
+    
+        </div>
+        </div>
+      </div>
+
+<mat-paginator
+[length]="products.length"
+[pageSize]="10"
+[showFirstLastButtons]="true"
+[pageSizeOptions]="[10]"
+[pageIndex]="currentPage"
+(page)="handlePageEvent($event)"
+>
+</mat-paginator>

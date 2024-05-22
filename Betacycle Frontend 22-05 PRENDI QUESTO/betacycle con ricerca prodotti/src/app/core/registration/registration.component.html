@@ -1,0 +1,98 @@
+<!-- <form  #formRegister='ngForm'  (submit)="register()">
+    <mat-card style="max-width: 50%; max-height: fit-content; align-items: center;">
+        <mat-card-header>
+          <mat-card-title >Register</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="" alt="">
+        <mat-card-content>
+            
+                
+            <input matInput #name [(ngModel)]="newUser.firstName" name="name" required minlength="1" placeholder="name">
+            <input matInput #surname [(ngModel)]="newUser.lastName" name="surname" required minlength="1" placeholder="surname">
+            <input type ="date" matInput #birthDate [(ngModel)]="newUser.birthDate" name="birthDate" required  placeholder="Data di Nascita">
+            <input matInput #nemail [(ngModel)]="newCredentials.email" name="nemail" required minlength="1" placeholder="email">
+            <input matInput #npw [(ngModel)]="newCredentials.password" name="npw" required  minlength="1"  placeholder="password" type="password">
+            
+           
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button type="submit">Register</button>
+        </mat-card-actions>
+      </mat-card>
+</form> -->
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<div class="sfondo">
+    <div class="container">
+      <div class="row">
+    <div class="col-md-5 mx-auto">
+    <div id="first">
+    
+      <div class="myform form ">
+         <div class="logo mb-3">
+           <div class="col-md-12 text-center">
+            <h1>Registrati</h1>
+           </div>
+        </div>
+                 <form #loginForm="ngForm"  (submit)="register()">
+                  <div class="form-group">
+                    <label for="firstName">Nome </label>
+                    <input class="form-control "
+                    matInput #name [(ngModel)]="newUser.firstName" name="name" 
+                    required minlength="1" placeholder="Nome">
+                  </div>
+                  <div class="form-group">
+                    <label for="lastName">Cognome </label>
+                    <input class="form-control "
+                    matInput #lastName [(ngModel)]="newUser.lastName" name="lastName" 
+                    required minlength="1" placeholder="Cognome">
+                  </div>
+                  <div class="form-group">
+                    <label for="birthDate">Data di nascita </label>
+                    <input type ="date" class="form-control "
+                     matInput #birthDate [(ngModel)]="newUser.birthDate" name="birthDate" 
+                     required  placeholder="Data di Nascita">
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Telefono</label>
+                    <input class="form-control "
+                    matInput #phone [(ngModel)]="newUser.phone" name="phone" 
+                    required minlength="1" placeholder="Telefono">
+                  </div>
+                         <div class="form-group">
+                            <label for="Email">Email </label>
+                            <input type="text" 
+                            class="form-control"
+                             matInput #email ngModel pattern="[a-zA-Z ]*" placeholder="Email"
+                             [(ngModel)]="newCredentials.email" name="email" required minlength="1">
+                          </div>
+                         <div class="form-group">
+                            <label for="Password">Password</label>
+                            <input type="password" class="form-control"
+                            matInput #pw [(ngModel)]="newCredentials.password" placeholder="Password"
+                             name="pw" required  minlength="1" type="password">
+                          </div>
+
+                         <div class="col-md-12 text-center ">
+                          <button type="submit" class="btn btn-primary">Registrati</button>
+                        </div>
+                         <div class="col-md-12 ">
+                         </div>
+                         <div class="form-group">
+                            <p class="text-center">Hai gia un account?
+                                <a style="cursor: pointer; color:blue;text-decoration: underline;" (click)="GoToLogin()">Accedi</a></p>
+                         </div>
+                      </form>
+               
+      </div>
+    </div>
+
+  </div>
+      

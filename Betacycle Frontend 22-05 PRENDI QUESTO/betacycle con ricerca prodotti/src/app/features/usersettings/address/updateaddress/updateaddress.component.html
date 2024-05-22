@@ -1,0 +1,35 @@
+<p>updateaddress works!</p>
+<form #postAddress (submit)="PatchAddress()">
+    <div class="form-group col-md-6">
+      <label for="Indirizzo">Indirizzo </label>
+      <input type="text" 
+      class="form-control" placeholder="Indirizzo"
+       matInput #address1 [(ngModel)]="newAddress.address1"
+        name="address1" required minlength="1">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="Citta">Città</label>
+      <input type="text" class="form-control" placeholder ="Città"
+      matInput #city [(ngModel)]="newAddress.city" name="city" required  minlength="1" >
+    </div>
+    <div class="form-group col-md-6">
+      <label for="Provincia">Provincia</label>
+      <input type="text" class="form-control" placeholder ="Città"
+      matInput #province [(ngModel)]="newAddress.province" name="province" required  minlength="1" >
+    </div>
+    <div class="form-group col-md-6">
+      <label for="Cap">CAP</label>
+      <input type="text" class="form-control" placeholder ="Città"
+      matInput #cap [(ngModel)]="newAddress.cap" name="cap" required  minlength="1" >
+    </div>
+    <div class="form-group col-md-6">
+      <label for="Nazione">Nazione</label>
+      <input type="text" class="form-control" placeholder ="Città"
+      matInput #nation [(ngModel)]="newAddress.nation" name="nation" required  minlength="1">
+    </div>
+   <div class="col-md-12 text-center ">
+    <button type="submit" class="btn btn-primary">Conferma</button>
+  </div>
+   <div class="col-md-12 ">
+   </div>
+  </form>
