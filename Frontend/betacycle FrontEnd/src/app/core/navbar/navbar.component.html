@@ -1,0 +1,39 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- <button class="navbar-toggler" data-toggle="open-navbar1">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button> -->
+      <a routerLink="/home" ><h4 class="scrittaLogo"><img src="assets/intestazione.png" alt="" class="logo">Ride your dreams </h4></a>
+    </div>
+    <div class="navbar-menu" id="open-navbar1">
+      <ul class="navbar-nav">
+        <li class="active"><a routerLink="/home"><i class="bi bi-house-fill"></i> Home</a></li>
+        <!-- <li class="navbar-dropdown">
+          <a href="#" class="dropdown-toggler" data-dropdown="my-dropdown-id">
+            Categories <i class="fa fa-angle-down"></i>
+          </a>
+          <ul class="dropdown" id="my-dropdown-id">
+            <li><a href="#">Category 1</a></li>
+            <li class="separator"></li>
+            <li><a href="#">Category 2</a></li>
+            <li class="separator"></li>
+            <li><a href="#">Category 3</a></li>
+          </ul>
+        </li> -->
+        <li><a routerLink="/product"><i class="bi bi-bag-fill"></i> Prodotti</a></li>
+
+        <li><a href="#"> <i class="bi bi-people-fill"></i> Chi siamo</a></li>
+        <li><a routerLink="/contact"><i class="bi bi-person-lines-fill"></i> Contatti</a></li>
+        <li> <a class="nav-link active" aria-current="page" *ngIf="!authStatus.getLoginStatus()" routerLink="/loginjwt"><i class="bi bi-person-fill">Login</i></a></li>
+        <li><a *ngIf="authStatus.getLoginStatus()" class="nav-link active" aria-current="page" routerLink="/sale"><i class="bi bi-cart3"></i> Carrello</a>
+</li>
+        <li><a class="nav-link active" *ngIf="authStatus.getLoginStatus()" (click)="authStatus.logout()" style="color: red" > <i class="bi bi-box-arrow-left"></i> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav> 
+
+<router-outlet></router-outlet>

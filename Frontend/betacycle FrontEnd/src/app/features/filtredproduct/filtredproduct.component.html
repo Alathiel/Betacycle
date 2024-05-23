@@ -1,0 +1,9 @@
+<mat-paginator
+[length]="products.length"
+[pageSize]="10"
+[showFirstLastButtons]="true"
+[pageSizeOptions]="[10]"
+[pageIndex]="currentPage"
+(page)="handlePageEvent($event)"
+>
+</mat-paginator>
