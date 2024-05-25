@@ -12,9 +12,12 @@ using BetaCycle.BLogic;
 using System.Configuration;
 using NLog.Extensions.Logging;
 using System;
+using System.Drawing;
 using Microsoft.Extensions.Options;
 using BetaCycle.Models.Mongo;
 using System.Security.Claims;
+using static System.Net.Mime.MediaTypeNames;
+using DnsClient;
 
 namespace BetaCycle
 {
@@ -38,13 +41,14 @@ namespace BetaCycle
                 );
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
-                
+                //setup signalR
+                builder.Services.AddSignalR();
                 //setup authentication
                 JwtSettings? jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
                 JwtAdminSettings? jwtSettingsAdmin = builder.Configuration.GetSection("JwtAdminSettings").Get<JwtAdminSettings>();
                 builder.Services.AddSingleton(jwtSettings); //add singleton object to services so everyone can see it
                 builder.Services.AddSingleton(jwtSettingsAdmin);
-
+                
                 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(opts =>
                         opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -80,13 +84,6 @@ namespace BetaCycle
                     });
                 });
 
-                /*builder.Services.AddLogging(loggingBuilder =>
-                {
-                    loggingBuilder.ClearProviders();
-                    loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                    loggingBuilder.AddNLog();
-                });*/
-
                 builder.Services.AddSwaggerGen();
                 //Setup cors
                 builder.Services.AddCors(opts =>
@@ -108,8 +105,11 @@ namespace BetaCycle
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
-
                 app.UseCors("Policies");
+
+                app.UseRouting();
+
+                app.MapHub<SupportChatHub>("/SupportChatHub");
                 app.UseHttpsRedirection();
                 app.UseAuthorization();//for login
                 app.MapControllers();
@@ -117,6 +117,7 @@ namespace BetaCycle
             }
             catch(Exception e)
             {
+                Console.WriteLine(e);
             }
             finally
             {

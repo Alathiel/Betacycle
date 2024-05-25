@@ -16,6 +16,9 @@ using System.IdentityModel.Tokens.Jwt;
 using LoginLibrary.JwtAuthentication;
 using System.Data.SqlClient;
 using System.Security.Claims;
+using BetaCycle.BLogic;
+using System.Text;
+using Azure.Messaging;
 
 namespace BetaCycle.Controllers
 {
@@ -111,8 +114,6 @@ namespace BetaCycle.Controllers
             return await _context.Categories.ToListAsync();
         }
 
-
-        // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(long id)
         {
@@ -193,22 +194,17 @@ namespace BetaCycle.Controllers
 
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        //public async Task<ActionResult<Product>> PostProduct(Product product, string thumbnailPhoto)
         [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            Model model = await _context.Models.FindAsync(product.ModelId);
-            Category category = await _context.Categories.FindAsync(product.CategoryId);
+            product.Model = await _context.Models.FindAsync(product.ModelId);
+            product.Category = await _context.Categories.FindAsync(product.CategoryId);
             product.DateInsert = DateOnly.FromDateTime(DateTime.Now);
             product.LastModify = product.DateInsert;
-            if (category == null )
-            {
-                return BadRequest();
-            }
-
-            product.Model = model;
-            product.Category = category;
-
+            //product.ThumbnailPhoto = Encoding.ASCII.GetBytes(thumbnailPhoto);
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 

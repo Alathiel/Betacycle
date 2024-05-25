@@ -144,11 +144,9 @@ namespace BetaCycle.Controllers
 
                     });
                 }
-                else
-                    return BadRequest("Wrong Password");
+                return BadRequest("Wrong Password");
             }
-            else
-                return BadRequest();
+            return BadRequest();
         }
 
         /*[Authorize(Policy = "Admin")]

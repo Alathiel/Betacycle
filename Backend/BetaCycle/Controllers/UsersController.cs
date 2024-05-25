@@ -17,9 +17,6 @@ namespace BetaCycle.Controllers
     public class UsersController : Controller
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
-        //LogFactory.GetCurrentClassLogger<UsersController>()
-        
-
         private readonly BetacycleContext _context;
 
         public UsersController(BetacycleContext context)

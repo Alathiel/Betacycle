@@ -14,6 +14,7 @@ using BetaCycle.Models;
 using LoginLibrary.JwtAuthentication;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+using Newtonsoft.Json;
 
 namespace BetaCycle.Controllers
 {
@@ -216,6 +217,37 @@ namespace BetaCycle.Controllers
 
         #endregion
 
+
+        #region HttpPost
+        [Authorize(Policy = "Admin")]
+        [HttpPost("[action]")]
+        public async Task<ActionResult> PostError(FrontEndLog log)
+        {
+            try
+            {
+                _logger.ForErrorEvent().Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("Site", "FrontEnd"),
+                    log.userId != ""? new ("UserId", log.userId) : new ("UserId", "not logged"),
+                    new ("Exception", log.message),
+                    new ("Status code", log.statusCode),
+                    new ("From", log.url)
+                }).Log();
+            }
+            catch(Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+
+            return Created();
+        }
+
+        #endregion
 
     }
 }
