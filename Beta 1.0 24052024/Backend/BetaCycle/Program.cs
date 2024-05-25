@@ -38,7 +38,8 @@ namespace BetaCycle
                 );
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
-                
+                //setup signalR
+                builder.Services.AddSignalR();
                 //setup authentication
                 JwtSettings? jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>(); //instancing jwtSettings object with the settings we setup in appsettings
                 JwtAdminSettings? jwtSettingsAdmin = builder.Configuration.GetSection("JwtAdminSettings").Get<JwtAdminSettings>();
@@ -80,13 +81,6 @@ namespace BetaCycle
                     });
                 });
 
-                /*builder.Services.AddLogging(loggingBuilder =>
-                {
-                    loggingBuilder.ClearProviders();
-                    loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                    loggingBuilder.AddNLog();
-                });*/
-
                 builder.Services.AddSwaggerGen();
                 //Setup cors
                 builder.Services.AddCors(opts =>
@@ -110,6 +104,8 @@ namespace BetaCycle
                 }
 
                 app.UseCors("Policies");
+                app.UseRouting();
+                app.MapHub<SupportChatHub>("/SupportChatHub");
                 app.UseHttpsRedirection();
                 app.UseAuthorization();//for login
                 app.MapControllers();

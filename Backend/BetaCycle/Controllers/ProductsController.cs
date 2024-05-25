@@ -16,9 +16,6 @@ using System.IdentityModel.Tokens.Jwt;
 using LoginLibrary.JwtAuthentication;
 using System.Data.SqlClient;
 using System.Security.Claims;
-using BetaCycle.BLogic;
-using System.Text;
-using Azure.Messaging;
 
 namespace BetaCycle.Controllers
 {
@@ -39,15 +36,13 @@ namespace BetaCycle.Controllers
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int pageNumber = 1)
         {
-            //_context.Products.FromSql($"Select NameProduct from Products").OrderBy(ob => ob.NameProduct).Take(10);
             if (pageNumber <= 0)
                 pageNumber = 1;
             try
             {
                 var products = await _context.Products.Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                 var totalProducts = await _context.Products.LongCountAsync();
-
-                if(products == null || products.Count<=0)
+                if (products == null || products.Count<=0)
                     return NotFound();
                 return Ok(new
                 {
@@ -89,8 +84,6 @@ namespace BetaCycle.Controllers
                     products = await _context.Products.Where(product => product.ProductId == id).ToListAsync();
                     totalProducts = await _context.Products.Where(product => product.ProductId == id).LongCountAsync();
                 }
-                //if (products == null || products.Count<=0)
-                //    return NotFound();
                 return Ok(new
                 {
                     products = products,
@@ -108,14 +101,6 @@ namespace BetaCycle.Controllers
             }
         }
 
-        [HttpGet("/Categories")]
-        public async Task<ActionResult<IEnumerable<Category>>> GetProductsCategories()
-        {
-            return await _context.Categories.ToListAsync();
-        }
-
-
-        // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(long id)
         {
@@ -151,15 +136,17 @@ namespace BetaCycle.Controllers
             }
             catch (Exception e)
             {
-                _logger.Error("User Type: Admin, Userid: {userId} error: {error}", User.FindFirstValue(ClaimTypes.NameIdentifier), e.Message);
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
                 return BadRequest();
             }
         }
 
         #endregion
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Policy = "Admin")]
         [HttpPut("[action]")]
         public async Task<ActionResult<Product>> PutProduct(Product product)
@@ -171,17 +158,8 @@ namespace BetaCycle.Controllers
                 _context.Entry(product).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException e)
+            catch (Exception e)
             {
-                if (!ProductExists(product.ProductId))
-                {
-                    _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
-                    {
-                        new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                        new ("Exception", e),
-                    }).Log();
-                    return NotFound();
-                }
                 _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
                 {
                     new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
@@ -193,41 +171,60 @@ namespace BetaCycle.Controllers
             return product;
         }
 
-
-        // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-
-        //public async Task<ActionResult<Product>> PostProduct(Product product, string thumbnailPhoto)
         [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            product.Model = await _context.Models.FindAsync(product.ModelId);
-            product.Category = await _context.Categories.FindAsync(product.CategoryId);
-            product.DateInsert = DateOnly.FromDateTime(DateTime.Now);
-            product.LastModify = product.DateInsert;
-            //product.ThumbnailPhoto = Encoding.ASCII.GetBytes(thumbnailPhoto);
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                product.Model = await _context.Models.FindAsync(product.ModelId);
+                product.Category = await _context.Categories.FindAsync(product.CategoryId);
+                product.DateInsert = DateOnly.FromDateTime(DateTime.Now);
+                product.LastModify = product.DateInsert;
 
-            return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has occurred.");
+            }
         }
 
         // DELETE: api/Products/5
         [Authorize(Policy = "Admin")]
-        [HttpDelete("[action]")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(long id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                var product = await _context.Products.FindAsync(id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+
+                return Ok();
             }
-
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has occurred.");
+            }
         }
 
         private bool ProductExists(long id)

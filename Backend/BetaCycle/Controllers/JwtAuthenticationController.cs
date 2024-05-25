@@ -41,16 +41,14 @@ namespace BetaCycle.Controllers
                 if (cred.Count > 0)
                 {
                     var pw = EncryptionData.EncryptionData.SaltDecrypt(credentials.Password, cred[0].PasswordSalt);
-                    //var pw = EncryptionData.EncryptionData.SaltDecrypt(password, cred[0].PasswordSalt);
                     if (pw == cred[0].Password)
                     {
                         if ((DateOnly.FromDateTime(DateTime.Now).DayNumber - cred[0].LastModified.DayNumber) > 100)
-                            return BadRequest(new {
+                            return Unauthorized(new {
                                 Status = 401,
                                 Description = "Password expired"
                             });
                         var token = this.token.GenerateJwtToken(credentials.Email, cred[0].UserId); 
-                        //var token = this.token.GenerateJwtToken(email, password);
                         return Ok(new
                         {
                             userId = cred[0].UserId,
@@ -80,24 +78,13 @@ namespace BetaCycle.Controllers
         {
             try
             {
-                KeyValuePair<string, string> temp;
-                temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
+                KeyValuePair<string, string>  temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
                 credential.Password = temp.Key;
                 credential.PasswordSalt = temp.Value;
                 credential.LastModified = DateOnly.FromDateTime(DateTime.Now);
                 _context.Credentials.Add(credential);
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException)
-                {
-                    if (_context.Credentials.Any(e => e.UserId == credential.UserId || e.Email == credential.Email))
-                        return Conflict();
-                    else
-                        throw;
-                }
-                //return CreatedAtAction("GetCredential", new { id = credential.UserId }, credential);
+                await _context.SaveChangesAsync();
+              
                 return Created();
             }
             catch (Exception e)
@@ -107,6 +94,10 @@ namespace BetaCycle.Controllers
                     new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
                     new ("Exception", e),
                 }).Log();
+
+                if (_context.Credentials.Any(e => e.UserId == credential.UserId || e.Email == credential.Email))
+                    return Conflict("This email already exists");
+                
                 return BadRequest("Unexpected error has been encountered");
             }
         }
@@ -118,37 +109,44 @@ namespace BetaCycle.Controllers
         [HttpPost("[action]")]
         public IActionResult AdminLogin(AdminCredential credential)
         {
-            var cred = _context.AdminCredentials.Where(e => e.Email == credential.Email).ToList();
-            //var cred = _context.Credentials.Where(e => e.Email == email).ToList();
-
-            if (cred.Count > 0)
+            try
             {
-                var pw = EncryptionData.EncryptionData.SaltDecrypt(credential.Password, cred[0].PasswordSalt);
-                //var pw = EncryptionData.EncryptionData.SaltDecrypt(password, cred[0].PasswordSalt);
-                if (pw == cred[0].Password)
+                var cred = _context.AdminCredentials.Where(e => e.Email == credential.Email).ToList();
+
+                if (cred.Count > 0)
                 {
-                    if ((DateOnly.FromDateTime(DateTime.Now).DayNumber - cred[0].LastModified.DayNumber) > 100)
-                        return BadRequest(new
-                        {
-                            Status = 401,
-                            Description = "Password expired"
-                        });
-
-                    var token = this.token.GenerateJwtAdminToken(credential.Email, cred[0].UserId);
-                    //var token = this.token.GenerateJwtToken(email, password);
-                    return Ok(new
+                    var pw = EncryptionData.EncryptionData.SaltDecrypt(credential.Password, cred[0].PasswordSalt);
+                    if (pw == cred[0].Password)
                     {
-                        userId = cred[0].UserId,
-                        Status = 200,
-                        Token = token
+                        if ((DateOnly.FromDateTime(DateTime.Now).DayNumber - cred[0].LastModified.DayNumber) > 100)
+                            return BadRequest(new
+                            {
+                                Status = 401,
+                                Description = "Password expired"
+                            });
 
-                    });
-                }
-                else
+                        var token = this.token.GenerateJwtAdminToken(credential.Email, cred[0].UserId);
+                        return Ok(new
+                        {
+                            userId = cred[0].UserId,
+                            Status = 200,
+                            Token = token
+
+                        });
+                    }
                     return BadRequest("Wrong Password");
+                }
             }
-            else
-                return BadRequest();
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+            return BadRequest();
         }
 
         /*[Authorize(Policy = "Admin")]
@@ -174,7 +172,7 @@ namespace BetaCycle.Controllers
             //return CreatedAtAction("GetCredential", new { id = credential.UserId }, credential);
             return Created();
         }*/
-        
+
         #endregion
 
     }

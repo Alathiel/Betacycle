@@ -36,15 +36,19 @@ namespace BetaCycle.Controllers
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts(int pageNumber = 1)
         {
-            //_context.Products.FromSql($"Select NameProduct from Products").OrderBy(ob => ob.NameProduct).Take(10);
             if (pageNumber <= 0)
                 pageNumber = 1;
             try
             {
                 var products = await _context.Products.Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
-                if(products == null || products.Count<=0)
+                var totalProducts = await _context.Products.LongCountAsync();
+                if (products == null || products.Count<=0)
                     return NotFound();
-                return products;
+                return Ok(new
+                {
+                    products = products,
+                    totalProducts = totalProducts
+                });
             }
             catch (Exception e)
             {
@@ -66,18 +70,25 @@ namespace BetaCycle.Controllers
             try
             {
                 List<Product> products = [];
-                if(productName != "")
+                long totalProducts = 0;
+                if (productName != "")
                 {
                     //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
                     products = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower()))
                         .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                    totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())).LongCountAsync();
                 }
                 else if(id != 0)
+                {
                     products = await _context.Products.Where(product => product.ProductId == id).ToListAsync();
-                //if (products == null || products.Count<=0)
-                //    return NotFound();
-                return products;
+                    totalProducts = await _context.Products.Where(product => product.ProductId == id).LongCountAsync();
+                }
+                return Ok(new
+                {
+                    products = products,
+                    totalProducts = totalProducts
+                });
             }
             catch (Exception e)
             {
@@ -90,14 +101,6 @@ namespace BetaCycle.Controllers
             }
         }
 
-        [HttpGet("/Categories")]
-        public async Task<ActionResult<IEnumerable<Category>>> GetProductsCategories()
-        {
-            return await _context.Categories.ToListAsync();
-        }
-
-
-        // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(long id)
         {
@@ -133,15 +136,17 @@ namespace BetaCycle.Controllers
             }
             catch (Exception e)
             {
-                _logger.Error("User Type: Admin, Userid: {userId} error: {error}", User.FindFirstValue(ClaimTypes.NameIdentifier), e.Message);
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
                 return BadRequest();
             }
         }
 
         #endregion
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize(Policy = "Admin")]
         [HttpPut("[action]")]
         public async Task<ActionResult<Product>> PutProduct(Product product)
@@ -153,17 +158,8 @@ namespace BetaCycle.Controllers
                 _context.Entry(product).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException e)
+            catch (Exception e)
             {
-                if (!ProductExists(product.ProductId))
-                {
-                    _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
-                    {
-                        new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                        new ("Exception", e),
-                    }).Log();
-                    return NotFound();
-                }
                 _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
                 {
                     new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
@@ -175,28 +171,31 @@ namespace BetaCycle.Controllers
             return product;
         }
 
-
-        // POST: api/Products
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[Authorize(Policy = "Admin")]
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            Model model = await _context.Models.FindAsync(product.ModelId);
-            Category category = await _context.Categories.FindAsync(product.CategoryId);
-
-            if (category == null )
+            try
             {
-                return BadRequest();
+                product.Model = await _context.Models.FindAsync(product.ModelId);
+                product.Category = await _context.Categories.FindAsync(product.CategoryId);
+                product.DateInsert = DateOnly.FromDateTime(DateTime.Now);
+                product.LastModify = product.DateInsert;
+
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
             }
-
-            product.Model = model;
-            product.Category = category;
-
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has occurred.");
+            }
         }
 
         // DELETE: api/Products/5
@@ -204,16 +203,28 @@ namespace BetaCycle.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(long id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                var product = await _context.Products.FindAsync(id);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+
+                return Ok();
             }
-
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has occurred.");
+            }
         }
 
         private bool ProductExists(long id)

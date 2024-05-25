@@ -37,12 +37,14 @@ namespace BetaCycle.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetLogs(int pageNumber = 1)
         {
+            long totalLogs = 0;
             List<Models.Mongo.Log> logs = [];
             if (pageNumber <= 0)
                 pageNumber = 1;
             try
             {
                 var bson = await mongoBsCollection.Find(obj => true).Skip((pageNumber - 1) * 10).Limit(10).ToListAsync();
+                totalLogs = await mongoBsCollection.CountDocumentsAsync(boj => true);
                 foreach (var val in bson)
                 {
                     var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
@@ -62,7 +64,12 @@ namespace BetaCycle.Controllers
                     }
                     logs.Add(log);
                 }
-                KeyValuePair<string, string>[] a = [];
+                return Ok(new
+                {
+                    logs = logs,
+                    totalLogs = totalLogs
+
+                });
             }
             catch (Exception e)
             {
@@ -73,13 +80,13 @@ namespace BetaCycle.Controllers
                 }).Log();
                 return BadRequest("Unexpected error has been encountered");
             }
-            return logs;
         }
 
         [Authorize(Policy = "Admin")]
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetFilteredLogs(string value="", string filterC="Date", int pageNumber = 1)
         {
+            long totalLogs = 0;
             List<Models.Mongo.Log> logs = [];
             try
             {
@@ -92,6 +99,7 @@ namespace BetaCycle.Controllers
                 if (pageNumber <= 0)
                     pageNumber = 1;
                 var bson = await mongoBsCollection.Find(filter).Skip((pageNumber - 1) * 10).Limit(10).ToListAsync();
+                totalLogs = await mongoBsCollection.CountDocumentsAsync(filter);
 
                 foreach (var val in bson)
                 {
@@ -113,6 +121,13 @@ namespace BetaCycle.Controllers
 
                     logs.Add(log);
                 }
+
+                return Ok(new
+                {
+                    logs = logs,
+                    totalLogs = totalLogs
+
+                });
             }
             catch (Exception e)
             {
@@ -123,8 +138,6 @@ namespace BetaCycle.Controllers
                 }).Log();
                 return BadRequest("Unexpected error has been encountered");
             }
-
-            return logs;
         }
 
         [Authorize(Policy = "Admin")]
@@ -201,6 +214,37 @@ namespace BetaCycle.Controllers
 
         #endregion
 
+        #region HttpPost
+
+        [Authorize(Policy = "Admin")]
+        [HttpPost("[action]")]
+        public async Task<ActionResult> PostError(FrontEndLog log)
+        {
+            try
+            {
+                _logger.ForErrorEvent().Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("Site", "FrontEnd"),
+                    log.userId != ""? new ("UserId", log.userId) : new ("UserId", "not logged"),
+                    new ("Exception", log.message),
+                    new ("Status code", log.statusCode),
+                    new ("From", log.url)
+                }).Log();
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+
+            return Created();
+        }
+
+        #endregion
 
     }
 }

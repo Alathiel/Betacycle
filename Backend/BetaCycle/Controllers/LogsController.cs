@@ -14,7 +14,6 @@ using BetaCycle.Models;
 using LoginLibrary.JwtAuthentication;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
-using Newtonsoft.Json;
 
 namespace BetaCycle.Controllers
 {
@@ -46,7 +45,6 @@ namespace BetaCycle.Controllers
             {
                 var bson = await mongoBsCollection.Find(obj => true).Skip((pageNumber - 1) * 10).Limit(10).ToListAsync();
                 totalLogs = await mongoBsCollection.CountDocumentsAsync(boj => true);
-
                 foreach (var val in bson)
                 {
                     var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
@@ -66,7 +64,12 @@ namespace BetaCycle.Controllers
                     }
                     logs.Add(log);
                 }
-                KeyValuePair<string, string>[] a = [];
+                return Ok(new
+                {
+                    logs = logs,
+                    totalLogs = totalLogs
+
+                });
             }
             catch (Exception e)
             {
@@ -77,12 +80,6 @@ namespace BetaCycle.Controllers
                 }).Log();
                 return BadRequest("Unexpected error has been encountered");
             }
-            return Ok(new
-            {
-                logs = logs,
-                totalLogs = totalLogs
-
-            });
         }
 
         [Authorize(Policy = "Admin")]
@@ -124,6 +121,13 @@ namespace BetaCycle.Controllers
 
                     logs.Add(log);
                 }
+
+                return Ok(new
+                {
+                    logs = logs,
+                    totalLogs = totalLogs
+
+                });
             }
             catch (Exception e)
             {
@@ -134,13 +138,6 @@ namespace BetaCycle.Controllers
                 }).Log();
                 return BadRequest("Unexpected error has been encountered");
             }
-
-            return Ok(new
-            {
-                logs = logs,
-                totalLogs = totalLogs
-
-            });
         }
 
         [Authorize(Policy = "Admin")]
@@ -192,7 +189,7 @@ namespace BetaCycle.Controllers
         }
 
         [Authorize(Policy = "Admin")]
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public ActionResult ToggleLogging()
         {
             if (LogManager.IsLoggingEnabled())
@@ -217,9 +214,9 @@ namespace BetaCycle.Controllers
 
         #endregion
 
-
         #region HttpPost
 
+        [Authorize(Policy = "Admin")]
         [HttpPost("[action]")]
         public async Task<ActionResult> PostError(FrontEndLog log)
         {
@@ -234,7 +231,7 @@ namespace BetaCycle.Controllers
                     new ("From", log.url)
                 }).Log();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
                 {

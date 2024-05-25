@@ -17,9 +17,6 @@ namespace BetaCycle.Controllers
     public class UsersController : Controller
     {
         private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
-        //LogFactory.GetCurrentClassLogger<UsersController>()
-        
-
         private readonly BetacycleContext _context;
 
         public UsersController(BetacycleContext context)
@@ -100,7 +97,7 @@ namespace BetaCycle.Controllers
 
         #endregion
 
-
+        [Authorize]
         [HttpPut("[action]/{id}")]
         public async Task<IActionResult> PutAddress(Address address)
         {
@@ -127,6 +124,7 @@ namespace BetaCycle.Controllers
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(long id, User user)
         {
@@ -164,12 +162,16 @@ namespace BetaCycle.Controllers
         public async Task<IActionResult> DeleteUser(long id)
         {
             var user = await _context.Users.FindAsync(id);
+
+            //var cred = await _betaSecurityContext.Credentials.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
 
             _context.Users.Remove(user);
+            
+            //_betaSecurityContext.Credentials.Remove(cred);
             await _context.SaveChangesAsync();
 
             return NoContent();

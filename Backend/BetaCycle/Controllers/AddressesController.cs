@@ -35,10 +35,10 @@ namespace BetaCycle.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Address>> GetAddress(long id)
+        [HttpGet("{userId}/{addressId}")]
+        public async Task<ActionResult<Address>> GetAddress(long userId, long addressId)
         {
-            var address = await _context.Addresses.FindAsync(id);
+            var address = await _context.Addresses.FindAsync(userId, addressId);
             if (address == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ namespace BetaCycle.Controllers
         // POST: api/Addresses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<ActionResult<Address>> PostAddress(Address address)
         {
             try
@@ -77,17 +77,17 @@ namespace BetaCycle.Controllers
                 return BadRequest("Unexpected error has been encountered");
             }
 
-            return CreatedAtAction("GetAddress", new { id = address.UserId }, address);
+            return Created();
         }
 
         // DELETE: api/Addresses/5
         [Authorize]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAddress(long id)
+        [HttpDelete("{userId}/{addressId}")]
+        public async Task<IActionResult> DeleteAddress(long userId,long addressId)
         {
             try
             {
-                var address = await _context.Addresses.FindAsync(id);
+                var address = await _context.Addresses.FindAsync(userId,addressId);
                 if (address == null)
                 {
                     return NotFound();
@@ -111,14 +111,12 @@ namespace BetaCycle.Controllers
 
         // PUT: api/Addresses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        /*[HttpPut("{id}")]
-        public async Task<IActionResult> PutAddress(long id, Address address)
+        [Authorize]
+        [HttpPut("[action]")]
+        public async Task<IActionResult> PutAddress(Address address)
         {
-            if (id != address.UserId)
-            {
-                return BadRequest();
-            }
-
+            address.User = await _context.Users.FindAsync(address.UserId);
+            
             _context.Entry(address).State = EntityState.Modified;
 
             try
@@ -127,7 +125,7 @@ namespace BetaCycle.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AddressExists(id))
+                if (!AddressExists(address.AddressId))
                 {
                     return NotFound();
                 }
@@ -138,7 +136,7 @@ namespace BetaCycle.Controllers
             }
 
             return NoContent();
-        }*/
+        }
 
         private bool AddressExists(long id)
         {
