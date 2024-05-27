@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Editing Product</h2>
+<mat-dialog-content>
+  <div style="display: flex; flex-direction: column;">
+    <div style="padding: 10px;">
+      <label style="padding-right: 10px;">Vuoi davvero eliminare il prodotto?</label>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close cdkFocusInitial [mat-dialog-close]="true">Confirm</button>
+</mat-dialog-actions>

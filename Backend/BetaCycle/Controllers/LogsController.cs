@@ -14,6 +14,7 @@ using BetaCycle.Models;
 using LoginLibrary.JwtAuthentication;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
+using System.Text.Json;
 
 namespace BetaCycle.Controllers
 {
@@ -48,16 +49,15 @@ namespace BetaCycle.Controllers
                 foreach (var val in bson)
                 {
                     var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
-                    Models.Mongo.Log log = new()
+                    Models.Mongo.Log log = new();
+                    foreach (var element in val.Elements)
                     {
-                        Date = val.Elements.ElementAt(1).Value.AsString,
-                        Level = val.Elements.ElementAt(2).Value.AsString,
-                        Logger = val.Elements.ElementAt(3).Value.AsString,
-                        Message = val.Elements.ElementAt(4).Value.AsString,
-                        Host = val.Elements.ElementAt(5).Value.AsString,
-                        Callsite = val.Elements.ElementAt(6).Value.AsString,
-                        Timestamp = val.Elements.ElementAt(7).Value.AsString
-                    };
+                        if(element.Name == "Date" ||  element.Name == "Timestamp" || element.Name == "Level")
+                            log.Header.Add(element.Value.AsString);
+                        if (element.Name != "_id" && element.Name != "Properties")
+                            log.Stats.Add(new KeyValuePair<string, string>(element.Name, element.Value.AsString));
+                    }
+                    
                     foreach (var bsonElement in props)
                     {
                         log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name, bsonElement.Value.AsString));
@@ -104,21 +104,19 @@ namespace BetaCycle.Controllers
                 foreach (var val in bson)
                 {
                     var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
-                    Models.Mongo.Log log = new()
+                    Models.Mongo.Log log = new();
+                    foreach (var element in val.Elements)
                     {
-                        Date = val.Elements.ElementAt(1).Value.AsString,
-                        Level = val.Elements.ElementAt(2).Value.AsString,
-                        Logger = val.Elements.ElementAt(3).Value.AsString,
-                        Message = val.Elements.ElementAt(4).Value.AsString,
-                        Host = val.Elements.ElementAt(5).Value.AsString,
-                        Callsite = val.Elements.ElementAt(6).Value.AsString,
-                        Timestamp = val.Elements.ElementAt(7).Value.AsString
-                    };
+                        if (element.Name == "Date" || element.Name == "Timestamp" || element.Name == "Level")
+                            log.Header.Add(element.Value.AsString);
+                        if (element.Name != "_id" && element.Name != "Properties")
+                            log.Stats.Add(new KeyValuePair<string, string>(element.Name, element.Value.AsString));
+                    }
+
                     foreach (var bsonElement in props)
                     {
                         log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name, bsonElement.Value.AsString));
                     }
-
                     logs.Add(log);
                 }
 
@@ -158,21 +156,19 @@ namespace BetaCycle.Controllers
                 foreach (var val in bson)
                 {
                     var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
-                    Models.Mongo.Log log = new()
+                    Models.Mongo.Log log = new();
+                    foreach (var element in val.Elements)
                     {
-                        Date = val.Elements.ElementAt(1).Value.AsString,
-                        Level = val.Elements.ElementAt(2).Value.AsString,
-                        Logger = val.Elements.ElementAt(3).Value.AsString,
-                        Message = val.Elements.ElementAt(4).Value.AsString,
-                        Host = val.Elements.ElementAt(5).Value.AsString,
-                        Callsite = val.Elements.ElementAt(6).Value.AsString,
-                        Timestamp = val.Elements.ElementAt(7).Value.AsString
-                    };
+                        if (element.Name == "Date" || element.Name == "Timestamp" || element.Name == "Level")
+                            log.Header.Add(element.Value.AsString);
+                        if (element.Name != "_id" && element.Name != "Properties")
+                            log.Stats.Add(new KeyValuePair<string, string>(element.Name, element.Value.AsString));
+                    }
+
                     foreach (var bsonElement in props)
                     {
                         log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name, bsonElement.Value.AsString));
                     }
-
                     logs.Add(log);
                 }
             }
@@ -189,7 +185,7 @@ namespace BetaCycle.Controllers
         }
 
         [Authorize(Policy = "Admin")]
-        [HttpPost("[action]")]
+        [HttpGet("[action]")]
         public ActionResult ToggleLogging()
         {
             if (LogManager.IsLoggingEnabled())
@@ -216,7 +212,6 @@ namespace BetaCycle.Controllers
 
         #region HttpPost
 
-        [Authorize(Policy = "Admin")]
         [HttpPost("[action]")]
         public async Task<ActionResult> PostError(FrontEndLog log)
         {

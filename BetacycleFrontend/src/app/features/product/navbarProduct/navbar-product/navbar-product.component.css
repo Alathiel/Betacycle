@@ -1,0 +1,62 @@
+.navbar{
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.nav-brand{
+
+    color: #ffff;
+    font-weight: bold;
+}
+.navbar-nav {
+    flex-direction: row;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff; /* Colore del testo */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #adb5bd; /* Colore del testo al passaggio del mouse */
+}
+
+.navbar-toggler {
+    border-color: #ffffff; /* Colore del bordo del toggler */
+}
+
+.navbar-toggler-icon {
+    background-color: #ffffff; /* Colore dell'icona del toggler */
+}
+
+.input-group-text {
+    /*background-color: #495057;  Colore di sfondo del gruppo di input */
+    /*border-color: #495057;  Colore del bordo del gruppo di input */
+    color: #ffffff; /* Colore del testo */
+}
+
+.form-control {
+    /*background-color: #495057;  Colore di sfondo dell'input */
+    border-color: #495057; /* Colore del bordo dell'input */
+    color: #000000; /* Colore del testo */
+}
+
+.form-control::placeholder {
+    color: #6b6b6b; /* Colore del placeholder */
+}
+
+/* Transizione al passaggio del mouse sulle icone */
+.input-group-text:hover {
+    background-color: #979a9c; /* Colore di sfondo al passaggio del mouse */
+}
+
+
+.form-inline {
+    flex-grow: 1;
+    justify-content: center;
+}
+.icon{
+    color: black;
+}

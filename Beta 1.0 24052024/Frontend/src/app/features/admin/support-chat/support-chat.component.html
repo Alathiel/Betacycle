@@ -1,0 +1,8 @@
+<p>support-chat works!</p>
+
+
+<div>
+    <input #message="ngModel" type="text" [(ngModel)]="writeMessage">
+    <button (click)="sendMessage(message.value)">Send</button>
+    <label *ngFor="let item of receivedMessage">User:{{item.user}}<br>Message:{{item.message}}<hr></label>
+</div>
