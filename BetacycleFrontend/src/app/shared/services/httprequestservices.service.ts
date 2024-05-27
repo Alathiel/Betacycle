@@ -173,4 +173,15 @@ toggleLogging():Observable<any>
   return this.http.get('https://localhost:7044/api/Logs/ToggleLogging',{observe: 'response'});
 }
 
+GetCart():Observable<any>
+{
+  return this.http.get('https://localhost:7044/api/Carts/GetCart',{observe: 'response'});
+}
+
+PutCart(cart:any):Observable<any>
+{
+  return this.http.put("https://localhost:7044/api/Carts/PutCart", cart);
+}
+
+
 }

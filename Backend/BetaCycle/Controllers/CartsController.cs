@@ -25,38 +25,22 @@ namespace BetaCycle.Controllers
 
         // GET: api/Carts
         [Authorize]
-        [HttpGet]
-        public async Task<ActionResult<Cart>> GetCart()
+        [HttpGet("[action]")]
+        public async Task<IQueryable<Cart>> GetCart()
         {
-            Cart cart = (Cart) _context.Carts.Where(cart => cart.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            if (cart == null)
-                return NotFound();
+            var cart = _context.Carts
+                .Include(cart => cart.Product)
+                .ThenInclude(product => product.Carts)
+                .Where(cart => cart.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             return cart;
         }
 
-        // GET: api/Carts/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Cart>> GetCart(long id)
-        {
-            var cart = await _context.Carts.FindAsync(id);
-
-            if (cart == null)
-            {
-                return NotFound();
-            }
-
-            return cart;
-        }
 
         // PUT: api/Carts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCart(long id, Cart cart)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> PutCart(Cart cart)
         {
-            if (id != cart.UserId)
-            {
-                return BadRequest();
-            }
 
             _context.Entry(cart).State = EntityState.Modified;
 
@@ -66,14 +50,7 @@ namespace BetaCycle.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CartExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                
             }
 
             return NoContent();
@@ -82,28 +59,35 @@ namespace BetaCycle.Controllers
         // POST: api/Carts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<ActionResult<Cart>> PostCart(Cart cart)
         {
-            _context.Carts.Add(cart);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (CartExists(cart.UserId))
+                cart.UserId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                cart.Product = await _context.Products.FindAsync(cart.ProductId);
+                cart.User = await _context.Users.FindAsync(cart.UserId);
+                var found = await _context.Carts.FindAsync(cart.UserId, cart.ProductId);
+                if (found != null)
                 {
-                    return Conflict();
+                    found.Quantity += cart.Quantity;
+                    await PutCart(found);
+                    return Ok();
                 }
                 else
                 {
-                    throw;
+                    _context.Carts.Add(cart);
+                    await _context.SaveChangesAsync();
+                    return Ok();
                 }
             }
-
-            return CreatedAtAction("GetCart", new { id = cart.UserId }, cart);
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
         }
+
+
 
         // DELETE: api/Carts/5
         [HttpDelete("{id}")]

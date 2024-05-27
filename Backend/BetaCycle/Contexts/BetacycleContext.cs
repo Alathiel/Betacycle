@@ -104,7 +104,7 @@ public partial class BetacycleContext : DbContext
 
             entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
             entity.Property(e => e.Name)
-                .HasMaxLength(10)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
@@ -128,7 +128,7 @@ public partial class BetacycleContext : DbContext
             entity.HasIndex(e => e.Name, "Name_Const").IsUnique();
 
             entity.Property(e => e.Name)
-                .HasMaxLength(10)
+                .HasMaxLength(50)
                 .IsUnicode(false);
         });
 
@@ -163,7 +163,7 @@ public partial class BetacycleContext : DbContext
                 .HasMaxLength(1000)
                 .IsUnicode(false);
             entity.Property(e => e.ProductName)
-                .HasMaxLength(30)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.ProductNumber)
                 .HasMaxLength(20)

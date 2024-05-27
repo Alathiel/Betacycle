@@ -40,6 +40,7 @@ export class NavbarComponent {
       {
         next: (data: any) => {
           this.user = data
+          this.isLogged = true
         },
         error: (err: any) => {
           console.log("Errore: " + err.status);

@@ -1,0 +1,21 @@
+<div class="product-section">
+    <!-- header -->
+    <div class="left-side">
+        <img [src]="Convert(product.product.thumbnailPhoto)" alt="aa"  style="height: 100%; width: 50%;">
+        
+    </div>
+    
+    <div class="right-side">
+        <label style="font-weight: bold;">{{product.product.productName}}</label>
+        <label>€ {{product.product.actualPrice}}</label>
+        <label>{{product.product.productNumber}}</label>
+        <label>{{product.product.color}}</label>
+        <label>{{product.product.weight}}</label>
+        <label>Quantita' </label>
+        <div style="flex-direction: row;">
+            <button (click)="LessQuantity()"> - </button>
+            <label style="padding-left: 25px; padding-right: 25px;">{{product.quantity}}</label>
+            <button (click)="MoreQuantity()"> + </button>
+        </div>
+    </div>
+</div>
