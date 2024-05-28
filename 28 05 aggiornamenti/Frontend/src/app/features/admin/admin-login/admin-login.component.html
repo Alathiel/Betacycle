@@ -1,0 +1,24 @@
+<div class="main-container">
+    <form class="form" #form='ngForm' (submit)="loginJwt()">
+        <p class="form-title">Login</p>
+        <div class="input-container">
+            <input #email='ngModel'  [(ngModel)]="credentials.email" placeholder="Email" name="email" required minlength="6"><br>
+            <ng-container *ngIf="email.invalid && (email.dirty || email.touched)">
+                <div *ngIf="email.errors?.['minlength'] || email.errors?.['required']" style="color: rgb(175, 5, 5);">
+                    Email must be at least 6 characters long.
+                </div>
+            </ng-container>
+        </div>
+        <div class="input-container">
+            <input #password="ngModel" [(ngModel)]="credentials.password" placeholder="Password" name="pw" required  minlength="8" type="password"><br>
+            <ng-container *ngIf="password.invalid && (password.dirty || password.touched)">
+                <div *ngIf="password.errors?.['minlength'] || password.errors?.['required']" style="color: rgb(175, 5, 5);">
+                    Password must be at least 8 characters long.
+                </div>
+            </ng-container>
+        </div>
+        <button class="submit" type="submit" severity="warning" >Login</button>
+    </form>
+    
+    <app-toast></app-toast>
+</div>

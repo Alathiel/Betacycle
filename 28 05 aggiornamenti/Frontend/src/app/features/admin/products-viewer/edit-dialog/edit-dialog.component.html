@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Editing Product</h2>
+<mat-dialog-content>
+  <div style="display: flex; flex-direction: column;">
+    <div style="padding: 10px;" class="input-container">
+      <label style="padding-right: 10px;">Product name</label>
+      <input type = 'text' placeholder="ProductName" [(ngModel)]="productDatas.productName" />
+    </div>
+    <div style="padding: 10px;" class="input-container">
+      <label style="padding-right: 10px;">Product price</label>
+      <input type = 'number' placeholder="ProductName" [(ngModel)]="productDatas.actualPrice"/>
+    </div>
+    <div style="padding: 10px;" class="input-container">
+      <label style="padding-right: 10px;">Product color</label>
+      <input type = 'text' placeholder="Color" [(ngModel)]="productDatas.color" required #color = 'ngModel'/>
+    </div>
+    <div style="padding: 10px;" class="input-container">
+      <label style="padding-right: 10px;">Product description</label>
+      <input type = 'text' placeholder="Description" [(ngModel)]="productDatas.description" required #description = 'ngModel'/>
+    </div>
+    <div style="padding: 10px;" class="input-container">
+      <label style="padding-right: 10px;">Product number</label>
+      <input type = 'text' placeholder="Product number" [(ngModel)]="productDatas.productNumber" required #productNumber = 'ngModel'/>
+    </div>
+    <div style="padding: 10px;" class="input-container">
+      <label style="padding-right: 10px;">Product weight</label>
+      <input type = 'number' placeholder="Weight" [(ngModel)]="productDatas.weight" required #weight = 'ngModel'/>
+    </div>
+    
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close cdkFocusInitial [mat-dialog-close]="{state: true, productDatas}">Confirm</button>
+</mat-dialog-actions>

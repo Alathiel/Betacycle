@@ -1,0 +1,27 @@
+.h1TitleProduct {
+    color: black;
+    font-family: 'Poppins Italic', sans-serif;
+    text-align: center;
+    text-transform: unset;
+    font-style: oblique;
+}
+
+
+.navbar {
+
+    justify-content: center;
+}
+
+.navbar-nav {
+    flex-direction: row;
+}
+
+.form-inline {
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.input-group {
+    margin-right: 10px;
+}
+

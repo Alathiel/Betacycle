@@ -1,0 +1,39 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-header">
+      <a routerLink="/home" class="scrittaLogo">
+        <h6>
+          <img src="assets/intestazione.png" alt="Logo" class="logo">Ride your dreams
+        </h6>
+      </a>
+    </div>
+    <div class="navbar-menu" id="open-navbar1">
+      <ul class="navbar-nav">
+        <li>
+          <form class="search-box">
+            <input name="byname" matInput #searchname="ngModel" [(ngModel)]="service.byname" type="text"
+              class="form-control" placeholder="Cerca..." aria-label="Name" aria-describedby="search-name"
+              (keydown.enter)="GoToSearch()" />
+            <button type="reset"></button>
+          </form>
+        </li>
+        <li class="active"><a routerLink="/home"><i class="bi bi-house-fill"></i> Home</a></li>
+        <li><a routerLink="/product"><i class="bi bi-bag-fill"></i> Prodotti</a></li>
+        <li *ngIf="!isLogged"><a routerLink="/login"><i class="bi bi-person-fill"></i> Login</a>
+          /<a routerLink="/registration">Registrati</a></li>
+        <li *ngIf="isLogged" class="nav-item dropdown">
+          <div class="dropdown">
+            <a class="dropbtn">{{user.firstName}} {{user.lastName}}</a>
+            <div class="dropdown-content">
+              <a style="cursor: pointer;" (click)="GoToUserSettings()">Impostazioni</a>
+              <a routerLink="/cart">Carrello</a>
+              <a style="cursor: pointer;" (click)="LogOut()">Logout</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
