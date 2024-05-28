@@ -20,14 +20,16 @@ export class ProductCardComponent {
 
 showOriginalCards : boolean = true;
 getname: string = '';
-getprice: string = '';
+getprice: number = 0;
 getcolor: string = '';
 products: any;
-selectedValue = "productName"
-search = ""
-totalProducts = 0
-page = 1
-loadedProducts = 0
+selectedValue = "productName";
+selectedColor = "color";
+selectedPrice = "price";
+search = "";
+totalProducts = 0;
+page = 1;
+loadedProducts = 0;
 
 constructor(private http:HttprequestservicesService, private sanitizer: DomSanitizer, private router:Router)
 {
@@ -38,12 +40,12 @@ constructor(private http:HttprequestservicesService, private sanitizer: DomSanit
       }
     if(sessionStorage.getItem('tmpbyprice') != '')
       {
-        this.getname = sessionStorage.getItem('tmpbyprice')!
+        this.getprice = parseFloat(sessionStorage.getItem('tmpbyprice')!);
         sessionStorage.removeItem('tmpbyprice') 
       }
     if(sessionStorage.getItem('tmpbycolor') != '')
       {
-        this.getname = sessionStorage.getItem('tmpbycolor')!
+        this.getcolor = sessionStorage.getItem('tmpbycolor')!
         sessionStorage.removeItem('tmpbycolor');
       }
       this.SearchFilteredProduct(this.getname);
@@ -53,7 +55,9 @@ constructor(private http:HttprequestservicesService, private sanitizer: DomSanit
 
 SearchFilteredProduct(name: string)
   { 
-    this.http.getFilteredProducts("productName", name, 1)
+    this.http.getFilteredProductsUser(this.selectedValue, name,
+      this.selectedColor, this.getcolor,
+      this.selectedPrice, this.getprice, 1)
     .subscribe(
       {
         next: (data: any) => {
@@ -99,7 +103,9 @@ SearchFilteredProduct(name: string)
     if(temp === "bb")
       this.page = 1
     if(this.getname !== ""){
-      this.http.getFilteredProducts(this.selectedValue, this.getname, this.page).subscribe({
+      this.http.getFilteredProductsUser(this.selectedValue, this.getname,
+        this.selectedColor, this.getcolor,
+        this.selectedPrice, this.getprice, this.page).subscribe({
         next: (response:any) => {
           console.log(response)
           this.products = response.body.products.$values
