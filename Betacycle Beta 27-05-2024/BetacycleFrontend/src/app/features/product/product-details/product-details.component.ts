@@ -72,4 +72,9 @@ export class ProductDetailsComponent {
     return ''
   }
 
+  AddToCart()
+  {
+    alert("Work in progress");
+  }
+
 }

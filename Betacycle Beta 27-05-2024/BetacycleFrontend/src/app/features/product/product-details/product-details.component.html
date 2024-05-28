@@ -1,23 +1,21 @@
 <div *ngIf="loaded == true">
-<h2 style="text-align: center;">Details of Product {{product.productName}}</h2>
+    <h2 style="text-align: center; color: blue;">Details of Product {{product.productName}}</h2>
 
-<div class="container">
-    <div class="row">
-      <div class="col">
-        <img [src]="convert(product.thumbnailPhoto)" alt="..." width="400" height="550">
-      </div>
-      <div class="col" style="margin-top: 15%;">
-        <p>{{product.color}}</p>
-<p>Prezzo Originale: {{product.actualPrice}}</p>
-<p>Prezzo Ora: {{product.insertPrice}}</p>
-<p>{{product.weight}}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img [src]="convert(product.thumbnailPhoto)" alt="..." width="400" height="550">
+            </div>
+            <div class="col" style="margin-top: 10%;font-weight: bold;">
+                <p>{{product.color}}</p>
+                <p *ngIf="product.insertPrice < product.actualPrice"><s>€{{product.actualPrice}}</s> €{{product.insertPrice}}!</p>
+                <p *ngIf="product.insertPrice == product.actualPrice">€{{product.actualPrice}}</p>
+                <p>{{product.weight}}</p>
+                <p>Description: {{product.description}}</p>
+                <p>Model Name: {{model.name}}</p>
+                <p>Category Name: {{category.name}}</p>
+                <button (click)="AddToCart()" type="button" class="btn btn-primary">Add to Cart</button>
+            </div>
+        </div>
 
- <p *ngIf="product.insertPrice < product.actualPrice">{{product.insertPrice}}</p>
-
-<p>{{product.description}}</p>
-<p>Model Name: {{model.name}}</p>
-<p>Category Name: {{category.name}}</p>
-      </div>
     </div>
-    
-  </div>

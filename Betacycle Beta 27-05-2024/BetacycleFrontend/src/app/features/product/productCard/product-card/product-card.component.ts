@@ -36,26 +36,24 @@ constructor(private http:HttprequestservicesService, private sanitizer: DomSanit
     if(sessionStorage.getItem('tmpbyname') != '')
       {
         this.getname = sessionStorage.getItem('tmpbyname')!
-        sessionStorage.removeItem('tmpbyname');
+        //sessionStorage.removeItem('tmpbyname');
       }
     if(sessionStorage.getItem('tmpbyprice') != '')
       {
         this.getprice = parseFloat(sessionStorage.getItem('tmpbyprice')!);
-        sessionStorage.removeItem('tmpbyprice') 
+        //sessionStorage.removeItem('tmpbyprice') 
       }
     if(sessionStorage.getItem('tmpbycolor') != '')
       {
         this.getcolor = sessionStorage.getItem('tmpbycolor')!
-        sessionStorage.removeItem('tmpbycolor');
+        //sessionStorage.removeItem('tmpbycolor');
       }
-      this.SearchFilteredProduct(this.getname);
-      //this.getAllDatas();
-      
+      this.SearchFilteredProduct();
 }
 
-SearchFilteredProduct(name: string)
+SearchFilteredProduct()
   { 
-    this.http.getFilteredProductsUser(this.selectedValue, name,
+    this.http.getFilteredProductsUser(this.selectedValue, this.getname,
       this.selectedColor, this.getcolor,
       this.selectedPrice, this.getprice, 1)
     .subscribe(
@@ -102,7 +100,7 @@ SearchFilteredProduct(name: string)
   filter(temp:string = "aa"){
     if(temp === "bb")
       this.page = 1
-    if(this.getname !== ""){
+    if(this.getname !== "" || this.getcolor != ""){
       this.http.getFilteredProductsUser(this.selectedValue, this.getname,
         this.selectedColor, this.getcolor,
         this.selectedPrice, this.getprice, this.page).subscribe({

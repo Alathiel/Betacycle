@@ -16,6 +16,9 @@ export class HomeComponent {
   products:Product[]=[]
   constructor(private http:HttprequestservicesService )
   {
+    sessionStorage.removeItem('tmpbyname');
+    sessionStorage.removeItem('tmpbyprice');
+    sessionStorage.removeItem('tmpbycolor');
     this.http.GetProducts(1).subscribe
     ({
       next: (prod: any) => {
