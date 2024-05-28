@@ -19,6 +19,7 @@ export class HomeComponent {
     sessionStorage.removeItem('tmpbyname');
     sessionStorage.removeItem('tmpbyprice');
     sessionStorage.removeItem('tmpbycolor');
+    sessionStorage.removeItem('tmpop');
     this.http.GetProducts(1).subscribe
     ({
       next: (prod: any) => {

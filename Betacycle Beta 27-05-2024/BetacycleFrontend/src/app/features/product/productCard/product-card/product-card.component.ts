@@ -22,10 +22,12 @@ showOriginalCards : boolean = true;
 getname: string = '';
 getprice: number = 0;
 getcolor: string = '';
+getoperand: string = '';
 products: any;
 selectedValue = "productName";
 selectedColor = "color";
 selectedPrice = "price";
+selectedOperand = "operand";
 search = "";
 totalProducts = 0;
 page = 1;
@@ -48,6 +50,11 @@ constructor(private http:HttprequestservicesService, private sanitizer: DomSanit
         this.getcolor = sessionStorage.getItem('tmpbycolor')!
         //sessionStorage.removeItem('tmpbycolor');
       }
+    if(sessionStorage.getItem('tmpop') != '')
+      {
+        this.getoperand = sessionStorage.getItem('tmpop')!
+        //sessionStorage.removeItem('tmpop');
+      }
       this.SearchFilteredProduct();
 }
 
@@ -55,10 +62,12 @@ SearchFilteredProduct()
   { 
     this.http.getFilteredProductsUser(this.selectedValue, this.getname,
       this.selectedColor, this.getcolor,
-      this.selectedPrice, this.getprice, 1)
+      this.selectedPrice, this.getprice, 
+      this.selectedOperand, this.getoperand, 1)
     .subscribe(
       {
         next: (data: any) => {
+          console.log(data)
           this.products = data.body.products.$values;
           this.totalProducts = data.body.totalProducts
           this.loadedProducts = this.products.length
@@ -103,9 +112,9 @@ SearchFilteredProduct()
     if(this.getname !== "" || this.getcolor != ""){
       this.http.getFilteredProductsUser(this.selectedValue, this.getname,
         this.selectedColor, this.getcolor,
-        this.selectedPrice, this.getprice, this.page).subscribe({
+        this.selectedPrice, this.getprice,
+        this.selectedOperand, this.getoperand, this.page).subscribe({
         next: (response:any) => {
-          console.log(response)
           this.products = response.body.products.$values
           this.totalProducts = response.body.totalProducts
           this.loadedProducts = this.products.length

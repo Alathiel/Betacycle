@@ -8,9 +8,9 @@
             </div>
             <div class="col" style="margin-top: 10%;font-weight: bold;">
                 <p>{{product.color}}</p>
-                <p *ngIf="product.insertPrice < product.actualPrice"><s>€{{product.actualPrice}}</s> €{{product.insertPrice}}!</p>
-                <p *ngIf="product.insertPrice == product.actualPrice">€{{product.actualPrice}}</p>
-                <p>{{product.weight}}</p>
+                <p *ngIf="product.insertPrice < product.actualPrice"><s>€{{product.actualPrice | number : '1.2-2'}}</s> €{{product.insertPrice | number : '1.2-2'}}!</p>
+                <p *ngIf="product.insertPrice == product.actualPrice">€{{product.actualPrice | number : '1.2-2'}}</p>
+                <p>Weight: {{product.weight}}</p>
                 <p>Description: {{product.description}}</p>
                 <p>Model Name: {{model.name}}</p>
                 <p>Category Name: {{category.name}}</p>

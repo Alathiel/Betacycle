@@ -36,6 +36,7 @@ export class NavbarComponent {
     var decodedToken = JSON.parse(window.atob(this.auth.getToken()!.split('.')[1]));
     if(this.auth.getLoginStatus() && decodedToken.role !== 'Admin')
     {
+      this.isLogged = true;
       this.http.GetUserInfo().subscribe(
       {
         next: (data: any) => {

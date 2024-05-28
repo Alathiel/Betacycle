@@ -16,8 +16,15 @@
                     type="text" class="form-control" placeholder="Inserisci colore" aria-label="Color"
                         aria-describedby="search-color">
                 </div>
-                <div class="input-group mr-2">
-                    <a class="input-group-text" id="search-price"><i class="bi bi-currency-euro icon"></i></a>
+                <div class="input-group mr-2;">
+                    <div class="dropdown">
+                    <a class="input-group-text" id="search-price"><i class="bi bi-currency-euro dropbtnicon">
+                        <div class="dropdown-content">
+                            <a style="cursor: pointer;" id=">" #greater (click)="SetPriceOperand(greater)">Greater</a>
+                            <a style="cursor: pointer;" id="<" #lower (click)="SetPriceOperand(lower)">Lower</a>
+                          </div>
+                    </i></a>
+                    </div>
                     <input name="byprice" matInput #searchprice="ngModel" [(ngModel)]="byprice" 
                     type="text" class="form-control" placeholder="Inserisci prezzo" aria-label="Price"
                         aria-describedby="search-price">

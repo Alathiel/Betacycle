@@ -15,13 +15,20 @@ export class NavbarProductComponent {
   byname: string = '';
   byprice: string = '';
   bycolor: string = '';
+  operand: string = '';
 
   SetFilteredProduct()
   {
     sessionStorage.setItem('tmpbyname', this.byname);
     sessionStorage.setItem('tmpbyprice', this.byprice);
     sessionStorage.setItem('tmpbycolor', this.bycolor);
+    sessionStorage.setItem('tmpop', this.operand);
     window.location.reload();
+  }
+
+  SetPriceOperand(op: HTMLElement)
+  {
+    this.operand = op.id;
   }
 
 

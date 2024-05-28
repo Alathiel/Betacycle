@@ -42,11 +42,12 @@ export class HttprequestservicesService {
     return this.http.get('https://localhost:7044/api/Products/FilterProducts', {params: params, observe: 'response'});
 }
 
-getFilteredProductsUser(filter: string, value: string, filter2: string, value2: string, filter3: string,value3: number, page:number):Observable<any>{
+getFilteredProductsUser(filter: string, value: string, filter2: string, value2: string, filter3: string,value3: number, filter4: string, value4: string, page:number):Observable<any>{
   var params = new HttpParams()
   .append(filter, value)
   .append(filter2, value2)
   .append(filter3, value3)
+  .append(filter4, value4)
   .append("pageNumber", page)
   return this.http.get('https://localhost:7044/api/Products/FilterProducts', {params: params, observe: 'response'});
 }
