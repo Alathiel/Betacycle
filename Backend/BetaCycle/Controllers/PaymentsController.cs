@@ -29,6 +29,7 @@ namespace BetaCycle.Controllers
         }
 
         // GET: api/Payments
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
         {
@@ -37,13 +38,13 @@ namespace BetaCycle.Controllers
 
 
         // GET: api/Payments/5
-
+        /*[Authorize]
         [HttpGet("{userId}")]
-        public async Task<ActionResult<Payment>> GetPayment(long userId)
+        public async Task<ActionResult<Payment>> GetPayment()
         {
             try
             {           
-             var payment = await _context.Payments.FindAsync(userId);
+             var payment = await _context.Payments.FindAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             if (payment == null)
             {
@@ -60,9 +61,8 @@ namespace BetaCycle.Controllers
                     new ("Exception", e),
                 }).Log();
                 return BadRequest("Unexpected error has been encountered");
-                throw;
             }
-        }
+        }*/
 
         // PUT: api/Payments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -97,7 +97,7 @@ namespace BetaCycle.Controllers
 
         // POST: api/Payments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<ActionResult<Payment>> PostPayment(Payment payment)
         {
@@ -112,15 +112,7 @@ namespace BetaCycle.Controllers
                 payment.Cvvsalt = cvv.Value;
                 payment.User = await _context.Credentials.FindAsync(payment.UserId);
                 _context.Payments.Add(payment);
-                try
-                {
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateException dbex)
-                {
-                    throw;
-                }
-                
+                await _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
@@ -130,7 +122,6 @@ namespace BetaCycle.Controllers
                     new ("Exception", e),
                 }).Log();
                 return BadRequest("Unexpected error has been encountered");
-                throw;
             }
                        
 
@@ -138,13 +129,13 @@ namespace BetaCycle.Controllers
         }
 
         // DELETE: api/Payments/5
-
-        [HttpDelete("{userId}/{idPayment}")]
-        public async Task<IActionResult> DeletePayment(long userId,long idPayment)
+        [Authorize]
+        [HttpDelete("[controller]")]
+        public async Task<IActionResult> DeletePayment(long idPayment)
         {
             try
             {
-                var payment = await _context.Payments.FindAsync(idPayment,userId);
+                var payment = await _context.Payments.FindAsync(idPayment, Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 if (payment == null)
                 {
                     return NotFound();

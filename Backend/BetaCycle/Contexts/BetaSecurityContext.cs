@@ -33,6 +33,8 @@ public partial class BetaSecurityContext : DbContext
 
             entity.ToTable("AdminCredential");
 
+            entity.HasIndex(e => e.Email, "IX_AdminCredential").IsUnique();
+
             entity.Property(e => e.Email)
                 .HasMaxLength(30)
                 .IsUnicode(false);
@@ -72,10 +74,10 @@ public partial class BetaSecurityContext : DbContext
 
             entity.Property(e => e.IdPayment).ValueGeneratedOnAdd();
             entity.Property(e => e.CircuitCard)
-                .HasMaxLength(10)
+                .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.Cvv)
-                .HasMaxLength(3)
+                .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("CVV");
             entity.Property(e => e.Cvvsalt)
@@ -86,7 +88,7 @@ public partial class BetaSecurityContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.NumberCard)
-                .HasMaxLength(20)
+                .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.NumberCardSalt)
                 .HasMaxLength(50)

@@ -10,7 +10,7 @@
                 </ng-container>
                     <div class="button-wrapper">
                         <label style="font-size: large; font-weight: 600;">Totale spesa (Incl. Tax): {{totalPrice}}</label>
-                        <button class="confirm"> Procedi alla pagina di pagamento</button>
+                        <button class="confirm" (click)="redirect('confirm-order')"> Procedi alla pagina di pagamento</button>
                     </div>
             </ng-container>
             <ng-container *ngIf="cart.length <= 0">

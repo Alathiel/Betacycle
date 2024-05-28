@@ -192,16 +192,16 @@ export class UsersettingsComponent {
   }
   DeletePayment(idPayment:number)
   {
-    this.http.DeleteHttpPayment(this.token.nameid,idPayment).subscribe(
+    this.http.DeleteHttpPayment(idPayment).subscribe(
       {
         next:(data:any)=>{
+          window.location.reload() 
 
         },
         error:(error:any)=>
           {console.log(error)}
       }
     )   
-    window.location.reload() 
   }
   AddPayment(month:NgModel,year:NgModel)
   {
@@ -228,13 +228,12 @@ export class UsersettingsComponent {
       {
         next:(data:any)=>{
           console.log(data)
+          window.location.reload()
         },
         error:(error:any)=>
           {console.log(error.message)}
       }
     )
-  
-    window.location.reload()
   }
 
 

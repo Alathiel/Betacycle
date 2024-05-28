@@ -87,8 +87,6 @@ namespace BetaCycle.Controllers
             }
         }
 
-
-
         // DELETE: api/Carts/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCart(long id)

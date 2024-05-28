@@ -15,6 +15,7 @@ import { LogsViewerComponent } from './features/admin/logs-viewer/logs-viewer.co
 import { ProductsViewerComponent } from './features/admin/products-viewer/products-viewer.component';
 import { SupportChatComponent } from './features/admin/support-chat/support-chat.component';
 import { CartComponent } from './features/cart/cart.component';
+import { ConfirmOrderComponent } from './features/confirm-order/confirm-order.component';
 
 
 export const routes: Routes = [
@@ -34,5 +35,6 @@ export const routes: Routes = [
     {path: 'products-viewer', component:ProductsViewerComponent},
     {path: 'support-chat', component:SupportChatComponent},
     {path: 'cart', component:CartComponent},
+    {path: 'confirm-order', component:ConfirmOrderComponent},
     {path:'', redirectTo:'/home',pathMatch:'full'}
 ];

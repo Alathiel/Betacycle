@@ -114,12 +114,15 @@ export class HttprequestservicesService {
   {
     return this.http.get(`https://localhost:7044/api/Payments/`)
   }
-  DeleteHttpPayment(userid:number,idPayment:number):Observable<any>
+  DeleteHttpPayment(idPayment:number):Observable<any>
   {
-    return this.http.delete(`https://localhost:7044/api/Payments/${userid}/${idPayment}`)
+    var params = new HttpParams()
+      .append("idPayment", idPayment)
+    return this.http.delete(`https://localhost:7044/api/Payments/Payments`,{params: params})
   }
   PostHttpPayment(payment:PaymentPost):Observable<any>
   {
+    console.log(payment)
     return this.http.post(`https://localhost:7044/api/Payments/PostPayment`,payment)
   }
   
