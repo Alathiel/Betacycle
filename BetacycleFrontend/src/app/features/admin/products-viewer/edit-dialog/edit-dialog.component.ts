@@ -27,4 +27,17 @@ export class EditDialog{
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http:HttprequestservicesService,) {
     this.productDatas = data;
   }
+  getBase64(event:any) {
+    let me = this;
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      var temp:any = reader.result;
+      me.productDatas.thumbnailPhoto = temp.substring(temp.indexOf(",")+1)
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+  }
 }
