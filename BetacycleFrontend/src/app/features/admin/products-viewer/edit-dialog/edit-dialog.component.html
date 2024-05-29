@@ -26,6 +26,13 @@
       <input type = 'number' placeholder="Weight" [(ngModel)]="productDatas.weight" required #weight = 'ngModel'/>
     </div>
     
+    <div class="dropzone">
+      <button (click)="uploader.click()">Upload</button>
+      
+    </div>
+  
+  <input hidden type="file" #uploader (change)="getBase64($event)"/>
+
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>

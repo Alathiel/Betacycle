@@ -58,6 +58,8 @@ export class NavbarComponent {
   LogOut()
   {
     this.auth.Logout();
+    window.location.reload();
+    this.route.navigate(['home'])
   }
 
   GoToSearch()

@@ -25,7 +25,6 @@ export class CaroselloComponent {
   selectedValue = "all"
   constructor(private http: HttprequestservicesService, private router: Router, public dialog: MatDialog, private toast: ToastService, private sanitizer: DomSanitizer) {
     this.getDeal()
-
   }
   
 
