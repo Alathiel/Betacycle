@@ -18,41 +18,34 @@ export class UserpaymentsComponent {
   getPayment: Payment[] = []
   newPayment: PaymentPost = new PaymentPost()
   stringCardNumber: string[] = []
-  token: any
   constructor(private http: HttprequestservicesService,
     private auth: AuthServiceService,
     private route: Router) {
-    this.token = sessionStorage.getItem('token')
-    this.token = this.auth.getDecodedToken()
-    this.GetPayment()
+      this.http.GetHttpPaymentById().subscribe(
+        {
+          next: (data: any) => {
+            this.getPayment = data.$values
+          },
+          error: (error: any) => { console.log(error.message) }
+        }
+      )
   }
-  GetPayment() {
-    this.http.GetHttpPaymentById().subscribe(
-      {
-        next: (data: any) => {
-          this.getPayment = data.$values
-        },
-        error: (error: any) => { console.log(error.message) }
-      }
-    )
-  }
+
   DeletePayment(idPayment: number) {
     this.http.DeleteHttpPayment(idPayment).subscribe(
       {
         next: (data: any) => {
-
+          window.location.reload()
         },
         error: (error: any) => { console.log(error) }
       }
     )
-    window.location.reload()
   }
   AddPayment(month: NgModel, year: NgModel) {
     if (this.newPayment.numberCard.at(0) == '3' || this.newPayment.numberCard.at(0) == '4' || this.newPayment.numberCard.at(0) == '5') 
     {
       this.newPayment.expirationDate = '20' + year.value + '-' + month.value + '-' + '01'
       this.newPayment.user.lastmodified = this.newPayment.expirationDate
-
 
       switch (this.newPayment.numberCard.at(0)) {
         case '3':
@@ -65,17 +58,15 @@ export class UserpaymentsComponent {
           this.newPayment.circuitCard = 'Mastercard'
           break;
       }
-      this.newPayment.userId = this.token.nameid
-      console.log(this.newPayment)
       this.http.PostHttpPayment(this.newPayment).subscribe(
         {
           next: (data: any) => {
             console.log(data)
+            window.location.reload()
           },
           error: (error: any) => { console.log(error.message) }
         }
       )
-      window.location.reload()
     }
     else
     {

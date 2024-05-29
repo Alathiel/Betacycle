@@ -23,7 +23,7 @@ export class UpdateaddressComponent {
     this.token = sessionStorage.getItem('token')
     this.token = this.auth.getDecodedToken()
 
-    this.http.GetHttpAddressById(parseInt(sessionStorage.getItem('tmpaddress')!), this.token.nameid)
+    this.http.GetHttpAddressById(parseInt(sessionStorage.getItem('tmpaddress')!))
       .subscribe
       ({
         next: (data: any) => {
@@ -51,13 +51,13 @@ GoToGeneral()
       ({
         next: (data: any) => {
           this.newAddress = data;
+          this.route.navigate(['usersetting']);
         },
         error: (error: any) => {
           console.log(error.message);
         }
       })
 
-    this.route.navigate(['usersetting']);
   }
 
 }
