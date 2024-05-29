@@ -1,103 +1,65 @@
-<div class="card-container">
-  <div class="card" *ngFor="let a of getaddress">
-    <div class="card-body">
-      <h5 class="card-title">{{a.address1}}</h5>
-      {{a.city}}, {{a.province}} , {{a.cap}}
-      <br>{{a.nation}}
-      <div style="display: flex;margin-top: 10px;">
-        <button (click)="GoToUpdateAddress(a)" class="btn btn-outline-primary my-2 my-sm-0"
-          style="margin-right: 1rem;">Modifica Indirizzo
-        </button><br>
-        <button (click)="DeleteAddress(a.addressId,a.userId)" class="btn btn-outline-danger  my-2 my-sm-0">Elimina
-        </button>
-      </div>
-    </div>
-  </div><hr>
-</div>
-<br>
-<div class="card">
-  <div class="card-body">
-    <form #postAddress="ngForm" (submit)="AddAddress()">
-      <div class="form-group col-md-6">
-        <label for="Indirizzo">Indirizzo </label>
-        <input type="text" class="form-control" placeholder="Via/Viale/Corso ecc..." matInput #address1="ngModel"
-         [(ngModel)]="newAddress.address1" name="address1" required minlength="1">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="Citta">Città</label>
-        <input type="text" class="form-control" placeholder="Città" matInput #city="ngModel"
-          [(ngModel)]="newAddress.city" name="city" required minlength="3" pattern="[a-zA-Z]*">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="Provincia">Provincia</label>
-        <input type="text" class="form-control" placeholder="Città" matInput #province="ngModel"
-          [(ngModel)]="newAddress.province" name="province" required minlength="2" maxlength="2" pattern="[A-Z]*">
-      </div>
-      <div class="form-group col-md-6">
-        <label for="Cap">CAP</label>
+<div class="card" style="width: 15rem; height: 9 rem; margin: 10px;" *ngFor="let a of getaddress"
+          style="float:left">
+          <div class="card-body">
+            <h5 class="card-title">{{a.address1}}</h5>
+            City: {{a.city}} <br>
+            Province: {{a.province}} <br>
+            Nation: {{a.nation}} <br>
+            CAP: {{a.cap}}<br>
+            <button (click)="GoToUpdateAddress(a)" class="btn btn-outline-primary my-2 my-sm-0">Modifica Indirizzo
+            </button><br>
+            <button (click)="DeleteAddress(a.addressId,a.userId)" class="btn btn-outline-danger  my-2 my-sm-0">Elimina
+            </button>
+          </div>
+        </div>
+        <hr><br>
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                Accordion Item #1
+              </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                <form #postAddress="ngForm" (submit)="AddAddress()">
+                  <div class="form-group col-md-6">
+                    <label for="Indirizzo">Indirizzo </label>
+                    <input type="text" class="form-control" placeholder="Via/Viale/Corso ecc..." matInput #address1="ngModel"
+                      ngModel [(ngModel)]="newAddress.address1" name="address1" required minlength="1">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="Citta">Città</label>
+                    <input type="text" class="form-control" placeholder="Città" matInput #city="ngModel"
+                      [(ngModel)]="newAddress.city" name="city" required minlength="3" pattern="[a-zA-Z]*">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="Provincia">Provincia</label>
+                    <input type="text" class="form-control" placeholder="Città" matInput #province="ngModel"
+                      [(ngModel)]="newAddress.province" name="province" required minlength="2" maxlength="2" 
+                      pattern="[A-Z]*">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="Cap">CAP</label>
 
-        <input type="text" class="form-control" placeholder="Città" matInput #cap="ngModel"
-          [(ngModel)]="newAddress.cap" name="cap" required minlength="3" maxlength="5" pattern="[0-9]{5}">
-          
-      </div>
-      <div class="form-group col-md-6">
-        <label for="Nazione">Nazione</label>
-        <input type="text" class="form-control" placeholder="Città" matInput #nation="ngModel"
-          [(ngModel)]="newAddress.nation" name="nation" required minlength="3" maxlength="15" pattern="[a-zA-Z]*">
-      </div>
-      <div class="col-md-12 text-center ">
-        <button type="submit" [disabled]="postAddress.invalid" class="btn btn-primary">Conferma</button>
-      </div>
-      
-      <div class="col-md-12 ">
-      </div>
-    </form>
-  </div>
-</div>
-<!-- <div class="accordion accordion-flush" id="accordionFlushExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-        Accordion Item #1
-      </button>
-    </h2>
-    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-      <div class="accordion-body">
-        <form #postAddress="ngForm" (submit)="AddAddress()">
-          <div class="form-group col-md-6">
-            <label for="Indirizzo">Indirizzo </label>
-            <input type="text" class="form-control" placeholder="Via/Viale/Corso ecc..." matInput #address1="ngModel"
-              ngModel [(ngModel)]="newAddress.address1" name="address1" required minlength="1">
+                    <input type="text" class="form-control" placeholder="Città" matInput #cap="ngModel"
+                      [(ngModel)]="newAddress.cap" name="cap"
+                       required minlength="3" maxlength="5" pattern="[0-9]{5}">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="Nazione">Nazione</label>
+                    <input type="text" class="form-control" placeholder="Città" matInput #nation="ngModel"
+                      [(ngModel)]="newAddress.nation" name="nation" required minlength="3" maxlength="15"
+                      pattern="[a-zA-Z]*">
+                  </div>
+                  <div class="col-md-12 text-center ">
+                    <button type="submit" [disabled]="postAddress.invalid" class="btn btn-primary">Conferma</button>
+                  </div>
+                  <div class="col-md-12 ">
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
-          <div class="form-group col-md-6">
-            <label for="Citta">Città</label>
-            <input type="text" class="form-control" placeholder="Città" matInput #city="ngModel"
-              [(ngModel)]="newAddress.city" name="city" required minlength="3" pattern="[a-zA-Z]*">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="Provincia">Provincia</label>
-            <input type="text" class="form-control" placeholder="Città" matInput #province="ngModel"
-              [(ngModel)]="newAddress.province" name="province" required minlength="2" maxlength="2" pattern="[A-Z]*">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="Cap">CAP</label>
-
-            <input type="text" class="form-control" placeholder="Città" matInput #cap="ngModel"
-              [(ngModel)]="newAddress.cap" name="cap" required minlength="3" maxlength="5" pattern="[0-9]{5}">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="Nazione">Nazione</label>
-            <input type="text" class="form-control" placeholder="Città" matInput #nation="ngModel"
-              [(ngModel)]="newAddress.nation" name="nation" required minlength="3" maxlength="15" pattern="[a-zA-Z]*">
-          </div>
-          <div class="col-md-12 text-center ">
-            <button type="submit" [disabled]="postAddress.invalid" class="btn btn-primary">Conferma</button>
-          </div>
-          <div class="col-md-12 ">
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div> -->
+        </div>
