@@ -66,9 +66,7 @@ export class UsersettingsComponent {
         this.GetAddresses()
         this.GetCredential()
         this.GetPayment()
-   
   }
-
 
   GetCredential()
   {
@@ -192,7 +190,7 @@ export class UsersettingsComponent {
   }
   DeletePayment(idPayment:number)
   {
-    this.http.DeleteHttpPayment(this.token.nameid,idPayment).subscribe(
+    this.http.DeleteHttpPayment(idPayment).subscribe(
       {
         next:(data:any)=>{
 

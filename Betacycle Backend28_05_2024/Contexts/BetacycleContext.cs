@@ -245,10 +245,7 @@ public partial class BetacycleContext : DbContext
             entity.Property(e => e.Culture)
                 .HasMaxLength(5)
                 .IsUnicode(false);
-            entity.Property(e => e.Description)
-                .HasMaxLength(1000)
-                .IsUnicode(false);
-            entity.Property(e => e.NameProduct)
+            entity.Property(e => e.ProductName)
                 .HasMaxLength(30)
                 .IsUnicode(false);
             entity.Property(e => e.ProductId)

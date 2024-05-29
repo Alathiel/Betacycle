@@ -1,0 +1,32 @@
+<div class="main-container">
+    <div class="content-container">
+        <ng-container *ngIf="loaded">
+            <ng-container *ngIf="cart.length > 0">
+                <div class="card-wrapper">
+                    <div class="card">
+                        <div class="header">
+                            <label style="font-size: large; font-weight: bold;">Riepilogo ordine</label>
+                        </div>
+                        <div class="body">
+                            <ng-container *ngFor="let product of cart">
+                                <div class="product-container">
+                                    <label style="padding-left: 10px; padding-right: 10px;">Prodotto: {{product.product.productName}}</label>
+                                    <label style="padding-left: 10px; padding-right: 10px;">Quantita': {{product.quantity}}</label>
+                                    <label style="padding-left: 10px; padding-right: 10px;">Prezzo totale: {{product.product.actualPrice * product.quantity}}</label>
+                                </div>
+                                <hr>
+                            </ng-container>
+                        </div>
+                        <div class="footer">
+                            <label style="font-size: large; font-weight: 600;">Totale: {{totalPrice}}</label>
+                        </div>
+                    </div>
+                    <button class="confirm" style="width: 100%;"> Conferma Ordine</button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="cart.length <= 0">
+                <label>Qualcosa e' andato storto, non siamo riusciti a recuperare gli articoli presenti nel tuo carrello</label>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

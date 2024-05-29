@@ -61,61 +61,28 @@ namespace BetaCycle.Controllers
             }
         }
 
-        //[HttpGet("[action]")]
-        //public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(int pageNumber = 1, string productName = "", long id = 0)
-        //{
-        //    //
-        //    if (pageNumber <= 0)
-        //        pageNumber = 1;
-        //    try
-        //    {
-        //        List<Product> products = [];
-        //        long totalProducts = 0;
-        //        if (productName != "")
-        //        {
-        //            //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
-        //            products = await _context.Products
-        //                .Where(product => product.ProductName.ToLower().Contains(productName.ToLower()))
-        //                .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
-        //            totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())).LongCountAsync();
-        //        }
-        //        else if(id != 0)
-        //        {
-        //            products = await _context.Products.Where(product => product.ProductId == id).ToListAsync();
-        //            totalProducts = await _context.Products.Where(product => product.ProductId == id).LongCountAsync();
-        //        }
-        //        return Ok(new
-        //        {
-        //            products = products,
-        //            totalProducts = totalProducts
-        //        });
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
-        //        {
-        //            new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
-        //            new ("Exception", e),
-        //        }).Log();
-        //        return BadRequest();
-        //    }
-        //}
-
         [HttpGet("[action]")]
-        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(int pageNumber = 1, string productName = "", string color = "", decimal price=0, string operand="", long id = 0)
+        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(int pageNumber = 1, string productName = "", string color = "", decimal price = 0, string operand="", long id = 0)
         {
             //
             if (pageNumber <= 0)
                 pageNumber = 1;
-            if (operand == "") operand = ">";
+            if (operand != ">" && operand != "<") operand = ">";
             try
             {
                 List<Product> products = [];
                 long totalProducts = 0;
-
                 if(operand == "<")
                 {
-                    if ((productName != "" || color != "" || price >= 0) && price > 0)
+                    if ((productName == "" && color == "" && price == 0))
+                    {
+                        //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
+                        products = await _context.Products
+
+                            .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                        totalProducts = await _context.Products.LongCountAsync();
+                    }
+                    else if ((productName != "" || color != "" || price >= 0) && price > 0)
                     {
                         //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
                         products = await _context.Products
@@ -127,7 +94,7 @@ namespace BetaCycle.Controllers
                         && product.Color.ToLower().Contains(color.ToLower())
                         && (product.InsertPrice <= (int)price)).LongCountAsync();
                     }
-                    if ((productName != "" || color != "") && price <= 0)
+                    else if ((productName != "" || color != "") && price <= 0)
                     {
                         //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
                         products = await _context.Products
@@ -138,9 +105,17 @@ namespace BetaCycle.Controllers
                         && product.Color.ToLower().Contains(color.ToLower())).LongCountAsync();
                     }
                 }
-                if (operand == ">")
+                if(operand == ">")
                 {
-                    if ((productName != "" || color != "" || price >= 0) && price > 0)
+                    if ((productName == "" && color == "" && price == 0))
+                    {
+                        //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
+                        products = await _context.Products
+
+                            .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                        totalProducts = await _context.Products.LongCountAsync();
+                    }
+                    else if ((productName != "" || color != "" || price >= 0) && price > 0)
                     {
                         //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
                         products = await _context.Products
@@ -152,7 +127,7 @@ namespace BetaCycle.Controllers
                         && product.Color.ToLower().Contains(color.ToLower())
                         && (product.InsertPrice >= (int)price)).LongCountAsync();
                     }
-                    if ((productName != "" || color != "") && price <= 0)
+                    else if ((productName != "" || color != "") && price <= 0)
                     {
                         //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
                         products = await _context.Products
@@ -164,23 +139,23 @@ namespace BetaCycle.Controllers
                     }
                 }
                 else if (id != 0)
-                    {
-                        products = await _context.Products.Where(product => product.ProductId == id).ToListAsync();
-                        totalProducts = await _context.Products.Where(product => product.ProductId == id).LongCountAsync();
-                    }
-                    return Ok(new
-                    {
-                        products = products,
-                        totalProducts = totalProducts
-                    });
+                {
+                    products = await _context.Products.Where(product => product.ProductId == id).ToListAsync();
+                    totalProducts = await _context.Products.Where(product => product.ProductId == id).LongCountAsync();
+                }
+                return Ok(new
+                {
+                    products = products,
+                    totalProducts = totalProducts
+                });
             }
             catch (Exception e)
             {
                 _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
-                {
-                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    new ("Exception", e),
-                }).Log();
+        {
+            new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+            new ("Exception", e),
+        }).Log();
                 return BadRequest();
             }
         }
@@ -213,10 +188,17 @@ namespace BetaCycle.Controllers
             try
             {
                 var product = await _context.ViewDeals.ToListAsync();
+                var totalproduct = await _context.ViewDeals.LongCountAsync();
                 if (product == null || product.Count <= 0)
+                {
                     return NotFound();
+                }
 
-                return product;
+                return Ok(new
+                {
+                    products = product,
+                    totalProducts = totalproduct
+                });
             }
             catch (Exception e)
             {

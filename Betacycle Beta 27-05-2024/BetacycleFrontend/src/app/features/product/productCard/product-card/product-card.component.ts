@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Product } from '../../../../shared/models/product';
 import { HttprequestservicesService } from '../../../../shared/services/httprequestservices.service';
+import { Router, RouterLink } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastService } from '../../../../shared/services/toast.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { HttpStatusCode, HttpErrorResponse } from '@angular/common/http';
+import { ProductserviceService } from '../../../../shared/services/productservice.service';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule  ],
+  imports: [CommonModule, RouterLink],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })
@@ -18,56 +20,37 @@ import { Router } from '@angular/router';
 
 export class ProductCardComponent {
 
-showOriginalCards : boolean = true;
-getname: string = '';
-getprice: number = 0;
-getcolor: string = '';
-getoperand: string = '';
-products: any;
-selectedValue = "productName";
-selectedColor = "color";
-selectedPrice = "price";
-selectedOperand = "operand";
-search = "";
-totalProducts = 0;
-page = 1;
-loadedProducts = 0;
+  showOriginalCards: boolean = true;
+  getname: string = '';
+  getprice: number = 0;
+  getcolor: string = '';
+  getoperand: string = '';
+  products: any;
+  selectedValue = "productName";
+  selectedColor = "color";
+  selectedPrice = "price";
+  selectedOperand = "operand";
+  search = "";
+  totalProducts = 0;
+  page = 1;
+  loadedProducts = 0;
 
-constructor(private http:HttprequestservicesService, private sanitizer: DomSanitizer, private router:Router)
-{
-    if(sessionStorage.getItem('tmpbyname') != '')
-      {
-        this.getname = sessionStorage.getItem('tmpbyname')!
-        //sessionStorage.removeItem('tmpbyname');
-      }
-    if(sessionStorage.getItem('tmpbyprice') != '')
-      {
-        this.getprice = parseFloat(sessionStorage.getItem('tmpbyprice')!);
-        //sessionStorage.removeItem('tmpbyprice') 
-      }
-    if(sessionStorage.getItem('tmpbycolor') != '')
-      {
-        this.getcolor = sessionStorage.getItem('tmpbycolor')!
-        //sessionStorage.removeItem('tmpbycolor');
-      }
-    if(sessionStorage.getItem('tmpop') != '')
-      {
-        this.getoperand = sessionStorage.getItem('tmpop')!
-        //sessionStorage.removeItem('tmpop');
-      }
-      this.SearchFilteredProduct();
-}
+  constructor(private http: HttprequestservicesService, private router: Router,
+     public dialog: MatDialog, private toast: ToastService, private sanitizer: DomSanitizer, public service:ProductserviceService) 
+  {
+    if(this.service.byname != '') this.service.filter();
+    else this.service.getAllDatas();
+  }
 
-SearchFilteredProduct()
+  SearchFilteredProduct()
   { 
     this.http.getFilteredProductsUser(this.selectedValue, this.getname,
       this.selectedColor, this.getcolor,
-      this.selectedPrice, this.getprice, 
+      this.selectedPrice, this.getprice,
       this.selectedOperand, this.getoperand, 1)
     .subscribe(
       {
         next: (data: any) => {
-          console.log(data)
           this.products = data.body.products.$values;
           this.totalProducts = data.body.totalProducts
           this.loadedProducts = this.products.length
@@ -78,43 +61,43 @@ SearchFilteredProduct()
       })
   }
 
-  checkValue(l:any): boolean{
-    if((typeof l.value === 'object' && !Array.isArray(l.value)) && (l.value === null || l.value !== null))
+  checkValue(l: any): boolean {
+    if ((typeof l.value === 'object' && !Array.isArray(l.value)) && (l.value === null || l.value !== null))
       return true
     return false;
   }
 
-  convert(buffer:any) {
-    if(buffer!=null)
-      return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,'+buffer);
+  getAllDatas() {
+    this.http.GetProducts(this.page).subscribe({
+      next: (jsData: any) => {
+        console.log(jsData);
+        this.products = jsData.body.products.$values
+        this.totalProducts = jsData.body.totalProducts
+        this.loadedProducts = this.products.length
+        
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+  }
+
+  convert(buffer: any) {
+    if (buffer != null)
+      return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + buffer);
     return ''
   }
-
-  prev(){
-    if(this.page > 1)
-    {
-      this.page--;
-      this.filter();
-    }
-  }
-
-  next(){
-    if(this.page < this.totalProducts/10)
-    {
-      this.page++;
-      this.filter();
-    }
-  }
-
+ 
   filter(temp:string = "aa"){
     if(temp === "bb")
       this.page = 1
-    if(this.getname !== "" || this.getcolor != ""){
+    if(this.getname !== "" || this.getcolor != "" || this.getprice==0){
       this.http.getFilteredProductsUser(this.selectedValue, this.getname,
         this.selectedColor, this.getcolor,
         this.selectedPrice, this.getprice,
         this.selectedOperand, this.getoperand, this.page).subscribe({
         next: (response:any) => {
+          console.log(response)
           this.products = response.body.products.$values
           this.totalProducts = response.body.totalProducts
           this.loadedProducts = this.products.length
@@ -129,33 +112,18 @@ SearchFilteredProduct()
       })
     }
     else
-      //this.getAllDatas()
       console.log("???");
   }
 
-  getAllDatas(){
-    this.http.GetProducts(this.page)
-    .subscribe({
-      next: (jsData:any) => {
-        console.log(jsData);
-        this.products = jsData.body.products.$values
-        this.totalProducts = jsData.body.totalProducts
-        this.loadedProducts = this.products.length
-      },
-      error: (error:any) => {
-        console.log(error);
-      }
-    })
-  }
-
-  GoToDetailsPage(id: number)
-  {
-    sessionStorage.setItem('tmpprodid', id.toString());
+  GoToDetailsPage(id: number) {
+    //sessionStorage.setItem('tmpprodid', id.toString());
+    this.service.GetDetails(id);
     this.router.navigate(['productDetails']);
   }
 
-  AddToCart()
-  {
+  AddToCart() {
     alert("Work in progress");
   }
 }
+
+

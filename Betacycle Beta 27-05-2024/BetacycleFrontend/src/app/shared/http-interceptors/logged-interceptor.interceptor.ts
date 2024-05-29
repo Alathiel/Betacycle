@@ -38,15 +38,18 @@ export class LoggedInterceptorService implements HttpInterceptor {
     // send cloned request with header to the next handler.
     return next.handle(authReq).pipe(
       catchError((error) => {
-        console.log(JSON.stringify(error))
-        this.logger.logError(this.logger.populateLog(error)).subscribe(response => {
-          console.log(response)
-        })
         if(error instanceof HttpErrorResponse){
-
           if(error.status === 401){
             alert("Login expired, please login again.")
             this.router.navigate(['admin-login'])
+          }
+          else if(error.status === 404)
+            console.log("Not found")
+          else
+          {
+            this.logger.logError(this.logger.populateLog(error)).subscribe(response => {
+              console.log(response)
+            })
           }
         }
         return (error);
