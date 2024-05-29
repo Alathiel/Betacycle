@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttprequestservicesService } from './httprequestservices.service';
 import { HttpStatusCode,HttpErrorResponse } from '@angular/common/http';
+import { Product } from '../models/product';
+import { Cart } from '../models/cart';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,7 @@ import { HttpStatusCode,HttpErrorResponse } from '@angular/common/http';
 export class ProductserviceService {
   products: any;
   product:any;
+  prodtocart: any;
   model: any;
   category: any;
   selectedValue = "productName";
@@ -22,6 +25,9 @@ export class ProductserviceService {
   byprice: number=0 ;
   bycolor: string = '';
   operand: string = '';
+  cart: Cart = new Cart();
+
+  quantity = {"quantity" : 1};
 
   constructor(private http:HttprequestservicesService) { }
 
@@ -46,7 +52,6 @@ export class ProductserviceService {
   getAllDatas() {
     this.http.GetProducts(this.page).subscribe({
       next: (jsData: any) => {
-        console.log(jsData);
         this.products = jsData.body.products.$values
         this.totalProducts = jsData.body.totalProducts
         this.loadedProducts = this.products.length
@@ -111,7 +116,6 @@ export class ProductserviceService {
         ({
           next: (modeldata: any) => {
             this.model = modeldata;
-            console.log(this.model)
           },
           error: (err:any) => {
             console.log(err.message);
@@ -134,7 +138,67 @@ export class ProductserviceService {
     })
   }
 
+  AddToCart(prod: any)
+  {
+    prod.quantity = 1
+    this.prodtocart = {"Product" : prod}
+    this.prodtocart.user = {
+      "FirstName": "",
+      "LastName": ""
+    }
+    this.prodtocart.Product.Model = {
+      "name": ""
+    }
+    this.prodtocart.Product.Category = {
+      "name": ""
+    }
+    this.http.PostCart(this.prodtocart).subscribe({
+      next: (resp:any) =>{
+        //this.reloadPriceEvent.emit("-");
+        alert(resp)
+      },
+      error: (err: any) => {
+        alert(err.message + " ||| " + JSON.stringify(this.prodtocart));
+      }
+    })
+  }
 
-
-
+  AddToCartFromCards(prod: Product)
+  {
+    this.cart.Product = prod;
+    this.cart.Product.Model = {"name": ""}
+    this.cart.Product.Category = {"name": ""}
+    this.cart.productId = prod.productId;
+    /*prod.Quantity = 1
+    prod.user = {
+      "FirstName": "",
+      "LastName": ""
+    }
+    prod.Product.Model = {
+      "name": ""
+    };
+    prod.Product.Category = {
+      "name": ""
+    }*/
+    //this.prodtocart = {"Product" : prod}
+    /*this.prodtocart.user = {
+      "FirstName": "",
+      "LastName": ""
+    }*/
+    /*this.prodtocart.Product.Model = {
+      "name": ""
+    }*/
+    /*this.prodtocart.Product.Category = {
+      "name": ""
+    }*/
+    this.http.PostCart(this.cart).subscribe({
+      next: (resp:any) =>{
+        //this.reloadPriceEvent.emit("-");
+        alert(resp)
+      },
+      error: (err: any) => {
+        alert(err.message + " ||| " + JSON.stringify(prod));
+      }
+    })
+  }
 }

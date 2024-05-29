@@ -16,7 +16,7 @@
                     <p>Description: {{service.product.description}}</p>
                     <p>Model Name: {{service.model.name}}</p>
                     <p>Category Name: {{service.category.name}}</p>
-                    <button (click)="AddToCart()" type="button" class="btn btn-primary">Add to Cart</button>
+                    <button (click)="service.AddToCart(service.product)" type="button" class="btn btn-primary">Add to Cart</button>
                 </div>
             </div>
         </div>

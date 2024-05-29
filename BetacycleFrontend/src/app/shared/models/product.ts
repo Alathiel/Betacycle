@@ -1,6 +1,7 @@
 export class Product
 {
-    nameProduct: string = '';
+    productName: string = '';
+    productId: number = 0;
     modelId: number = 0;
     insertPrice: number = 0;
     actualPrice: number = 0;
@@ -9,6 +10,14 @@ export class Product
     weight: string = '';
     culture: string = '';
     categoryID: number = 0;
-    dateInsert: string=''
-    lastModify: string=''
+    dateInsert: string='';
+    lastModify: string='';
+    Model = 
+    {
+        "name": ""
+    }
+    Category = 
+    {
+        "name": ""
+    }
 }

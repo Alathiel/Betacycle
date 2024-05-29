@@ -121,8 +121,8 @@ export class ProductCardComponent {
     this.router.navigate(['productDetails']);
   }
 
-  AddToCart() {
-    alert("Work in progress");
+  AddToCart(prod: any) {
+    
   }
 }
 

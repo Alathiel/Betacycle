@@ -236,6 +236,11 @@ export class HttprequestservicesService {
   PutCart(cart: any): Observable<any> {
     return this.http.put('https://localhost:7044/api/Carts/PutCart', cart);
   }
+
+  PostCart(cart: any): Observable<any> {
+    return this.http.post('https://localhost:7044/api/Carts/PostCart', cart);
+  }
+
   GetProductByID(id:number):Observable<any>
   {
     return this.http.get(`https://localhost:7044/api/Products/${id}`)

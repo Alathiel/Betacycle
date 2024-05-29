@@ -36,6 +36,6 @@ export class ProductdetailsComponent {
 
   AddToCart()
   {
-    alert('work in progress')
+    
   }
 }
