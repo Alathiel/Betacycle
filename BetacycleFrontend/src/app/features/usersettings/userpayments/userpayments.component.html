@@ -1,14 +1,18 @@
 <h6>Pagamenti salvati:</h6><br>
   <div class="card-container">
-        <div class="card" style="width: 18rem; height: 9 rem;" *ngFor="let p of getPayment" style="float:left">
+        <div class="card" *ngFor="let p of getPayment" >
           <div class="card-body">
-            <div class="card-body">
-              Titolare: <h5 class="card-title">{{p.nameCard}} {{p.surnameCard}}</h5><br>Scadenza:
-              {{p.expirationDate}} <br>
+
+              Titolare: <h5 class="card-title">{{p.nameCard}} {{p.surnameCard}}</h5>
+              <!-- <br>{{p.numberCard}} -->
+              <br>Scadenza:
+              {{p.expirationDate.substring(0,7)}} <br>
               {{p.circuitCard}} <br>
+              <div style="display: flex;margin-top: 1rem;">
+              
               <button (click)="DeletePayment(p.idPayment)" class="btn btn-outline-danger  my-2 my-sm-0">Elimina carta
               </button>
-            </div>
+              </div>
           </div>
         </div>
   </div>
