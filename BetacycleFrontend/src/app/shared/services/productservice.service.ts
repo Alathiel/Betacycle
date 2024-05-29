@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttprequestservicesService } from './httprequestservices.service';
 import { HttpStatusCode,HttpErrorResponse } from '@angular/common/http';
+import { Product } from '../models/product';
+import { Cart } from '../models/cart';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductserviceService {
   products: any;
+  product:any;
+  prodtocart: any;
+  model: any;
+  category: any;
   selectedValue = "productName";
   selectedColor = "color";
   selectedPrice = "price";
+  selectedOperand = "operand";
   search = "";
   totalProducts = 0;
   page = 1;
@@ -17,6 +24,10 @@ export class ProductserviceService {
   byname: string = '';
   byprice: number=0 ;
   bycolor: string = '';
+  operand: string = '';
+  cart: Cart = new Cart();
+
+  quantity = {"quantity" : 1};
 
   constructor(private http:HttprequestservicesService) { }
 
@@ -24,7 +35,8 @@ export class ProductserviceService {
   {
     this.http.getFilteredProductsUser(this.selectedValue, this.byname,
       this.selectedColor, this.bycolor,
-      this.selectedPrice, this.byprice, 1)
+      this.selectedPrice, this.byprice,
+      this.selectedOperand, this.operand, 1)
     .subscribe(
       {
         next: (data: any) => {
@@ -40,7 +52,6 @@ export class ProductserviceService {
   getAllDatas() {
     this.http.GetProducts(this.page).subscribe({
       next: (jsData: any) => {
-        console.log(jsData);
         this.products = jsData.body.products.$values
         this.totalProducts = jsData.body.totalProducts
         this.loadedProducts = this.products.length
@@ -73,7 +84,8 @@ export class ProductserviceService {
     if(this.byname !== "" || this.bycolor != "" || this.byprice==0){
       this.http.getFilteredProductsUser(this.selectedValue, this.byname,
         this.selectedColor, this.bycolor,
-        this.selectedPrice, this.byprice, this.page).subscribe({
+        this.selectedPrice, this.byprice,
+        this.selectedOperand, this.operand, this.page).subscribe({
         next: (response:any) => {
           console.log(response)
           this.products = response.body.products.$values
@@ -91,5 +103,116 @@ export class ProductserviceService {
     }
     else
       console.log("???");
+  }
+
+  GetDetails(id: number)
+  {
+    this.http.GetProductByID(id)
+    .subscribe({
+      next: (data:any) => {
+        this.product = data;
+        this.http.GetModelByID(this.product.modelId)
+        .subscribe
+        ({
+          next: (modeldata: any) => {
+            this.model = modeldata;
+          },
+          error: (err:any) => {
+            console.log(err.message);
+          }
+        })
+        this.http.GetCategoryByID(this.product.categoryId)
+        .subscribe
+        ({
+          next: (categorydata: any) => {
+            this.category = categorydata;
+          },
+          error: (err:any) => {
+            console.log(err.message);
+          }
+        })
+      },
+      error: (error:any) => {
+        console.log(error);
+      }
+    })
+  }
+
+  AddToCart(prod: any)
+  {
+    this.cart.Product = prod;
+    this.cart.Product.Model = {"name": ""}
+    this.cart.Product.Category = {"name": ""}
+    this.cart.productId = prod.productId;
+    /*prod.Quantity = 1
+    prod.user = {
+      "FirstName": "",
+      "LastName": ""
+    }
+    prod.Product.Model = {
+      "name": ""
+    };
+    prod.Product.Category = {
+      "name": ""
+    }*/
+    //this.prodtocart = {"Product" : prod}
+    /*this.prodtocart.user = {
+      "FirstName": "",
+      "LastName": ""
+    }*/
+    /*this.prodtocart.Product.Model = {
+      "name": ""
+    }*/
+    /*this.prodtocart.Product.Category = {
+      "name": ""
+    }*/
+    this.http.PostCart(this.cart).subscribe({
+      next: (resp:any) =>{
+        //this.reloadPriceEvent.emit("-");
+        alert(resp)
+      },
+      error: (err: any) => {
+        alert(err.message + " ||| " + JSON.stringify(prod));
+      }
+    })
+  }
+
+  AddToCartFromCards(prod: Product)
+  {
+    this.cart.Product = prod;
+    this.cart.Product.Model = {"name": ""}
+    this.cart.Product.Category = {"name": ""}
+    this.cart.productId = prod.productId;
+    /*prod.Quantity = 1
+    prod.user = {
+      "FirstName": "",
+      "LastName": ""
+    }
+    prod.Product.Model = {
+      "name": ""
+    };
+    prod.Product.Category = {
+      "name": ""
+    }*/
+    //this.prodtocart = {"Product" : prod}
+    /*this.prodtocart.user = {
+      "FirstName": "",
+      "LastName": ""
+    }*/
+    /*this.prodtocart.Product.Model = {
+      "name": ""
+    }*/
+    /*this.prodtocart.Product.Category = {
+      "name": ""
+    }*/
+    this.http.PostCart(this.cart).subscribe({
+      next: (resp:any) =>{
+        //this.reloadPriceEvent.emit("-");
+        alert(resp)
+      },
+      error: (err: any) => {
+        alert(err.message + " ||| " + JSON.stringify(prod));
+      }
+    })
   }
 }

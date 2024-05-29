@@ -1,22 +1,22 @@
 <body>
     <div *ngIf="loaded == true">
-        <h2 style="text-align: center; color: blue;">Details of Product {{product.productName}}</h2>
+        <h2 style="text-align: center; color: blue;">Details of Product {{service.product.productName}}</h2>
 
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <img [src]="convert(product.thumbnailPhoto)" alt="..." width="400" height="550">
+                    <img [src]="convert(service.product.thumbnailPhoto)" alt="..." width="400" height="550">
                 </div>
                 <div class="col" style="margin-top: 10%;font-weight: bold;">
-                    <p>{{product.color}}</p>
-                    <p *ngIf="product.insertPrice < product.actualPrice"><s>€{{product.actualPrice}}</s>
-                        €{{product.insertPrice}}!</p>
-                    <p *ngIf="product.insertPrice == product.actualPrice">€{{product.actualPrice}}</p>
-                    <p>{{product.weight}}</p>
-                    <p>Description: {{product.description}}</p>
-                    <p>Model Name: {{model.name}}</p>
-                    <p>Category Name: {{category.name}}</p>
-                    <button (click)="AddToCart()" type="button" class="btn btn-primary">Add to Cart</button>
+                    <p>{{service.product.color}}</p>
+                    <p *ngIf="service.product.insertPrice < service.product.actualPrice"><s>€{{service.product.actualPrice | number : '1.2-2'}}</s>
+                        €{{service.product.insertPrice | number : '1.2-2'}}!</p>
+                    <p *ngIf="service.product.insertPrice == service.product.actualPrice">€{{service.product.actualPrice | number : '1.2-2'}}</p>
+                    <p>{{service.product.weight}}</p>
+                    <p>Description: {{service.product.description}}</p>
+                    <p>Model Name: {{service.model.name}}</p>
+                    <p>Category Name: {{service.category.name}}</p>
+                    <button (click)="service.AddToCart(service.product)" type="button" class="btn btn-primary">Add to Cart</button>
                 </div>
             </div>
         </div>

@@ -24,10 +24,12 @@ export class ProductCardComponent {
   getname: string = '';
   getprice: number = 0;
   getcolor: string = '';
+  getoperand: string = '';
   products: any;
   selectedValue = "productName";
   selectedColor = "color";
   selectedPrice = "price";
+  selectedOperand = "operand";
   search = "";
   totalProducts = 0;
   page = 1;
@@ -36,37 +38,16 @@ export class ProductCardComponent {
   constructor(private http: HttprequestservicesService, private router: Router,
      public dialog: MatDialog, private toast: ToastService, private sanitizer: DomSanitizer, public service:ProductserviceService) 
   {
-    // if(sessionStorage.getItem('tmpbyname') != '')
-    //   {
-    //     this.getname = sessionStorage.getItem('tmpbyname')!
-    //   }
-    // if(sessionStorage.getItem('tmpbyprice') != '')
-    //   {
-    //     this.getprice = parseFloat(sessionStorage.getItem('tmpbyprice')!);
-    //   }
-    // if(sessionStorage.getItem('tmpbycolor') != '')
-    //   {
-    //     this.getcolor = sessionStorage.getItem('tmpbycolor')!
-    //   }
-    //   console.log(sessionStorage.getItem('tmpbycolor'),sessionStorage.getItem('tmpbyname'),sessionStorage.getItem('tmpbyprice'))
-    //   if(this.getname != '')
-    //   {
-        
-        this.service.getAllDatas()
-      
-      // }
-      // else
-      // {
-      //   this.getAllDatas()
-      // }
-     
+    if(this.service.byname != '') this.service.filter();
+    else this.service.getAllDatas();
   }
 
   SearchFilteredProduct()
   { 
     this.http.getFilteredProductsUser(this.selectedValue, this.getname,
       this.selectedColor, this.getcolor,
-      this.selectedPrice, this.getprice, 1)
+      this.selectedPrice, this.getprice,
+      this.selectedOperand, this.getoperand, 1)
     .subscribe(
       {
         next: (data: any) => {
@@ -113,7 +94,8 @@ export class ProductCardComponent {
     if(this.getname !== "" || this.getcolor != "" || this.getprice==0){
       this.http.getFilteredProductsUser(this.selectedValue, this.getname,
         this.selectedColor, this.getcolor,
-        this.selectedPrice, this.getprice, this.page).subscribe({
+        this.selectedPrice, this.getprice,
+        this.selectedOperand, this.getoperand, this.page).subscribe({
         next: (response:any) => {
           console.log(response)
           this.products = response.body.products.$values
@@ -134,12 +116,13 @@ export class ProductCardComponent {
   }
 
   GoToDetailsPage(id: number) {
-    sessionStorage.setItem('tmpprodid', id.toString());
+    //sessionStorage.setItem('tmpprodid', id.toString());
+    this.service.GetDetails(id);
     this.router.navigate(['productDetails']);
   }
 
-  AddToCart() {
-    alert("Work in progress");
+  AddToCart(prod: any) {
+    
   }
 }
 

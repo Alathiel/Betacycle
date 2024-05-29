@@ -16,8 +16,16 @@ import { HttprequestservicesService } from '../../../../shared/services/httprequ
 })
 export class NavbarProductComponent {
 
+
+
   constructor(public service:ProductserviceService,private http:HttprequestservicesService)
   {}
+
+  SetPriceOperand(op: HTMLElement)
+  {
+    this.service.operand = op.id;
+  }
+
 
   Azzera()
   {

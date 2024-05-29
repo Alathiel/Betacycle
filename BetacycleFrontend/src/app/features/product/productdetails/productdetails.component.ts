@@ -5,6 +5,7 @@ import { Product } from '../../../shared/models/product';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FooterComponent } from '../../footer/footer/footer.component';
+import { ProductserviceService } from '../../../shared/services/productservice.service';
 
 @Component({
   selector: 'app-productdetails',
@@ -21,50 +22,10 @@ export class ProductdetailsComponent {
   category: any;
   loaded= false;
 
-  constructor(private http: HttprequestservicesService, private router: Router, private sanitizer: DomSanitizer)
+  constructor(private http: HttprequestservicesService, private router: Router, private sanitizer: DomSanitizer, public service:ProductserviceService)
   {
-    if(sessionStorage.getItem('tmpprodid') === null) this.router.navigate(['product']);
-    this.productID = parseInt(sessionStorage.getItem('tmpprodid')!);
-    sessionStorage.removeItem('tmpprodid');
-    this.GetDetails(this.productID);
+    
     this.loaded = true;
-  }
-
-  GetDetails(id: number)
-  {
-    this.http.GetProductByID(id)
-    .subscribe({
-      next: (data:any) => {
-        console.log(data);
-        this.product = data;
-        console.log(this.product);
-        this.http.GetModelByID(this.product.modelId)
-        .subscribe
-        ({
-          next: (modeldata: any) => {
-            this.model = modeldata;
-            console.log(this.model)
-          },
-          error: (err:any) => {
-            console.log(err.message);
-          }
-        })
-        this.http.GetCategoryByID(this.product.categoryId)
-        .subscribe
-        ({
-          next: (categorydata: any) => {
-            this.category = categorydata;
-            console.log(this.category)
-          },
-          error: (err:any) => {
-            console.log(err.message);
-          }
-        })
-      },
-      error: (error:any) => {
-        console.log(error);
-      }
-    })
   }
 
   convert(buffer:any) {
@@ -75,6 +36,6 @@ export class ProductdetailsComponent {
 
   AddToCart()
   {
-    alert('work in progress')
+    
   }
 }

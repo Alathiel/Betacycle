@@ -57,12 +57,15 @@ export class HttprequestservicesService {
     value2: string,
     filter3: string,
     value3: number,
+    filter4: string,
+    value4: string,
     page: number
   ): Observable<any> {
     var params = new HttpParams()
       .append(filter, value)
       .append(filter2, value2)
       .append(filter3, value3)
+      .append(filter4, value4)
       .append('pageNumber', page);
     return this.http.get('https://localhost:7044/api/Products/FilterProducts', {
       params: params,
@@ -237,6 +240,11 @@ export class HttprequestservicesService {
   PutCart(cart: any): Observable<any> {
     return this.http.put('https://localhost:7044/api/Carts/PutCart', cart);
   }
+
+  PostCart(cart: any): Observable<any> {
+    return this.http.post('https://localhost:7044/api/Carts/PostCart', cart);
+  }
+
   GetProductByID(id:number):Observable<any>
   {
     return this.http.get(`https://localhost:7044/api/Products/${id}`)
