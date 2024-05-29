@@ -140,25 +140,39 @@ export class ProductserviceService {
 
   AddToCart(prod: any)
   {
-    prod.quantity = 1
-    this.prodtocart = {"Product" : prod}
-    this.prodtocart.user = {
+    this.cart.Product = prod;
+    this.cart.Product.Model = {"name": ""}
+    this.cart.Product.Category = {"name": ""}
+    this.cart.productId = prod.productId;
+    /*prod.Quantity = 1
+    prod.user = {
       "FirstName": "",
       "LastName": ""
     }
-    this.prodtocart.Product.Model = {
+    prod.Product.Model = {
       "name": ""
-    }
-    this.prodtocart.Product.Category = {
+    };
+    prod.Product.Category = {
       "name": ""
-    }
-    this.http.PostCart(this.prodtocart).subscribe({
+    }*/
+    //this.prodtocart = {"Product" : prod}
+    /*this.prodtocart.user = {
+      "FirstName": "",
+      "LastName": ""
+    }*/
+    /*this.prodtocart.Product.Model = {
+      "name": ""
+    }*/
+    /*this.prodtocart.Product.Category = {
+      "name": ""
+    }*/
+    this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
         //this.reloadPriceEvent.emit("-");
         alert(resp)
       },
       error: (err: any) => {
-        alert(err.message + " ||| " + JSON.stringify(this.prodtocart));
+        alert(err.message + " ||| " + JSON.stringify(prod));
       }
     })
   }
