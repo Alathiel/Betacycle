@@ -8,48 +8,29 @@ import { AuthServiceService } from '../../../shared/services/auth-service.servic
 @Component({
   selector: 'app-user-info',
   standalone: true,
-  imports: [CommonModule,FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './user-info.component.html',
-  styleUrl: './user-info.component.css'
+  styleUrl: './user-info.component.css',
 })
 export class UserInfoComponent {
-  token:any   //TOKEN SESSION
+  user: User = new User();
 
-  constructor(private http: HttprequestservicesService, private auth:AuthServiceService){
-    this.token=sessionStorage.getItem('token')
-    this.token=this.auth.getDecodedToken()
-    this.http.GetUserInfo().subscribe
-        ({
-          next: (data: any) => {
-
-            this.user = data
-          },
-          error: (err: any) => {
-            console.log("Errore: " + err.status);
-          }
-        })
-  }
-  user:User=new User()  
-  newUser:User=new User()  
-
-  UpdateUser()
-  {
-    this.newUser=this.user
-    this.http.PutUserData(this.token.nameid, this.newUser)
-      .subscribe
-      ({
-        next: (data: any) => {
-          this.newUser = data;
-        },
-        error: (error: any) => {
-          console.log(error.message);
-        }
-      })
+  constructor(
+    private http: HttprequestservicesService,
+    private auth: AuthServiceService
+  ) {
+    this.http.GetUserInfo().subscribe({
+      next: (data: any) => {
+        this.user = data;
+      },
+    });
   }
 
-  ngOnChanges(changes: any): void {
-    if (changes != null) {
-         console.log(changes);
-     }
-    }
+  UpdateUser() {
+    this.http.PutUserData(this.user).subscribe({
+      next: (data: any) => {
+        
+      },
+    });
+  }
 }

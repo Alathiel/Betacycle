@@ -35,10 +35,10 @@ namespace BetaCycle.Controllers
         }
 
         [Authorize]
-        [HttpGet("{userId}/{addressId}")]
-        public async Task<ActionResult<Address>> GetAddress(long userId, long addressId)
+        [HttpGet("[action]")]
+        public async Task<ActionResult<Address>> GetAddress(long addressId)
         {
-            var address = await _context.Addresses.FindAsync(userId, addressId);
+            var address = await _context.Addresses.FindAsync(Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)), addressId);
             if (address == null)
             {
                 return NotFound();
@@ -58,6 +58,7 @@ namespace BetaCycle.Controllers
         {
             try
             {
+                address.UserId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 User user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 if (user == null)
                 {
@@ -82,12 +83,12 @@ namespace BetaCycle.Controllers
 
         // DELETE: api/Addresses/5
         [Authorize]
-        [HttpDelete("{userId}/{addressId}")]
-        public async Task<IActionResult> DeleteAddress(long userId,long addressId)
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> DeleteAddress(long addressId)
         {
             try
             {
-                var address = await _context.Addresses.FindAsync(userId,addressId);
+                var address = await _context.Addresses.FindAsync(Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)),addressId);
                 if (address == null)
                 {
                     return NotFound();

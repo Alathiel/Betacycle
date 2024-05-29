@@ -125,14 +125,10 @@ namespace BetaCycle.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(long id, User user)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> PutUser(User user)
         {
-            if (id != user.UserId)
-            {
-                return BadRequest();
-            }
-
+            
             _context.Entry(user).State = EntityState.Modified;
 
             try
@@ -141,14 +137,7 @@ namespace BetaCycle.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                
             }
 
             return NoContent();

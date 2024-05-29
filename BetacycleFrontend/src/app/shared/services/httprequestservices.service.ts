@@ -20,8 +20,8 @@ export class HttprequestservicesService {
   });
 
   //CREDENTIAL
-  GetHttpCredential(id: number): Observable<any> {
-    return this.http.get(`https://localhost:7044/api/Credentials/${id}`);
+  GetHttpCredential(): Observable<any> {
+    return this.http.get(`https://localhost:7044/api/Credentials/GetCredential`);
   }
 
   deleteUserData(id: number): Observable<any> {
@@ -97,15 +97,15 @@ export class HttprequestservicesService {
   }
 
   //CRUD UTENTE SINGOLO
-  PutUserData(id: number, user: User): Observable<any> {
-    return this.http.put(`https://localhost:7044/api/Users/${id}`, user);
+  PutUserData(user: User): Observable<any> {
+    return this.http.put(`https://localhost:7044/api/Users/PutUser`, user);
   }
 
-  PutEmailData(id: number, cred: Credentials): Observable<any> {
-    return this.http.put(`https://localhost:7044/api/Credentials/${id}`, cred);
+  PutEmailData(cred: Credentials): Observable<any> {
+    return this.http.put(`https://localhost:7044/api/Credentials/PutCredential`, cred);
   }
 
-  PutPassawordAlreadyLogged(id: number, cred: Credentials): Observable<any> {
+  PutPassawordAlreadyLogged(cred: Credentials): Observable<any> {
     return this.http.put(
       `https://localhost:7044/api/Credentials/ChangePasswordLogOn`,
       cred
@@ -113,19 +113,23 @@ export class HttprequestservicesService {
   }
 
   //Address
-  GetHttpAddresses(token: any) {
+  GetHttpAddresses() {
     return this.http.get(`https://localhost:7044/api/Addresses/`);
   }
 
-  GetHttpAddressById(addressid: number, userid: number): Observable<any> {
+  GetHttpAddressById(addressId: number): Observable<any> {
+    var params = new HttpParams()
+      .append("addressId", addressId)
     return this.http.get(
-      `https://localhost:7044/api/Addresses/${userid}/${addressid}`
+      `https://localhost:7044/api/Addresses/GetAddress`,{params: params}
     );
   }
 
-  DeleteHttpAddresses(addressid: number, userid: number) {
+  DeleteHttpAddresses(addressId: number) {
+    var params = new HttpParams()
+      .append("addressId", addressId)
     return this.http.delete(
-      `https://localhost:7044/api/Addresses/${userid}/${addressid}`
+      `https://localhost:7044/api/Addresses/DeleteAddress`,{params: params}
     );
   }
 

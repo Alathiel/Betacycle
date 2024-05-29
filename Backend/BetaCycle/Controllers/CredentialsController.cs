@@ -4,6 +4,7 @@ using BetaCycle.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using BetaCycle.Contexts;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace BetaCycle.Controllers
 {
@@ -25,10 +26,11 @@ namespace BetaCycle.Controllers
             return await _context.Credentials.ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Credential>> GetCredential(long id)//login
+        [Authorize]
+        [HttpGet("[action]")]
+        public async Task<ActionResult<Credential>> GetCredential()//login
         {
-            var credentials = await _context.Credentials.FindAsync(id);
+            var credentials = await _context.Credentials.FindAsync(Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
             if (credentials == null)
             {
@@ -63,30 +65,17 @@ namespace BetaCycle.Controllers
         // PUT: api/Credentials/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Authorize]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCredential(long id, Credential credential)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> PutCredential(Credential credential)
         {
-            if (id != credential.UserId)
-            {
-                return BadRequest();
-            }
-
             _context.Entry(credential).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CredentialExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                
             }
 
             return NoContent();
