@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { HomeComponent } from './features/home/home.component';
 import { NavbarComponent } from './core/navbar/navbar.component';
-import { LoginComponent } from './core/login/login.component';
+// import { LoginComponent } from './core/login/login.component';
 import { RegistrationComponent } from './core/registration/registration.component';
 import { UpdatepswComponent } from './core/updatepsw/updatepsw.component';
 import { UsersettingsComponent } from './features/usersettings/usersettings.component';
@@ -19,6 +19,8 @@ import { ChiSiamoComponent } from './features/chi-siamo/chi-siamo.component';
 import { ContactsComponent } from './features/contacts/contacts.component';
 import { ProductComponent } from './features/product/product/product.component';
 import { ProductdetailsComponent } from './features/product/productdetails/productdetails.component';
+import { LoginFormComponent } from './core/loginNew/login-form/login-form.component';
+import { LoginComponent } from './core/loginNew/login.component';
 
 
 export const routes: Routes = [
