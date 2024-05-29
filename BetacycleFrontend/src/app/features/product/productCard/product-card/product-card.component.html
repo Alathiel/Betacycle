@@ -8,7 +8,7 @@
                 </div>
             </div>
             <h2>{{p.productName}}</h2>
-            <p>Prezzo: €{{p.insertPrice}}</p>
+            <p>Prezzo: €{{p.insertPrice | number : '1.2-2'}}</p>
             <p>Colore: {{p.color}}</p>
             <a (click)="GoToDetailsPage(p.productId)" style="cursor: pointer;color:blue">Show more details</a><br>
             <i (click)="AddToCart()" class="fa fa-shopping-cart">Add to cart</i>
@@ -24,8 +24,9 @@
         <ng-container *ngIf="service.page > 1 && service.totalProducts>=10"> <label>Prodotti mostrati {{(service.page-1)*10}} - {{((service.page-1)*10)+service.loadedProducts}} di {{service.totalProducts}}</label>  </ng-container>
     </div> 
 <div class="page-navigator-wrapper" style="margin-left: 30px;">
-        <a (click)="service.prev()" style="font-size: 1.4em; cursor: pointer;"><i class="fa-solid fa-arrow-left" style="margin-right: 5px;"></i></a>
+        <a (click)="service.prev()" style="font-size: 1.4em; cursor: pointer;"><i class="fa-solid fa-arrow-left" style="margin-right: 10px;"></i></a>
                
         <a (click)="service.next()" style="font-size: 1.4em; cursor: pointer;"><i class="fa-solid fa-arrow-right"></i></a>
     </div>
 </div>
+

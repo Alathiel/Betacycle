@@ -7,9 +7,13 @@ import { HttpStatusCode,HttpErrorResponse } from '@angular/common/http';
 })
 export class ProductserviceService {
   products: any;
+  product:any;
+  model: any;
+  category: any;
   selectedValue = "productName";
   selectedColor = "color";
   selectedPrice = "price";
+  selectedOperand = "operand";
   search = "";
   totalProducts = 0;
   page = 1;
@@ -17,6 +21,7 @@ export class ProductserviceService {
   byname: string = '';
   byprice: number=0 ;
   bycolor: string = '';
+  operand: string = '';
 
   constructor(private http:HttprequestservicesService) { }
 
@@ -24,7 +29,8 @@ export class ProductserviceService {
   {
     this.http.getFilteredProductsUser(this.selectedValue, this.byname,
       this.selectedColor, this.bycolor,
-      this.selectedPrice, this.byprice, 1)
+      this.selectedPrice, this.byprice,
+      this.selectedOperand, this.operand, 1)
     .subscribe(
       {
         next: (data: any) => {
@@ -73,7 +79,8 @@ export class ProductserviceService {
     if(this.byname !== "" || this.bycolor != "" || this.byprice==0){
       this.http.getFilteredProductsUser(this.selectedValue, this.byname,
         this.selectedColor, this.bycolor,
-        this.selectedPrice, this.byprice, this.page).subscribe({
+        this.selectedPrice, this.byprice,
+        this.selectedOperand, this.operand, this.page).subscribe({
         next: (response:any) => {
           console.log(response)
           this.products = response.body.products.$values
@@ -92,4 +99,42 @@ export class ProductserviceService {
     else
       console.log("???");
   }
+
+  GetDetails(id: number)
+  {
+    this.http.GetProductByID(id)
+    .subscribe({
+      next: (data:any) => {
+        this.product = data;
+        this.http.GetModelByID(this.product.modelId)
+        .subscribe
+        ({
+          next: (modeldata: any) => {
+            this.model = modeldata;
+            console.log(this.model)
+          },
+          error: (err:any) => {
+            console.log(err.message);
+          }
+        })
+        this.http.GetCategoryByID(this.product.categoryId)
+        .subscribe
+        ({
+          next: (categorydata: any) => {
+            this.category = categorydata;
+          },
+          error: (err:any) => {
+            console.log(err.message);
+          }
+        })
+      },
+      error: (error:any) => {
+        console.log(error);
+      }
+    })
+  }
+
+
+
+
 }
