@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand"><i class="bi bi-search"></i> Ricerca</a>
+        <form class="form-inline d-flex" #searchProduct="ngForm"  (submit)="service.FilterProduct()">
+        <button style="border: 0cap;" type="submit" class="navbar-brand"><i class="bi bi-search"></i> Ricerca</button>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -8,25 +9,27 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
             </ul>
-
-            <form class="form-inline d-flex">
                 <div class="input-group">
                     <a class="input-group-text" id="search-color"><i class="bi bi-paint-bucket icon"></i></a>
-                    <input type="text" class="form-control" placeholder="Inserisci colore" aria-label="Color"
+                    <input name="bycolor" matInput #searchcolor="ngModel" [(ngModel)]="service.bycolor" 
+                    type="text" class="form-control" placeholder="Inserisci colore" aria-label="Color"
                         aria-describedby="search-color">
                 </div>
                 <div class="input-group mr-2">
                     <a class="input-group-text" id="search-price"><i class="bi bi-currency-euro icon"></i></a>
-                    <input type="text" class="form-control" placeholder="Inserisci prezzo" aria-label="Price"
+                    <input name="byprice" matInput #searchprice="ngModel" [(ngModel)]="service.byprice" 
+                    type="text" class="form-control" placeholder="Inserisci prezzo" aria-label="Price"
                         aria-describedby="search-price">
                 </div>
                 <div class="input-group">
                     <a class="input-group-text" id="search-name"><i class="bi bi-bicycle icon"></i></a>
-                    <input type="text" class="form-control" placeholder="Inserisci nome del prodotto" aria-label="Name"
+                    <input name="byname" matInput #searchname="ngModel" [(ngModel)]="service.byname"
+                    type="text" class="form-control" placeholder="Inserisci nome del prodotto" aria-label="Name"
                         aria-describedby="search-name">
                 </div>
-            </form>
-
+                     <button type="button" class="btn btn-danger" (click)="Azzera()">Resetta</button>
         </div>
+        </form>
     </div>
+
 </nav>

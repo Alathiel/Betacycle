@@ -4,11 +4,12 @@ import { HttprequestservicesService } from '../../shared/services/httprequestser
 import { CommonModule } from '@angular/common';
 import { FormsModule,NgForm } from '@angular/forms';
 import { RouterModule,RouterLink,RouterOutlet } from '@angular/router';
+import { FooterComponent } from '../footer/footer/footer.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink,RouterModule,RouterOutlet],
+  imports: [CommonModule,FormsModule,RouterLink,RouterModule,RouterOutlet,FooterComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -16,16 +17,5 @@ export class HomeComponent {
   products:Product[]=[]
   constructor(private http:HttprequestservicesService )
   {
-    this.http.GetProducts(1).subscribe
-    ({
-      next: (prod: any) => {
-        this.products = prod.$values;
-
-        //console.log(prod);
-      },
-      error: (err: any) => {
-        console.log(err);
-      }
-    });   
   }
 }

@@ -4,5 +4,5 @@
     text-align: center; /* Testo centrato */
     width: 100%; /* Occupa l'intera larghezza */
     /* position: absolute; Posizionamento fisso */
-   
+    margin-top: 5%;
 }

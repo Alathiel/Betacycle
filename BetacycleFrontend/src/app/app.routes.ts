@@ -8,7 +8,6 @@ import { UpdatepswComponent } from './core/updatepsw/updatepsw.component';
 import { UsersettingsComponent } from './features/usersettings/usersettings.component';
 import { UpdateaddressComponent } from './features/usersettings/address/updateaddress/updateaddress.component';
 import { RestoreComponent } from './core/restorepassword/restore/restore.component';
-import { ProductComponent } from './features/product/product/product.component';
 import { AdminLoginComponent } from './features/admin/admin-login/admin-login.component';
 import { AdminMenuComponent } from './features/admin/admin-menu/admin-menu.component';
 import { LogsViewerComponent } from './features/admin/logs-viewer/logs-viewer.component';
@@ -16,6 +15,10 @@ import { ProductsViewerComponent } from './features/admin/products-viewer/produc
 import { SupportChatComponent } from './features/admin/support-chat/support-chat.component';
 import { CartComponent } from './features/cart/cart.component';
 import { ConfirmOrderComponent } from './features/confirm-order/confirm-order.component';
+import { ChiSiamoComponent } from './features/chi-siamo/chi-siamo.component';
+import { ContactsComponent } from './features/contacts/contacts.component';
+import { ProductComponent } from './features/product/product/product.component';
+import { ProductdetailsComponent } from './features/product/productdetails/productdetails.component';
 
 
 export const routes: Routes = [
@@ -33,6 +36,9 @@ export const routes: Routes = [
     {path: 'admin-menu', component:AdminMenuComponent},
     {path: 'logs-viewer', component:LogsViewerComponent},
     {path: 'products-viewer', component:ProductsViewerComponent},
+    {path:'productDetails',component:ProductdetailsComponent},
+    {path: 'chisiamo', component:ChiSiamoComponent},
+    {path:'contact',component:ContactsComponent},
     {path: 'support-chat', component:SupportChatComponent},
     {path: 'cart', component:CartComponent},
     {path: 'confirm-order', component:ConfirmOrderComponent},

@@ -9,182 +9,246 @@ import { PaymentPost } from '../models/payment_post';
 import { User } from '../models/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HttprequestservicesService {
-
   constructor(private http: HttpClient) {}
 
   authJwtHeader = new HttpHeaders({
     contentType: 'application/json',
-    responseType: 'text'
+    responseType: 'text',
   });
 
   //CREDENTIAL
-  GetHttpCredential(id:number):Observable<any>
-  {
-    return this.http.get(`https://localhost:7044/api/Credentials/${id}`)
+  GetHttpCredential(id: number): Observable<any> {
+    return this.http.get(`https://localhost:7044/api/Credentials/${id}`);
   }
 
-  deleteUserData(id: number):Observable<any>{
+  deleteUserData(id: number): Observable<any> {
     return this.http.delete(`https://localhost:7044/api/Users/${id}`);
   }
 
   //PRODOTTI
-  GetProducts(page:number):Observable<any>{
-    var params = new HttpParams().append("pageNumber", page)
-    return this.http.get('https://localhost:7044/api/Products/GetProducts', {params: params, observe: 'response'});
-}
-  getFilteredProducts(filter: string, value: string, page:number):Observable<any>{
+  GetProducts(page: number): Observable<any> {
+    var params = new HttpParams().append('pageNumber', page);
+    return this.http.get('https://localhost:7044/api/Products/GetProducts', {
+      params: params,
+      observe: 'response',
+    });
+  }
+  getFilteredProducts(
+    filter: string,
+    value: string,
+    page: number
+  ): Observable<any> {
     var params = new HttpParams()
-    .append(filter, value)
-    .append("pageNumber", page)
-    return this.http.get('https://localhost:7044/api/Products/FilterProducts', {params: params, observe: 'response'});
-}
-  GetModel(): Observable<any>
-  {
+      .append(filter, value)
+      .append('pageNumber', page);
+    return this.http.get('https://localhost:7044/api/Products/FilterProducts', {
+      params: params,
+      observe: 'response',
+    });
+  }
+
+  getFilteredProductsUser(
+    filter: string,
+    value: string,
+    filter2: string,
+    value2: string,
+    filter3: string,
+    value3: number,
+    page: number
+  ): Observable<any> {
+    var params = new HttpParams()
+      .append(filter, value)
+      .append(filter2, value2)
+      .append(filter3, value3)
+      .append('pageNumber', page);
+    return this.http.get('https://localhost:7044/api/Products/FilterProducts', {
+      params: params,
+      observe: 'response',
+    });
+  }
+  GetModel(): Observable<any> {
     return this.http.get(`https://localhost:7044/api/Models`);
   }
-  AddCategory(category: any):Observable<any>
-  {
-    return this.http.post("https://localhost:7044/api/Categories", category, {observe: 'response'});
+  AddCategory(category: any): Observable<any> {
+    return this.http.post('https://localhost:7044/api/Categories', category, {
+      observe: 'response',
+    });
   }
-  AddModel(model: any):Observable<any>
-  {
-    return this.http.post("https://localhost:7044/api/Models", model, {observe: 'response'});
+  AddModel(model: any): Observable<any> {
+    return this.http.post('https://localhost:7044/api/Models', model, {
+      observe: 'response',
+    });
   }
 
   //AGGIORNAMENTO PASSWORD
-  PacthPassword(cred:Credentials):Observable<any>
-  {
-    return this.http.patch(`https://localhost:7044/api/Credentials/${cred.userId}`,cred);
+  PacthPassword(cred: Credentials): Observable<any> {
+    return this.http.patch(
+      `https://localhost:7044/api/Credentials/${cred.userId}`,
+      cred
+    );
   }
 
   //DATI UTENTE CONNESO
-  GetUserInfo():Observable<any>
-  {
-    return this.http.get(`https://localhost:7044/api/Users/GetUser`)
+  GetUserInfo(): Observable<any> {
+    return this.http.get(`https://localhost:7044/api/Users/GetUser`);
   }
 
   //CRUD UTENTE SINGOLO
-  PutUserData(id: number,user: User): Observable<any>
-  {
+  PutUserData(id: number, user: User): Observable<any> {
     return this.http.put(`https://localhost:7044/api/Users/${id}`, user);
   }
 
-  PutEmailData(id: number,cred: Credentials): Observable<any>
-  {
+  PutEmailData(id: number, cred: Credentials): Observable<any> {
     return this.http.put(`https://localhost:7044/api/Credentials/${id}`, cred);
   }
-  
-  PutPassawordAlreadyLogged(id: number,cred: Credentials): Observable<any>
-  {
-    return this.http.put(`https://localhost:7044/api/Credentials/ChangePasswordLogOn`, cred);
+
+  PutPassawordAlreadyLogged(id: number, cred: Credentials): Observable<any> {
+    return this.http.put(
+      `https://localhost:7044/api/Credentials/ChangePasswordLogOn`,
+      cred
+    );
   }
 
   //Address
-  GetHttpAddresses(token:any)
-  {
-
-    return this.http.get(`https://localhost:7044/api/Addresses/`)
+  GetHttpAddresses(token: any) {
+    return this.http.get(`https://localhost:7044/api/Addresses/`);
   }
 
-  GetHttpAddressById(addressid:number,userid:number): Observable<any>
-  {
-    return this.http.get(`https://localhost:7044/api/Addresses/${userid}/${addressid}`)
+  GetHttpAddressById(addressid: number, userid: number): Observable<any> {
+    return this.http.get(
+      `https://localhost:7044/api/Addresses/${userid}/${addressid}`
+    );
   }
 
-  DeleteHttpAddresses(addressid:number,userid:number)
-  {
-    return this.http.delete(`https://localhost:7044/api/Addresses/${userid}/${addressid}`)
+  DeleteHttpAddresses(addressid: number, userid: number) {
+    return this.http.delete(
+      `https://localhost:7044/api/Addresses/${userid}/${addressid}`
+    );
   }
 
-  PostHttpAddress(address:AddressPost):Observable<any>
-  {
-    return this.http.post(`https://localhost:7044/api/Addresses/PostAddress`,address)
+  PostHttpAddress(address: AddressPost): Observable<any> {
+    return this.http.post(
+      `https://localhost:7044/api/Addresses/PostAddress`,
+      address
+    );
   }
 
-  PutHttpAddress(address:AddressPost):Observable<any>
-  {
-    return this.http.put(`https://localhost:7044/api/Addresses/PutAddress`,address)
+  PutHttpAddress(address: AddressPost): Observable<any> {
+    return this.http.put(
+      `https://localhost:7044/api/Addresses/PutAddress`,
+      address
+    );
   }
 
   //PAGAMENTI
-  GetHttpPaymentById():Observable<any>
-  {
-    return this.http.get(`https://localhost:7044/api/Payments/`)
+  GetHttpPaymentById(): Observable<any> {
+    return this.http.get(`https://localhost:7044/api/Payments/`);
   }
-  DeleteHttpPayment(idPayment:number):Observable<any>
-  {
-    var params = new HttpParams()
-      .append("idPayment", idPayment)
-    return this.http.delete(`https://localhost:7044/api/Payments/Payments`,{params: params})
+  DeleteHttpPayment(idPayment: number): Observable<any> {
+    var params = new HttpParams().append('idPayment', idPayment);
+    return this.http.delete(`https://localhost:7044/api/Payments/Payments`, {
+      params: params,
+    });
   }
-  PostHttpPayment(payment:PaymentPost):Observable<any>
-  {
-    console.log(payment)
-    return this.http.post(`https://localhost:7044/api/Payments/PostPayment`,payment)
+  PostHttpPayment(payment: PaymentPost): Observable<any> {
+    console.log(payment);
+    return this.http.post(
+      `https://localhost:7044/api/Payments/PostPayment`,
+      payment
+    );
   }
-  
+
   //SignalR
-  getConnectionsOpen():Observable<any>{
-    return this.http.get("https://localhost:7044/GetConnectionsOpen");
+  getConnectionsOpen(): Observable<any> {
+    return this.http.get('https://localhost:7044/GetConnectionsOpen');
   }
 
-  PutProduct(product: any): Observable<any>
-  {
-    return this.http.put('https://localhost:7044/api/Products/PutProduct',product);
+  PutProduct(product: any): Observable<any> {
+    return this.http.put(
+      'https://localhost:7044/api/Products/PutProduct',
+      product
+    );
   }
 
-  DeleteProduct(id:string):Observable<any>
-  {
-    var params = new HttpParams()
-      .append("id", id)
-    return this.http.delete('https://localhost:7044/api/Products/DeleteProduct',{params: params, observe: 'response'});
+  DeleteProduct(id: string): Observable<any> {
+    var params = new HttpParams().append('id', id);
+    return this.http.delete(
+      'https://localhost:7044/api/Products/DeleteProduct',
+      { params: params, observe: 'response' }
+    );
   }
-  AddProduct(product: any):Observable<any>
-  {
-    return this.http.post("https://localhost:7044/api/Products", product, {observe: 'response'});
+  AddProduct(product: any): Observable<any> {
+    return this.http.post('https://localhost:7044/api/Products', product, {
+      observe: 'response',
+    });
   }
-  getModels():Observable<any>{
+  getModels(): Observable<any> {
     return this.http.get('https://localhost:7044/api/Models');
   }
-  getCategories():Observable<any>{
+  getCategories(): Observable<any> {
     return this.http.get('https://localhost:7044/api/Categories');
-}
-getLogs(page:number):Observable<any>{
-  var params = new HttpParams()
-      .append("pageNumber", page)
-  return this.http.get('https://localhost:7044/api/Logs', {params: params, observe: 'response'});
-}
+  }
+  getLogs(page: number): Observable<any> {
+    var params = new HttpParams().append('pageNumber', page);
+    return this.http.get('https://localhost:7044/api/Logs', {
+      params: params,
+      observe: 'response',
+    });
+  }
 
-getLogsByFilter(value: string, filter: string, page:number):Observable<any>{
-  var params = new HttpParams()
-      .append("filterC", filter)
-      .append("value", value)
-      .append("pageNumber", page)
-  return this.http.get('https://localhost:7044/api/Logs/GetFilteredLogs', {params: params, observe: 'response'});
-}
+  getLogsByFilter(
+    value: string,
+    filter: string,
+    page: number
+  ): Observable<any> {
+    var params = new HttpParams()
+      .append('filterC', filter)
+      .append('value', value)
+      .append('pageNumber', page);
+    return this.http.get('https://localhost:7044/api/Logs/GetFilteredLogs', {
+      params: params,
+      observe: 'response',
+    });
+  }
 
-GetLoggingState():Observable<any>
-{
-  return this.http.get('https://localhost:7044/api/Logs/GetLoggingStatus');
-}
+  GetLoggingState(): Observable<any> {
+    return this.http.get('https://localhost:7044/api/Logs/GetLoggingStatus');
+  }
 
-toggleLogging():Observable<any>
-{
-  return this.http.get('https://localhost:7044/api/Logs/ToggleLogging',{observe: 'response'});
-}
+  toggleLogging(): Observable<any> {
+    return this.http.get('https://localhost:7044/api/Logs/ToggleLogging', {
+      observe: 'response',
+    });
+  }
 
-GetCart():Observable<any>
-{
-  return this.http.get('https://localhost:7044/api/Carts/GetCart',{observe: 'response'});
-}
+  GetCart(): Observable<any> {
+    return this.http.get('https://localhost:7044/api/Carts/GetCart', {
+      observe: 'response',
+    });
+  }
 
-PutCart(cart:any):Observable<any>
-{
-  return this.http.put("https://localhost:7044/api/Carts/PutCart", cart);
-}
+  PutCart(cart: any): Observable<any> {
+    return this.http.put('https://localhost:7044/api/Carts/PutCart', cart);
+  }
+  GetProductByID(id:number):Observable<any>
+  {
+    return this.http.get(`https://localhost:7044/api/Products/${id}`)
+  }
 
+  GetModelByID(id:number):Observable<any>
+  {
+    return this.http.get(`https://localhost:7044/api/Models/${id}`)
+  }
 
+  GetCategoryByID(id:number):Observable<any>
+  {
+    return this.http.get(`https://localhost:7044/api/Categories/${id}`)
+  }
+  GetHttpDeal():Observable<any>
+  {
+    return this.http.get(`https://localhost:7044/Deals`)
+  }
 }
