@@ -37,7 +37,7 @@ export class UserpaymentsComponent {
     )
   }
   DeletePayment(idPayment: number) {
-    this.http.DeleteHttpPayment(this.token.nameid, idPayment).subscribe(
+    this.http.DeleteHttpPayment( idPayment).subscribe(
       {
         next: (data: any) => {
 
