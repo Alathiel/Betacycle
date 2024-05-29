@@ -7,18 +7,18 @@ import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { AuthServiceService } from '../../shared/services/auth-service.service';
 import { User } from '../../shared/models/user';
 import { AddressPost } from '../../shared/models/address_post';
-import { Route, Router } from '@angular/router';
 import { Credentials } from '../../shared/models/credential';
-import { RouterModule } from '@angular/router';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { Payment } from '../../shared/models/payment';
 import { PaymentPost } from '../../shared/models/payment_post';
-import { FormBuilder } from '@angular/forms';
+import { UseraddressComponent } from './useraddress/useraddress.component';
+import { UserpaymentsComponent } from './userpayments/userpayments.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usersettings',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgTemplateOutlet,NgbNavModule,ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, NgTemplateOutlet,NgbNavModule,ReactiveFormsModule,UseraddressComponent,UserpaymentsComponent],
   templateUrl: './usersettings.component.html',
   styleUrl: './usersettings.component.css'
 })
@@ -38,15 +38,6 @@ export class UsersettingsComponent {
   newCred:Credentials=new Credentials()
   newPassword:string=''
 
-  //INDIRIZZI 
-  getaddress: Address[] = [];
-  newAddress:AddressPost=new AddressPost()
-
-  //CARTE DI CREDITO
-  getPayment:Payment[]=[]
-  newPayment:PaymentPost=new PaymentPost()
-  stringCardNumber:string[]=[]
-
   constructor(private http: HttprequestservicesService,
     private auth:AuthServiceService, 
     private route: Router) 
@@ -63,9 +54,7 @@ export class UsersettingsComponent {
             console.log("Errore: " + err.status);
           }
         })
-        this.GetAddresses()
-        this.GetCredential()
-        this.GetPayment()
+        this.GetCredential()       
   }
 
   GetCredential()
@@ -133,107 +122,7 @@ export class UsersettingsComponent {
         }
       })
   }
-
-  //OPERAZIONI SU INDIRIZZI
-  GetAddresses()
-  {
-    this.http.GetHttpAddresses(this.token).subscribe(
-      {
-        next:(data:any)=>{
-          this.getaddress=data.$values
-        },
-        error:(error:any)=>
-          {console.log(error)}
-      }
-    )
-  }
-
-  DeleteAddress(addressid:number,userid:number)
-  {
-    this.http.DeleteHttpAddresses(addressid,userid).subscribe(
-      {
-        next:(data:any)=>{
-
-        },
-        error:(error:any)=>
-          {console.log(error)}
-      }
-    )
-    window.location.reload()
-  }
-  //Aggiungi un nuovo indirizzo
-  AddAddress()
-  {   
-    this.http.PostHttpAddress(this.newAddress).subscribe(
-      {
-        next:(data:any)=>{
-          console.log(data)
-        },
-        error:(error:any)=>
-          {console.log(error.message)}
-      }
-    )
-    window.location.reload()
-  }
-  //Payment Option. GET PUT DELETE POST
-  GetPayment()
-  {
-    this.http.GetHttpPaymentById().subscribe(
-      {
-        next:(data:any)=>{
-          this.getPayment=data.$values
-        },
-        error:(error:any)=>
-          {console.log(error.message)}
-      }
-    )  
-  }
-  DeletePayment(idPayment:number)
-  {
-    this.http.DeleteHttpPayment(idPayment).subscribe(
-      {
-        next:(data:any)=>{
-
-        },
-        error:(error:any)=>
-          {console.log(error)}
-      }
-    )   
-    window.location.reload() 
-  }
-  AddPayment(month:NgModel,year:NgModel)
-  {
-
-    this.newPayment.expirationDate='20'+year.value+'-'+month.value+'-'+'01'
-    this.newPayment.user.lastmodified=this.newPayment.expirationDate
-    
-
-    switch(this.newPayment.numberCard.at(0))
-    {
-      case '3':
-        this.newPayment.circuitCard='American Express'
-        break;
-        case '4':
-        this.newPayment.circuitCard='VISA'
-        break;
-        case '5':
-        this.newPayment.circuitCard='Mastercard'
-        break;
-    }
-    this.newPayment.userId=this.token.nameid
-    console.log(this.newPayment)
-    this.http.PostHttpPayment(this.newPayment).subscribe(
-      {
-        next:(data:any)=>{
-          console.log(data)
-        },
-        error:(error:any)=>
-          {console.log(error.message)}
-      }
-    )
   
-    window.location.reload()
-  }
 
 
   GoToUpdateAddress(address:Address)
