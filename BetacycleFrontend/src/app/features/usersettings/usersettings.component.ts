@@ -11,6 +11,9 @@ import { Credentials } from '../../shared/models/credential';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { Payment } from '../../shared/models/payment';
 import { PaymentPost } from '../../shared/models/payment_post';
+
+import { UserInfoComponent } from './user-info/user-info.component';
+import { UserCredentialsComponent } from "./user-credentials/user-credentials.component";
 import { UseraddressComponent } from './useraddress/useraddress.component';
 import { UserpaymentsComponent } from './userpayments/userpayments.component';
 import { Router } from '@angular/router';
@@ -18,16 +21,13 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-usersettings',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgTemplateOutlet,NgbNavModule,ReactiveFormsModule,UseraddressComponent,UserpaymentsComponent],
+  imports: [CommonModule, FormsModule, NgTemplateOutlet,NgbNavModule,ReactiveFormsModule,UseraddressComponent,UserpaymentsComponent,UserInfoComponent, UserCredentialsComponent],
   templateUrl: './usersettings.component.html',
   styleUrl: './usersettings.component.css'
 })
 export class UsersettingsComponent {
   active = 'top';
   token:any   //TOKEN SESSION
-  //DATI UTENTE
-  user:User=new User()  
-  newUser:User=new User()
 
   //MESE E ANNO DA CONCATENARE
   monthEx:string='' 
@@ -48,7 +48,6 @@ export class UsersettingsComponent {
         ({
           next: (data: any) => {
 
-            this.user = data
           },
           error: (err: any) => {
             console.log("Errore: " + err.status);
@@ -71,22 +70,7 @@ export class UsersettingsComponent {
   }
 
   //OPERAZIONI SULL'UTENTE
-   UpdateUser()
-  {
-    this.newUser=this.user
-    this.http.PutUserData(this.token.nameid, this.newUser)
-      .subscribe
-      ({
-        next: (data: any) => {
-          this.newUser = data;
-          console.log(this.newUser)
-        },
-        error: (error: any) => {
-          console.log(error.message);
-        }
-      })
-      window.location.reload()
-  }
+ 
 
   UpdateCredentialsEmail()
   {

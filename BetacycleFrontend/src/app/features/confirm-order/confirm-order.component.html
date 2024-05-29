@@ -2,7 +2,7 @@
     <div class="content-container">
         <ng-container *ngIf="loaded">
             <ng-container *ngIf="cart.length > 0">
-                <div class="card-wrapper">
+                <div class="card-wrapper" [hidden]="orderCompleted">
                     <div class="card">
                         <div class="header">
                             <label style="font-size: large; font-weight: bold;">Riepilogo ordine</label>
@@ -21,7 +21,10 @@
                             <label style="font-size: large; font-weight: 600;">Totale: {{totalPrice}}</label>
                         </div>
                     </div>
-                    <button class="confirm" style="width: 100%;"> Conferma Ordine</button>
+                    <button class="confirm" style="width: 100%;" (click)="completeOrder()"> Conferma Ordine</button>
+                </div>
+                <div [hidden]="!orderCompleted">
+                    <label style="font-size: larger; font-weight: 700;">Ordine completato, verra' spedito nel piu' breve tempo possibile.</label>
                 </div>
             </ng-container>
             <ng-container *ngIf="cart.length <= 0">

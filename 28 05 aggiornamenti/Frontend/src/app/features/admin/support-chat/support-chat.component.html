@@ -1,9 +1,0 @@
-<p>support-chat works!</p>
-
-
-<div>
-    <input #message="ngModel" type="text" [(ngModel)]="writeMessage">
-    <button (click)="sendMessage(message.value)">Send</button>
-    <button (click)="showConnection()">Reload</button>
-    <label *ngFor="let connection of connections">Chat Avaible:{{connection}}<br></label>
-</div>

@@ -14,6 +14,7 @@ export class ConfirmOrderComponent {
   loaded = false;
   totalPrice:number = 0;
   cart:any;
+  orderCompleted = false;
 
   ngOnInit()
   {
@@ -27,5 +28,9 @@ export class ConfirmOrderComponent {
         this.loaded = true;
       },
     })
+  }
+
+  completeOrder(){
+    
   }
 }

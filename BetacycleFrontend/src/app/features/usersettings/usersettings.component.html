@@ -3,99 +3,14 @@
     <ng-container ngbNavItem="top">
       <button ngbNavLink>Info Utente</button>
       <ng-template ngbNavContent>
-        <div class="tab-pane fade active show" id="account-general" #generalContainer>
-
-          <div class="card-body">
-
-            <form #updateUserForm="ngForm" (submit)="UpdateUser()">
-              <div class="form-group">
-                <label for="firstName">Nome </label>
-                <input class="form-control "
-                    matInput #name='ngModel' [(ngModel)]="user.firstName" name="name" 
-                    required minlength="3" placeholder="Nome" pattern="[a-zA-Z]*">
-                    <ng-container *ngIf="(name.invalid && name.dirty)">
-                      <div >                       
-                      </div>
-                    </ng-container>
-                  </div>
-                  <div class="form-group">
-                    <label for="lastName">Cognome </label>
-                    <input class="form-control "
-                    matInput #lastName="ngModel" [(ngModel)]="user.lastName" name="lastName" 
-                    required minlength="3" placeholder="Cognome">
-                  </div>
-                  <div class="form-group">
-                    <label for="birthDate">Data di nascita </label>
-                    <input type ="date" class="form-control "
-                     matInput #birthDate="ngModel" [(ngModel)]="user.birthDate" name="birthDate"
-                     required  placeholder="Data di Nascita">
-                  </div>
-                  <div class="form-group">
-                    <label for="phone">Telefono</label>
-                    <input class="form-control "
-                    matInput #phone="ngModel" [(ngModel)]="user.phone" name="phone" 
-                    minlength="2" placeholder="Telefono" pattern="\d*">
-                  </div>
-              <div class="col-md-12 text-center ">
-                <button type="submit" [disabled]="updateUserForm.invalid" class="btn btn-primary">Aggiorna</button>
-              </div>
-              <div class="col-md-12 ">
-              </div>
-            </form>
-          </div>
-        </div>
+        <app-user-info></app-user-info>
       </ng-template>
     </ng-container>
 
     <ng-container ngbNavItem="bottom">
       <button ngbNavLink>Credenziali</button>
       <ng-template ngbNavContent>
-        <div class="card-body">
-
-          <form #updateEmailForm="ngForm" (submit)="UpdateCredentialsEmail()">
-            <div class="form-group">
-              <label for="Email">Email </label>
-              <input class="form-control " pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-              matInput #email [(ngModel)]="credential.email" name="email" required
-                minlength="1" placeholder="Email">
-            </div>
-            <br>
-            <div class="col-md-12 text-center ">
-              <button type="submit" [disabled]="updateEmailForm.invalid" class="btn btn-primary">Aggiorna Email</button>
-            </div>
-            <div class="col-md-12 ">
-            </div>
-          </form>
-
-          <div>
-            <form #updatePasswordForm="ngForm" (submit)="UpdateCredentialsPassword()">
-              <div class="form-group">
-                <label for="Password">Password</label>
-                <input type="password" class="form-control" matInput #pw="ngModel" [(ngModel)]="newPassword"
-                  placeholder="Password" name="pw" required pattern="^\S{6,}$" type="password">
-                <ng-container *ngIf="pw.invalid && (pw.dirty)">
-                  <div *ngIf="pw.errors?.['required'] || pw.errors?.['pattern']" style="color: rgb(175, 5, 5);">
-                    La password deve essere almeno di 6 caratteri
-                  </div>
-                </ng-container>
-              </div>
-              <div class="form-group">
-                <label for="Password">Conferma Password</label>
-                <input type="password" class="form-control" matInput #pw2="ngModel" [ngModel] placeholder="Password"
-                  name="pw2" required type="password" pattern="^\S{6,}$">
-                <ng-container *ngIf="pw2.dirty && (pw.value != pw2.value)">
-                  <div style="color: rgb(175, 5, 5);">
-                    Le password devono coincidire
-                  </div>
-                </ng-container>
-              </div>
-              <div class="col-md-12 text-center ">
-                <button type="submit" [disabled]="updatePasswordForm.invalid" class="btn btn-primary">Cambia Password</button>
-              </div>
-            </form>
-          </div>
-
-        </div>
+        <app-user-credentials></app-user-credentials>
       </ng-template>
     </ng-container>
 
