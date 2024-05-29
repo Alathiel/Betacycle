@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faTrash,faPenToSquare, faHome, faAdd} from '@fortawesome/free-solid-svg-icons';
-import { Route, Router, RouterModule } from '@angular/router';
+import {Router} from '@angular/router';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDialog } from './add-dialog/add-dialog.component';
@@ -14,9 +14,9 @@ import { EditDialog } from './edit-dialog/edit-dialog.component';
 import { AddCategoryDialogComponent } from './add-category-dialog/add-category-dialog.component';
 import { AddModelDialogComponent } from './add-model-dialog/add-model-dialog.component';
 import { NgOptimizedImage } from '@angular/common'
-import * as base64 from "base64-js";
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttprequestservicesService } from '../../../shared/services/httprequestservices.service';
+
 @Component({
   selector: 'app-products-viewer',
   standalone: true,

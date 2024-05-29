@@ -43,3 +43,30 @@ button {
 button:hover{
     background-color: hsl(240, 1%, 69%);
 }
+
+.delete-button{
+    position: absolute;
+    right: 11em;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 0;
+    background-color: hsla(0, 0%, 100%, 0);
+    box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: all 0.5s ease;
+    align-self: center;
+
+}
+
+.delete-button:hover{
+    background-color: hsl(240, 3%, 85%);
+}
+
+.delete-button:active {
+    box-shadow: rgb(170, 170, 170) 0px 0px 0px 0px;
+    transform: translateY(2px);
+    transition: 100ms;
+}

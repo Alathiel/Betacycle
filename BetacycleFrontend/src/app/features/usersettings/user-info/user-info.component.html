@@ -1,40 +1,71 @@
 <div class="main-container" id="account-general" #generalContainer>
-
-    <div class="content-container">
-      <form #updateUserForm="ngForm" (submit)="UpdateUser()">
-        <div class="form-group">
-          <label for="firstName">Nome </label>
-          <input class="form-control "
-              matInput #name='ngModel' [(ngModel)]="user.firstName" name="name" 
-              required minlength="1" placeholder="Nome" pattern="[a-zA-Z]*">
-              <ng-container *ngIf="(name.invalid && name.dirty)">
-                <div >
-                </div>
-              </ng-container>
-            </div>
-            <div class="form-group">
-              <label for="lastName">Cognome </label>
-              <input class="form-control "
-              matInput #lastName="ngModel" [(ngModel)]="user.lastName" name="lastName" 
-              required minlength="1" placeholder="Cognome">
-            </div>
-            <div class="form-group">
-              <label for="birthDate">Data di nascita </label>
-              <input type ="date" class="form-control "
-               matInput #birthDate="ngModel" [(ngModel)]="user.birthDate" name="birthDate"
-                 placeholder="Data di Nascita">
-            </div>
-            <div class="form-group">
-              <label for="phone">Telefono</label>
-              <input class="form-control "
-              matInput #phone="ngModel" [(ngModel)]="user.phone" name="phone" 
-               minlength="10" placeholder="Telefono" pattern="\d*">
-            </div>
-        <div class="col-md-12 text-center ">
-          <button type="submit" [disabled]="updateUserForm.invalid || !updateUserForm.dirty" class="btn btn-primary">Aggiorna</button>
-        </div>
-        <div class="col-md-12 ">
-        </div>
-      </form>
-    </div>
+  <div class="content-container">
+    <form #updateUserForm="ngForm" (submit)="UpdateUser()">
+      <div class="form-group">
+        <label for="firstName">Nome </label>
+        <input
+          class="form-control"
+          matInput
+          #name="ngModel"
+          [(ngModel)]="user.firstName"
+          name="name"
+          required
+          minlength="1"
+          placeholder="Nome"
+          pattern="[a-zA-Z]*"
+        />
+        <ng-container *ngIf="name.invalid && name.dirty">
+          <div></div>
+        </ng-container>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Cognome </label>
+        <input
+          class="form-control"
+          matInput
+          #lastName="ngModel"
+          [(ngModel)]="user.lastName"
+          name="lastName"
+          required
+          minlength="1"
+          placeholder="Cognome"
+        />
+      </div>
+      <div class="form-group">
+        <label for="birthDate">Data di nascita </label>
+        <input
+          type="date"
+          class="form-control"
+          matInput
+          #birthDate="ngModel"
+          [(ngModel)]="user.birthDate"
+          name="birthDate"
+          placeholder="Data di Nascita"
+        />
+      </div>
+      <div class="form-group">
+        <label for="phone">Telefono</label>
+        <input
+          class="form-control"
+          matInput
+          #phone="ngModel"
+          [(ngModel)]="user.phone"
+          name="phone"
+          minlength="10"
+          placeholder="Telefono"
+          pattern="\d*"
+        />
+      </div>
+      <div class="col-md-12 text-center">
+        <button
+          type="submit"
+          [disabled]="updateUserForm.invalid || !updateUserForm.dirty"
+          class="btn btn-primary"
+        >
+          Aggiorna
+        </button>
+      </div>
+      <div class="col-md-12"></div>
+    </form>
   </div>
+</div>

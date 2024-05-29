@@ -103,6 +103,7 @@ namespace BetaCycle.Controllers
         {
             try
             {
+                payment.UserId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 KeyValuePair<string, string> card, cvv,tmp;
                 card = EncryptionData.EncryptionData.SaltEncrypt(payment.NameCard);
                 cvv = EncryptionData.EncryptionData.SaltEncrypt(payment.Cvv);
