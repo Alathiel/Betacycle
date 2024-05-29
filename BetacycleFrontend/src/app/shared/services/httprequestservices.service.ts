@@ -255,4 +255,12 @@ export class HttprequestservicesService {
   {
     return this.http.get(`https://localhost:7044/Deals`)
   }
+
+  DeleteProductFromCart(productId:any):Observable<any>
+  {
+    console.log(productId)
+    var params = new HttpParams()
+      .append('productId', productId)
+    return this.http.delete('https://localhost:7044/api/Carts/DeleteCart',{params:params});
+  }
 }

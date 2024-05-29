@@ -88,10 +88,11 @@ namespace BetaCycle.Controllers
         }
 
         // DELETE: api/Carts/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCart(long id)
+        [Authorize]
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> DeleteCart(long productId)
         {
-            var cart = await _context.Carts.FindAsync(id);
+            var cart = await _context.Carts.FindAsync(Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)),productId);
             if (cart == null)
             {
                 return NotFound();
