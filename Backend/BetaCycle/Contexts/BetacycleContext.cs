@@ -82,9 +82,7 @@ public partial class BetacycleContext : DbContext
             entity.ToTable("Cart");
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
-            entity.Property(e => e.ProductId)
-                .ValueGeneratedOnAdd()
-                .HasColumnName("ProductID");
+            entity.Property(e => e.ProductId).HasColumnName("ProductID");
 
             entity.HasOne(d => d.Product).WithMany(p => p.Carts)
                 .HasForeignKey(d => d.ProductId)
