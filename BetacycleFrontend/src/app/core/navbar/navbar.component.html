@@ -19,6 +19,7 @@
         </li>
         <li class="active"><a routerLink="/home"><i class="bi bi-house-fill"></i> Home</a></li>
         <li><a routerLink="/product"><i class="bi bi-bag-fill"></i> Prodotti</a></li>
+        <li><a routerLink="/cart"><i class="bi bi-cart-fill"></i> Carrello</a></li>
         <li *ngIf="!isLogged"><a routerLink="/login"><i class="bi bi-person-fill"></i> Login</a>
           /<a routerLink="/registration">Registrati</a></li>
         <li *ngIf="isLogged" class="nav-item dropdown">
@@ -26,7 +27,6 @@
             <a class="dropbtn">{{user.firstName}} {{user.lastName}}</a>
             <div class="dropdown-content">
               <a style="cursor: pointer;" (click)="GoToUserSettings()">Impostazioni</a>
-              <a routerLink="/cart">Carrello</a>
               <a style="cursor: pointer;" (click)="LogOut()">Logout</a>
             </div>
           </div>

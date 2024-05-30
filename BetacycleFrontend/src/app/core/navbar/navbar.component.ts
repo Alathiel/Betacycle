@@ -20,14 +20,12 @@ export class NavbarComponent {
   token:any
   user:User=new User()
   constructor(private route:Router,private auth:AuthServiceService,private http:HttprequestservicesService,public service:ProductserviceService)
-  {
-    
+  {   
     if(auth.getLoginStatus())
       {
         this.isLogged=true
         this.DisplayUserInfo() 
       }
-
   }
   isLogged: boolean = false;
   jwtToken: any;

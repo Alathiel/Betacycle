@@ -97,7 +97,6 @@ export class ProductCardComponent {
         this.selectedPrice, this.getprice,
         this.selectedOperand, this.getoperand, this.page).subscribe({
         next: (response:any) => {
-          console.log(response)
           this.products = response.body.products.$values
           this.totalProducts = response.body.totalProducts
           this.loadedProducts = this.products.length

@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
 
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+
 img {
   height: 60px;
 }
@@ -69,9 +71,8 @@ a {
 }
 
 .container {
-  width: 1170px;
+  width: 100;
   position: relative;
-  margin-left: auto;
   margin-right: auto;
   padding-left: 15px;
   padding-right: 15px;
@@ -292,36 +293,7 @@ a {
   height: 60px;
 }
 
-/* .search-bar {
-  width: 100%;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  margin: 0 auto;
-}
-
-.search-bar input[type="text"] {
-  width: 80%;
-  height: 100%;
-  padding: 0 20px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  background-color: white;
-  /* background-image: url('searchicon.png');
-  background-position: 10px 10px; 
-  background-repeat: no-repeat;
-  padding-left: 40px;
-}
-
-.search-bar input[type="text"]:focus {
-  border: 2px solid #555;
-} */
-
 /* NEW SEARCH BAR */
-
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
 
 html,
 body {
