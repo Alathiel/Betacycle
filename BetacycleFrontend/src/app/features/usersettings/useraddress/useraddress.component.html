@@ -1,15 +1,17 @@
 <div class="card" style="width: 15rem; height: 9 rem; margin: 10px" *ngFor="let a of getaddress" style="float: left">
   <div class="card-body">
     <h5 class="card-title">{{ a.address1 }}</h5>
-    City: {{ a.city }} <br />
-    Province: {{ a.province }} <br />
-    Nation: {{ a.nation }} <br />
-    CAP: {{ a.cap }}<br />
-    <button (click)="GoToUpdateAddress(a)" class="btn btn-outline-primary my-2 my-sm-0">
-      Modifica Indirizzo</button><br />
-    <button (click)="DeleteAddress(a.addressId)" class="btn btn-outline-danger my-2 my-sm-0">
-      Elimina
-    </button>
+    {{ a.city }}, {{ a.cap }}, {{ a.province }} <br />
+    {{ a.nation }} <br />
+    <div style="margin-top: 0.5rem;">
+      <button (click)="GoToUpdateAddress(a)" class="btn btn-outline-primary my-2 my-sm-0">
+        Modifica Indirizzo</button>
+    </div>
+    <div style="margin-top: 0.5rem;">
+      <button (click)="DeleteAddress(a.addressId)" class="btn btn-outline-danger my-2 my-sm-0">
+        Elimina
+      </button>
+    </div>
   </div>
 </div>
 <hr />
