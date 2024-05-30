@@ -62,44 +62,81 @@ namespace BetaCycle.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(int pageNumber = 1, string productName = "", string color = "", decimal price = 0, long id = 0)
+        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(int pageNumber = 1, string productName = "", string color = "", decimal price = 0, string operand = "", long id = 0)
         {
             //
             if (pageNumber <= 0)
                 pageNumber = 1;
+            if (operand != ">" && operand != "<") operand = ">";
             try
             {
                 List<Product> products = [];
                 long totalProducts = 0;
-                if ((productName == "" && color == "" && price == 0))
+                if (operand == "<")
                 {
-                    //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
-                    products = await _context.Products
+                    if ((productName == "" && color == "" && price == 0))
+                    {
+                        //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
+                        products = await _context.Products
 
-                        .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
-                    totalProducts = await _context.Products.LongCountAsync();
-                }
-                else if ((productName != "" || color != "" || price >= 0) && price > 0)
-                {
-                    //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
-                    products = await _context.Products
-                        .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
+                            .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                        totalProducts = await _context.Products.LongCountAsync();
+                    }
+                    else if ((productName != "" || color != "" || price >= 0) && price > 0)
+                    {
+                        //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
+                        products = await _context.Products
+                            .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
+                            && product.Color.ToLower().Contains(color.ToLower())
+                            && product.InsertPrice <= (int)price)
+                            .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                        totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
                         && product.Color.ToLower().Contains(color.ToLower())
-                        && product.InsertPrice <= (int)price)
-                        .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
-                    totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
-                    && product.Color.ToLower().Contains(color.ToLower())
-                    && (product.InsertPrice <= (int)price)).LongCountAsync();
+                        && (product.InsertPrice <= (int)price)).LongCountAsync();
+                    }
+                    else if ((productName != "" || color != "") && price <= 0)
+                    {
+                        //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
+                        products = await _context.Products
+                            .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
+                            && product.Color.ToLower().Contains(color.ToLower()))
+                            .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                        totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
+                        && product.Color.ToLower().Contains(color.ToLower())).LongCountAsync();
+                    }
                 }
-                else if ((productName != "" || color != "") && price <= 0)
+                if (operand == ">")
                 {
-                    //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
-                    products = await _context.Products
-                        .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
-                        && product.Color.ToLower().Contains(color.ToLower()))
-                        .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
-                    totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
-                    && product.Color.ToLower().Contains(color.ToLower())).LongCountAsync();
+                    if ((productName == "" && color == "" && price == 0))
+                    {
+                        //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
+                        products = await _context.Products
+
+                            .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                        totalProducts = await _context.Products.LongCountAsync();
+                    }
+                    else if ((productName != "" || color != "" || price >= 0) && price > 0)
+                    {
+                        //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
+                        products = await _context.Products
+                            .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
+                            && product.Color.ToLower().Contains(color.ToLower())
+                            && product.InsertPrice >= (int)price)
+                            .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                        totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
+                        && product.Color.ToLower().Contains(color.ToLower())
+                        && (product.InsertPrice >= (int)price)).LongCountAsync();
+                    }
+                    else if ((productName != "" || color != "") && price <= 0)
+                    {
+                        //non usiamo fromsqlraw perche' altrimenti saremmo vulnerabili ad sql injection
+                        products = await _context.Products
+                            .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
+                            && product.Color.ToLower().Contains(color.ToLower()))
+                            .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                        totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
+                        && product.Color.ToLower().Contains(color.ToLower())).LongCountAsync();
+                    }
                 }
                 else if (id != 0)
                 {
