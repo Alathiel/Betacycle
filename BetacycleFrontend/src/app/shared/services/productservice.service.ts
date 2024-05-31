@@ -11,6 +11,7 @@ import { ToastComponent } from '../components/toast/toast.component';
 })
 export class ProductserviceService {
   products: any;
+  carosel: any;
   product:any;
   prodtocart: any;
   model: any;
@@ -35,6 +36,7 @@ export class ProductserviceService {
 
   FilterProduct()
   {
+    this.page = 1;
     this.http.getFilteredProductsUser(this.selectedValue, this.byname,
       this.selectedColor, this.bycolor,
       this.selectedPrice, this.byprice,
@@ -66,6 +68,17 @@ export class ProductserviceService {
     })
   }
   
+  getDeal() {
+    this.http.GetHttpDeal().subscribe({
+      next: (jsData: any) => {
+        this.carosel = jsData.$values;
+        console.log(this.carosel);
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+  }
 
   prev() {
     if (this.page > 1) {

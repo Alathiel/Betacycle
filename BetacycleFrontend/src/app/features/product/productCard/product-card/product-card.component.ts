@@ -9,11 +9,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { HttpStatusCode, HttpErrorResponse } from '@angular/common/http';
 import { ProductserviceService } from '../../../../shared/services/productservice.service';
 import { ToastComponent } from '../../../../shared/components/toast/toast.component';
+import { CaroselloComponent } from '../../carosello/carosello/carosello.component';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, RouterLink, ToastComponent],
+  imports: [CommonModule, RouterLink, ToastComponent,CaroselloComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })
