@@ -3,6 +3,7 @@ import { HttprequestservicesService } from './httprequestservices.service';
 import { HttpStatusCode,HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../models/product';
 import { Cart } from '../models/cart';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,13 @@ export class ProductserviceService {
   bycolor: string = '';
   operand: string = '';
   cart: Cart = new Cart();
+  categoryNavbar:any
+  modelNavbar:any
 
   quantity = {"quantity" : 1};
 
   constructor(private http:HttprequestservicesService) { }
-
+  //Ricerca Prodotto
   FilterProduct()
   {
     this.http.getFilteredProductsUser(this.selectedValue, this.byname,
@@ -49,6 +52,7 @@ export class ProductserviceService {
         }
       })
   }
+  /*Prendi tutti i prodotti*/
   getAllDatas() {
     this.http.GetProducts(this.page).subscribe({
       next: (jsData: any) => {
@@ -62,7 +66,6 @@ export class ProductserviceService {
       }
     })
   }
-  
 
   prev() {
     if (this.page > 1) {
@@ -81,13 +84,12 @@ export class ProductserviceService {
   filter(temp:string = "aa"){
     if(temp === "bb")
       this.page = 1
-    if(this.byname !== "" || this.bycolor != "" || this.byprice==0){
+    if(this.byname !== "" || this.bycolor != "" || this.byprice!=0){
       this.http.getFilteredProductsUser(this.selectedValue, this.byname,
         this.selectedColor, this.bycolor,
         this.selectedPrice, this.byprice,
         this.selectedOperand, this.operand, this.page).subscribe({
         next: (response:any) => {
-          console.log(response)
           this.products = response.body.products.$values
           this.totalProducts = response.body.totalProducts
           this.loadedProducts = this.products.length
@@ -144,32 +146,10 @@ export class ProductserviceService {
     this.cart.Product.Model = {"name": ""}
     this.cart.Product.Category = {"name": ""}
     this.cart.productId = prod.productId;
-    /*prod.Quantity = 1
-    prod.user = {
-      "FirstName": "",
-      "LastName": ""
-    }
-    prod.Product.Model = {
-      "name": ""
-    };
-    prod.Product.Category = {
-      "name": ""
-    }*/
-    //this.prodtocart = {"Product" : prod}
-    /*this.prodtocart.user = {
-      "FirstName": "",
-      "LastName": ""
-    }*/
-    /*this.prodtocart.Product.Model = {
-      "name": ""
-    }*/
-    /*this.prodtocart.Product.Category = {
-      "name": ""
-    }*/
+    
     this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
-        //this.reloadPriceEvent.emit("-");
-        alert(resp)
+        alert("Carrello aggiornato")
       },
       error: (err: any) => {
         alert(err.message + " ||| " + JSON.stringify(prod));
@@ -183,35 +163,26 @@ export class ProductserviceService {
     this.cart.Product.Model = {"name": ""}
     this.cart.Product.Category = {"name": ""}
     this.cart.productId = prod.productId;
-    /*prod.Quantity = 1
-    prod.user = {
-      "FirstName": "",
-      "LastName": ""
-    }
-    prod.Product.Model = {
-      "name": ""
-    };
-    prod.Product.Category = {
-      "name": ""
-    }*/
-    //this.prodtocart = {"Product" : prod}
-    /*this.prodtocart.user = {
-      "FirstName": "",
-      "LastName": ""
-    }*/
-    /*this.prodtocart.Product.Model = {
-      "name": ""
-    }*/
-    /*this.prodtocart.Product.Category = {
-      "name": ""
-    }*/
+    
     this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
-        //this.reloadPriceEvent.emit("-");
-        alert(resp)
+        alert("Carrello aggiornato")
       },
       error: (err: any) => {
         alert(err.message + " ||| " + JSON.stringify(prod));
+      }
+    })
+  }
+
+  GetCategories()
+  {
+    this.http.getCategories().subscribe(
+    {
+      next: (data: any) => {
+        this.categoryNavbar=data.$values
+      },
+      error: (err: any) => {
+        console.log("Errore: " + err.status);
       }
     })
   }

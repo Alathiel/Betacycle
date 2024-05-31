@@ -19,7 +19,9 @@ export class NavbarProductComponent {
 
 
   constructor(public service:ProductserviceService,private http:HttprequestservicesService)
-  {}
+  {
+    this.service.GetCategories()
+  }
 
   SetPriceOperand(op: HTMLElement)
   {
