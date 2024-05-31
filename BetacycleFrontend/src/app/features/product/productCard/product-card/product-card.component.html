@@ -1,7 +1,7 @@
 <h1 class="h1TitleProduct">I nostri best-seller</h1>
 <div class="card-container" *ngIf="showOriginalCards">
     <ng-container *ngIf="service.products != undefined">
-        <a *ngFor="let p of service.products" class="card">
+        <div *ngFor="let p of service.products" class="card">
             <div *ngFor="let l of p | keyvalue">
                 <div *ngIf="l.key == 'thumbnailPhoto'">
                     <img [src]="convert(l.value)" alt="..." width="100" height="100">
@@ -10,9 +10,9 @@
             <h2>{{p.productName}}</h2>
             <p>Prezzo: €{{p.insertPrice | number : '1.2-2'}}</p>
             <p>Colore: {{p.color}}</p>
-            <a (click)="GoToDetailsPage(p.productId)" style="cursor: pointer;color:blue">Show more details</a><br>
-            <i (click)="service.AddToCartFromCards(p)" class="fa fa-shopping-cart">Add to cart</i>
-        </a>
+            <a (click)="GoToDetailsPage(p.productId)" style="cursor: pointer;">Show more details</a><br>
+            <i (click)="service.AddToCartFromCards(p)"  class="bi bi-cart-fill" style="color:blue">Add to cart</i>
+        </div>
     </ng-container>
 </div>
 

@@ -73,9 +73,7 @@ a {
 .container {
   width: 100;
   position: relative;
-  margin-right: auto;
   padding-left: 15px;
-  padding-right: 15px;
 }
 
 .navbar,
@@ -122,7 +120,7 @@ a {
 
 @media (min-width: 1200px) {
   .navbar .container {
-    max-width: 1140px;
+    max-width: 95%;
   }
 }
 

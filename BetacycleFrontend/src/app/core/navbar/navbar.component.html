@@ -21,7 +21,6 @@
         <li><a routerLink="/product"><i class="bi bi-bag-fill"></i> Prodotti</a></li>
         <li><a routerLink="/cart"><i class="bi bi-cart-fill"></i> Carrello</a></li>
         <li *ngIf="!isLogged"><a routerLink="/login"><i class="bi bi-person-fill"></i> Login</a>
-          /<a routerLink="/registration">Registrati</a></li>
         <li *ngIf="isLogged" class="nav-item dropdown">
           <div class="dropdown">
             <a class="dropbtn">{{user.firstName}} {{user.lastName}}</a>
