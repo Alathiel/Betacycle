@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { HttprequestservicesService } from './httprequestservices.service';
 import { HttpStatusCode,HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../models/product';
 import { Cart } from '../models/cart';
-import { ToastService } from './toast.service';
+import { TOAST_STATE, ToastService } from './toast.service';
+import { ToastComponent } from '../components/toast/toast.component';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +51,7 @@ export class ProductserviceService {
         }
       })
   }
-  
+
   getAllDatas() {
     this.http.GetProducts(this.page).subscribe({
       next: (jsData: any) => {
@@ -159,7 +160,7 @@ export class ProductserviceService {
         alert("Prodotto aggiunto al carrello");
       },
       error: (err: any) => {
-        this.toast.showToast("error","Fare l'accesso prima di aggiungere prodotti al carrello");
+        this.toast.showToast(TOAST_STATE.error,"Fare l'accesso prima di aggiungere prodotti al carrello");
       }
     })
   }
@@ -175,15 +176,7 @@ export class ProductserviceService {
         alert("Prodotto aggiunto al carrello")
       },
       error: (err: any) => {
-        //if(err.status === 401)
-          this.toast.showToast("error","Fare l'accesso prima di aggiungere prodotti al carrello");
-        
-        switch(err.status)
-        {
-          case HttpStatusCode.Unauthorized:
-            this.toast.showToast("error","Fare l'accesso prima di aggiungere prodotti al carrello");
-          break;
-        }
+        this.toast.showToast(TOAST_STATE.error,"Fare l'accesso prima di aggiungere prodotti al carrello");
       }
     })
   }

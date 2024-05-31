@@ -24,7 +24,6 @@ export class ProductdetailsComponent {
 
   constructor(private http: HttprequestservicesService, private router: Router, private sanitizer: DomSanitizer, public service:ProductserviceService)
   {
-    
     this.loaded = true;
   }
 
@@ -32,10 +31,5 @@ export class ProductdetailsComponent {
     if(buffer!=null)
       return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,'+buffer);
     return ''
-  }
-
-  AddToCart()
-  {
-    
   }
 }

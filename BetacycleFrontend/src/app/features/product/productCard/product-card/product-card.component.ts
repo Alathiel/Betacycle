@@ -8,11 +8,12 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpStatusCode, HttpErrorResponse } from '@angular/common/http';
 import { ProductserviceService } from '../../../../shared/services/productservice.service';
+import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ToastComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })
@@ -66,10 +67,6 @@ export class ProductCardComponent {
     //sessionStorage.setItem('tmpprodid', id.toString());
     this.service.GetDetails(id);
     this.router.navigate(['productDetails']);
-  }
-
-  AddToCart(prod: any) {
-    
   }
 }
 

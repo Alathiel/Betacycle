@@ -1,11 +1,11 @@
 <body>
     <div *ngIf="loaded == true">
-        <h2 style="text-align: center; color: blue;">Details of Product {{service.product.productName}}</h2>
+        <h2 style="text-align: center; color: #929aad;">Details of Product {{service.product.productName}}</h2>
 
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <img [src]="convert(service.product.thumbnailPhoto)" alt="..." width="400" height="550">
+                    <img [src]="convert(service.product.thumbnailPhoto)" alt="..." width="60%" height="85%">
                 </div>
                 <div class="col" style="margin-top: 10%;font-weight: bold;">
                     <p>{{service.product.color}}</p>
