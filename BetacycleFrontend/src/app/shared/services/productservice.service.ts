@@ -3,6 +3,7 @@ import { HttprequestservicesService } from './httprequestservices.service';
 import { HttpStatusCode,HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../models/product';
 import { Cart } from '../models/cart';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,7 @@ export class ProductserviceService {
 
   quantity = {"quantity" : 1};
 
-  constructor(private http:HttprequestservicesService) { }
+  constructor(private http:HttprequestservicesService, private toast: ToastService) { }
 
   FilterProduct()
   {
@@ -49,6 +50,7 @@ export class ProductserviceService {
         }
       })
   }
+  
   getAllDatas() {
     this.http.GetProducts(this.page).subscribe({
       next: (jsData: any) => {
@@ -81,13 +83,12 @@ export class ProductserviceService {
   filter(temp:string = "aa"){
     if(temp === "bb")
       this.page = 1
-    if(this.byname !== "" || this.bycolor != "" || this.byprice==0){
+    if(this.byname !== "" || this.bycolor != "" || this.byprice !== 0){
       this.http.getFilteredProductsUser(this.selectedValue, this.byname,
         this.selectedColor, this.bycolor,
         this.selectedPrice, this.byprice,
         this.selectedOperand, this.operand, this.page).subscribe({
         next: (response:any) => {
-          console.log(response)
           this.products = response.body.products.$values
           this.totalProducts = response.body.totalProducts
           this.loadedProducts = this.products.length
@@ -95,14 +96,23 @@ export class ProductserviceService {
             console.log('aa')
         },
         error: (error:HttpErrorResponse) => {
-          console.log(error)
           if(error.status == 404)
             this.products = undefined
         }
       })
     }
     else
-      console.log("???");
+    this.http.GetProducts(this.page).subscribe({
+      next: (jsData: any) => {
+        this.products = jsData.body.products.$values
+        this.totalProducts = jsData.body.totalProducts
+        this.loadedProducts = this.products.length
+        
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
   }
 
   GetDetails(id: number)
@@ -144,35 +154,12 @@ export class ProductserviceService {
     this.cart.Product.Model = {"name": ""}
     this.cart.Product.Category = {"name": ""}
     this.cart.productId = prod.productId;
-    /*prod.Quantity = 1
-    prod.user = {
-      "FirstName": "",
-      "LastName": ""
-    }
-    prod.Product.Model = {
-      "name": ""
-    };
-    prod.Product.Category = {
-      "name": ""
-    }*/
-    //this.prodtocart = {"Product" : prod}
-    /*this.prodtocart.user = {
-      "FirstName": "",
-      "LastName": ""
-    }*/
-    /*this.prodtocart.Product.Model = {
-      "name": ""
-    }*/
-    /*this.prodtocart.Product.Category = {
-      "name": ""
-    }*/
     this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
-        //this.reloadPriceEvent.emit("-");
-        alert(resp)
+        alert("Prodotto aggiunto al carrello");
       },
       error: (err: any) => {
-        alert(err.message + " ||| " + JSON.stringify(prod));
+        this.toast.showToast("error","Fare l'accesso prima di aggiungere prodotti al carrello");
       }
     })
   }
@@ -183,35 +170,20 @@ export class ProductserviceService {
     this.cart.Product.Model = {"name": ""}
     this.cart.Product.Category = {"name": ""}
     this.cart.productId = prod.productId;
-    /*prod.Quantity = 1
-    prod.user = {
-      "FirstName": "",
-      "LastName": ""
-    }
-    prod.Product.Model = {
-      "name": ""
-    };
-    prod.Product.Category = {
-      "name": ""
-    }*/
-    //this.prodtocart = {"Product" : prod}
-    /*this.prodtocart.user = {
-      "FirstName": "",
-      "LastName": ""
-    }*/
-    /*this.prodtocart.Product.Model = {
-      "name": ""
-    }*/
-    /*this.prodtocart.Product.Category = {
-      "name": ""
-    }*/
     this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
-        //this.reloadPriceEvent.emit("-");
-        alert(resp)
+        alert("Prodotto aggiunto al carrello")
       },
       error: (err: any) => {
-        alert(err.message + " ||| " + JSON.stringify(prod));
+        //if(err.status === 401)
+          this.toast.showToast("error","Fare l'accesso prima di aggiungere prodotti al carrello");
+        
+        switch(err.status)
+        {
+          case HttpStatusCode.Unauthorized:
+            this.toast.showToast("error","Fare l'accesso prima di aggiungere prodotti al carrello");
+          break;
+        }
       }
     })
   }
