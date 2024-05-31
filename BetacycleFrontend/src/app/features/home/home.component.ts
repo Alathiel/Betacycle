@@ -20,5 +20,6 @@ export class HomeComponent {
   {
     this.service.operand = '>';
     this.service.byprice = 0;
+    this.service.page = 1;
   }
 }

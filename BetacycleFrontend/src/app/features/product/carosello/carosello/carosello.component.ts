@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ToastService } from '../../../../shared/services/toast.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpStatusCode, HttpErrorResponse } from '@angular/common/http';
+import { ProductserviceService } from '../../../../shared/services/productservice.service';
 
 @Component({
   selector: 'app-carosello',
@@ -23,8 +24,10 @@ export class CaroselloComponent {
   loadedProducts = 0
   search = ""
   selectedValue = "all"
-  constructor(private http: HttprequestservicesService, private router: Router, public dialog: MatDialog, private toast: ToastService, private sanitizer: DomSanitizer) {
-    this.getDeal()
+  constructor(private http: HttprequestservicesService, private router: Router, public dialog: MatDialog, private toast: ToastService, private sanitizer: DomSanitizer,
+    public service: ProductserviceService
+  ) {
+    this.service.getDeal();
   }
   
 
@@ -34,23 +37,16 @@ export class CaroselloComponent {
     return false;
   }
 
-  getDeal() {
-    this.http.GetHttpDeal().subscribe({
-      next: (jsData: any) => {
-        this.products = jsData.products.$values
-        this.totalProducts=jsData.totalProducts
-        console.log(this.products,this.totalProducts)
-      },
-      error: (error: any) => {
-        console.log(error);
-      }
-    })
-  }
-
   convert(buffer: any) {
     if (buffer != null)
       return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + buffer);
     return ''
+  }
+
+  GoToDetailsPage(id: number)
+  {
+    this.service.GetDetails(id)
+    this.router.navigate(['productDetails']);
   }
 
 }

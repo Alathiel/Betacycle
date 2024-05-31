@@ -39,11 +39,11 @@ export class LoggedInterceptorService implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((error) => {
         if(error instanceof HttpErrorResponse){
-          if(error.status === 401){
+          /*if(error.status === 401){
             alert("Login expired, please login again.")
             this.router.navigate(['admin-login'])
-          }
-          else if(error.status === 404)
+          }*/
+          if(error.status === 404)
             console.log("Not found")
           else
           {

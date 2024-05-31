@@ -4,13 +4,14 @@ import { NavbarComponent } from './core/navbar/navbar.component';
 import { FooterComponent } from './features/footer/footer/footer.component';
 import { Router } from '@angular/router';
 import { HomeComponent } from "./features/home/home.component";
+import { ToastComponent } from './shared/components/toast/toast.component';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, HomeComponent, FooterComponent, HomeComponent, NavbarComponent]
+    imports: [RouterOutlet, HomeComponent, FooterComponent, HomeComponent, NavbarComponent, ToastComponent]
 })
 export class AppComponent {
   title = 'BETACYCLE';

@@ -7,7 +7,7 @@ public partial class ViewDeal
 {
     public long ProductId { get; set; }
 
-    public string NameProduct { get; set; } = null!;
+    public string ProductName { get; set; } = null!;
 
     public long ModelId { get; set; }
 
@@ -15,11 +15,12 @@ public partial class ViewDeal
 
     public double InsertPrice { get; set; }
 
-    public string? Description { get; set; }
+    //public string? Description { get; set; }
 
     public string Culture { get; set; } = null!;
 
     public long CategoryId { get; set; }
+    public byte[]? ThumbnailPhoto { get; set; }
 
-    public double Deal { get; set; }
+    //public double Deal { get; set; }
 }

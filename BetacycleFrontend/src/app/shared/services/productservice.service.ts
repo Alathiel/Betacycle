@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { HttprequestservicesService } from './httprequestservices.service';
 import { HttpStatusCode,HttpErrorResponse } from '@angular/common/http';
 import { Product } from '../models/product';
 import { Cart } from '../models/cart';
-import { A11yModule } from '@angular/cdk/a11y';
+import { TOAST_STATE, ToastService } from './toast.service';
+import { ToastComponent } from '../components/toast/toast.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductserviceService {
   products: any;
+  carosel: any;
   product:any;
   prodtocart: any;
   model: any;
@@ -32,10 +34,11 @@ export class ProductserviceService {
 
   quantity = {"quantity" : 1};
 
-  constructor(private http:HttprequestservicesService) { }
-  //Ricerca Prodotto
+  constructor(private http:HttprequestservicesService, private toast: ToastService) { }
+
   FilterProduct()
   {
+    this.page = 1;
     this.http.getFilteredProductsUser(this.selectedValue, this.byname,
       this.selectedColor, this.bycolor,
       this.selectedPrice, this.byprice,
@@ -52,7 +55,6 @@ export class ProductserviceService {
         }
       })
   }
-  /*Prendi tutti i prodotti*/
   getAllDatas() {
     this.http.GetProducts(this.page).subscribe({
       next: (jsData: any) => {
@@ -60,6 +62,18 @@ export class ProductserviceService {
         this.totalProducts = jsData.body.totalProducts
         this.loadedProducts = this.products.length
         
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
+  }
+  
+  getDeal() {
+    this.http.GetHttpDeal().subscribe({
+      next: (jsData: any) => {
+        this.carosel = jsData.$values;
+        console.log(this.carosel);
       },
       error: (error: any) => {
         console.log(error);
@@ -84,7 +98,7 @@ export class ProductserviceService {
   filter(temp:string = "aa"){
     if(temp === "bb")
       this.page = 1
-    if(this.byname !== "" || this.bycolor != "" || this.byprice!=0){
+    if(this.byname !== "" || this.bycolor != "" || this.byprice !== 0){
       this.http.getFilteredProductsUser(this.selectedValue, this.byname,
         this.selectedColor, this.bycolor,
         this.selectedPrice, this.byprice,
@@ -97,14 +111,23 @@ export class ProductserviceService {
             console.log('aa')
         },
         error: (error:HttpErrorResponse) => {
-          console.log(error)
           if(error.status == 404)
             this.products = undefined
         }
       })
     }
     else
-      console.log("???");
+    this.http.GetProducts(this.page).subscribe({
+      next: (jsData: any) => {
+        this.products = jsData.body.products.$values
+        this.totalProducts = jsData.body.totalProducts
+        this.loadedProducts = this.products.length
+        
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    })
   }
 
   GetDetails(id: number)
@@ -146,13 +169,12 @@ export class ProductserviceService {
     this.cart.Product.Model = {"name": ""}
     this.cart.Product.Category = {"name": ""}
     this.cart.productId = prod.productId;
-    
     this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
-        alert("Carrello aggiornato")
+        alert("Prodotto aggiunto al carrello");
       },
       error: (err: any) => {
-        alert(err.message + " ||| " + JSON.stringify(prod));
+        this.toast.showToast(TOAST_STATE.error,"Fare l'accesso prima di aggiungere prodotti al carrello");
       }
     })
   }
@@ -163,13 +185,12 @@ export class ProductserviceService {
     this.cart.Product.Model = {"name": ""}
     this.cart.Product.Category = {"name": ""}
     this.cart.productId = prod.productId;
-    
     this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
-        alert("Carrello aggiornato")
+        alert("Prodotto aggiunto al carrello")
       },
       error: (err: any) => {
-        alert(err.message + " ||| " + JSON.stringify(prod));
+        this.toast.showToast(TOAST_STATE.error,"Fare l'accesso prima di aggiungere prodotti al carrello");
       }
     })
   }

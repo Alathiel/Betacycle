@@ -8,11 +8,13 @@ import { ToastService } from '../../../../shared/services/toast.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttpStatusCode, HttpErrorResponse } from '@angular/common/http';
 import { ProductserviceService } from '../../../../shared/services/productservice.service';
+import { ToastComponent } from '../../../../shared/components/toast/toast.component';
+import { CaroselloComponent } from '../../carosello/carosello/carosello.component';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ToastComponent,CaroselloComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })
@@ -38,27 +40,16 @@ export class ProductCardComponent {
   constructor(private http: HttprequestservicesService, private router: Router,
      public dialog: MatDialog, private toast: ToastService, private sanitizer: DomSanitizer, public service:ProductserviceService) 
   {
-    if(this.service.byname != '') this.service.filter();
-    else this.service.getAllDatas();
-  }
-
-  SearchFilteredProduct()
-  { 
-    this.http.getFilteredProductsUser(this.selectedValue, this.getname,
-      this.selectedColor, this.getcolor,
-      this.selectedPrice, this.getprice,
-      this.selectedOperand, this.getoperand, 1)
-    .subscribe(
+    if(this.service.byname != '')
       {
-        next: (data: any) => {
-          this.products = data.body.products.$values;
-          this.totalProducts = data.body.totalProducts
-          this.loadedProducts = this.products.length
-        },
-        error: (err: any) => {
-          console.log("Errore: " + err.status);
-        }
-      })
+        this.service.page = 1;
+        this.service.filter();
+      }
+    else 
+    {
+      this.service.filter();
+      this.service.getAllDatas();
+    }
   }
 
   checkValue(l: any): boolean {
@@ -67,61 +58,16 @@ export class ProductCardComponent {
     return false;
   }
 
-  getAllDatas() {
-    this.http.GetProducts(this.page).subscribe({
-      next: (jsData: any) => {
-        console.log(jsData);
-        this.products = jsData.body.products.$values
-        this.totalProducts = jsData.body.totalProducts
-        this.loadedProducts = this.products.length
-        
-      },
-      error: (error: any) => {
-        console.log(error);
-      }
-    })
-  }
-
   convert(buffer: any) {
     if (buffer != null)
       return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + buffer);
     return ''
-  }
- 
-  filter(temp:string = "aa"){
-    if(temp === "bb")
-      this.page = 1
-    if(this.getname !== "" || this.getcolor != "" || this.getprice==0){
-      this.http.getFilteredProductsUser(this.selectedValue, this.getname,
-        this.selectedColor, this.getcolor,
-        this.selectedPrice, this.getprice,
-        this.selectedOperand, this.getoperand, this.page).subscribe({
-        next: (response:any) => {
-          this.products = response.body.products.$values
-          this.totalProducts = response.body.totalProducts
-          this.loadedProducts = this.products.length
-          if(response.status == HttpStatusCode.NotFound)
-            console.log('aa')
-        },
-        error: (error:HttpErrorResponse) => {
-          console.log(error)
-          if(error.status == 404)
-            this.products = undefined
-        }
-      })
-    }
-    else
-      console.log("???");
   }
 
   GoToDetailsPage(id: number) {
     //sessionStorage.setItem('tmpprodid', id.toString());
     this.service.GetDetails(id);
     this.router.navigate(['productDetails']);
-  }
-
-  AddToCart(prod: any) {
-    
   }
 }
 
