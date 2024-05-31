@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Data;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -8,6 +9,7 @@ using LoginLibrary.JwtAuthentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
@@ -80,21 +82,30 @@ namespace BetaCycle.Controllers
             try
             {
                 KeyValuePair<string, string> temp = EncryptionData.EncryptionData.SaltEncrypt(user.cred.Password);
-                var sql = _context.Database.ExecuteSql(@$"
-                    DECLARE @rowsAffected int; 
+
+                
+                var sqlP1 = new SqlParameter("@FirstName", user.user.FirstName);
+                var sqlP2 = new SqlParameter("@LastName", user.user.LastName);
+                var sqlP3 = new SqlParameter("@Email", user.cred.Email);
+                var sqlP4 = new SqlParameter("@Password", temp.Key);
+                var sqlP5 = new SqlParameter("@PasswordSalt", temp.Value);
+                var sqlPOut = new SqlParameter
+                {
+                    ParameterName = "@result",
+                    SqlDbType = SqlDbType.Int,
+                    Direction = ParameterDirection.Output
+                };
+
+                await _context.Database.ExecuteSqlRawAsync(@$"
                     DECLARE @curDate date = CAST(GETDATE() AS DATE); 
                     Exec [BetaSecurity].[dbo].[Register_Procedure] 
-                    @FirstName={user.user.FirstName},
-                    @LastName={user.user.LastName},
-                    @Email={user.cred.Email},
-                    @Password={temp.Key},
-                    @PasswordSalt={temp.Value},
-                    @LastModified=@curDate,
-                    @rowsAffected = @rowsAffected"
+                    @FirstName, @LastName, @Email, @Password, @PasswordSalt, @LastModified=@curDate, @rowsAffected=@result OUTPUT",
+                    sqlP1, sqlP2, sqlP3, sqlP4, sqlP5, sqlPOut
                 );
-                
-                // if (sql < 0)
-                //throw new DbUpdateException();
+
+                if ((int)sqlPOut.Value < 2)
+                    throw new DbUpdateException();
+
                 return Created();
             }
             catch (Exception e)

@@ -22,7 +22,7 @@
                         Inserisci una data di nascita valida. Ricorda che devi avere almeno 18 anni per poterti iscrivere
                     </div>
                 </ng-container>
-                <input #email="ngModel" [(ngModel)]="newCredentials.cred.email" placeholder="Email" type="email" name="email" required minlength="6">
+                <input #email="ngModel" [(ngModel)]="newCredentials.cred.email" placeholder="Email" type="email" name="email" required minlength="4" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
                 <ng-container *ngIf="email.invalid && (email.dirty || email.touched)">
                     <div *ngIf="email.errors?.['required'] || email.errors?.['minlength']" style="color: rgb(175, 5, 5);">
                         Inserisci un'email valida di almeno 6 caratteri

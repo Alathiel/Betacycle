@@ -1,10 +1,10 @@
 <h1 class="h1TitleProduct">I nostri best-seller</h1>
 <div class="card-container" *ngIf="showOriginalCards">
     <ng-container *ngIf="service.products != undefined">
-        <div *ngFor="let p of service.products" class="card">
+        <div *ngFor="let p of service.products" class="product-card">
             <div *ngFor="let l of p | keyvalue">
-                <div *ngIf="l.key == 'thumbnailPhoto'">
-                    <img [src]="convert(l.value)" alt="..." width="100" height="100">
+                <div *ngIf="l.key == 'thumbnailPhoto'" class="product-card-header">
+                    <img [src]="convert(l.value)" alt="..." width="100%" height="100%">
                 </div>
             </div>
             <h2>{{p.productName}}</h2>
