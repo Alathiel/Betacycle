@@ -5,6 +5,7 @@ import { Credentials } from '../models/credential';
 import { User } from '../models/user';
 import { jwtDecode } from 'jwt-decode';
 import { Router,RouterOutlet } from '@angular/router';
+import { RegisterUser } from '../models/RegisterUser';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +26,8 @@ export class AuthServiceService {
     return this.http.post('https://localhost:7044/JwtAuthentication/AdminLogin',credentials, {observe: 'response'})
   }
 
-  registerCredentials(credentials: Credentials):Observable<any>{
+  registerCredentials(credentials: RegisterUser):Observable<any>{
     return this.http.post("https://localhost:7044/JwtAuthentication/Register",credentials);
-  }
-
-  registerUserData(user: User):Observable<any>{
-    return this.http.post("https://localhost:7044/api/Users",user);
   }
 
   RestoreHttpPassword(credentials:Credentials):Observable<any>

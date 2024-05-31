@@ -48,7 +48,6 @@ export class LoggedInterceptorService implements HttpInterceptor {
           else
           {
             this.logger.logError(this.logger.populateLog(error)).subscribe(response => {
-              console.log(response)
             })
           }
         }

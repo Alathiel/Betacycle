@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BetaCycle.Contexts;
@@ -74,17 +75,26 @@ namespace BetaCycle.Controllers
 
 
         [HttpPost("[action]")]
-        public async Task<ActionResult<Credential>> Register(Credential credential)
+        public async Task<ActionResult> Register(RegisterUser user)
         {
             try
             {
-                KeyValuePair<string, string>  temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
-                credential.Password = temp.Key;
-                credential.PasswordSalt = temp.Value;
-                credential.LastModified = DateOnly.FromDateTime(DateTime.Now);
-                _context.Credentials.Add(credential);
-                await _context.SaveChangesAsync();
-              
+                KeyValuePair<string, string> temp = EncryptionData.EncryptionData.SaltEncrypt(user.cred.Password);
+                var sql = _context.Database.ExecuteSql(@$"
+                    DECLARE @rowsAffected int; 
+                    DECLARE @curDate date = CAST(GETDATE() AS DATE); 
+                    Exec [BetaSecurity].[dbo].[Register_Procedure] 
+                    @FirstName={user.user.FirstName},
+                    @LastName={user.user.LastName},
+                    @Email={user.cred.Email},
+                    @Password={temp.Key},
+                    @PasswordSalt={temp.Value},
+                    @LastModified=@curDate,
+                    @rowsAffected = @rowsAffected"
+                );
+                
+                // if (sql < 0)
+                //throw new DbUpdateException();
                 return Created();
             }
             catch (Exception e)
@@ -95,7 +105,7 @@ namespace BetaCycle.Controllers
                     new ("Exception", e),
                 }).Log();
 
-                if (_context.Credentials.Any(e => e.UserId == credential.UserId || e.Email == credential.Email))
+                if (_context.Credentials.Any(e => e.UserId == user.cred.UserId || e.Email == user.cred.Email))
                     return Conflict("This email already exists");
                 
                 return BadRequest("Unexpected error has been encountered");

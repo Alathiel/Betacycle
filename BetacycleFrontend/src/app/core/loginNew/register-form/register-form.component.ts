@@ -5,6 +5,8 @@ import { FormControl, FormGroup, FormsModule, NgModel, Validators } from '@angul
 import { RouterModule, Router } from '@angular/router';
 import { AuthServiceService } from '../../../shared/services/auth-service.service';
 import { Credentials } from '../../../shared/models/credential';
+import { RegisterUser } from '../../../shared/models/RegisterUser';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-register-form',
@@ -14,11 +16,10 @@ import { Credentials } from '../../../shared/models/credential';
   styleUrl: './register-form.component.css'
 })
 export class RegisterFormComponent {
-  newUser: User = new User();
-  newCredentials: Credentials = new Credentials();
+  newCredentials: RegisterUser = new RegisterUser()
   ConfirmPassword: string = ''
   birthdateError = false;
-  // userForm:any = null
+  completed = false;
   constructor(private http: AuthServiceService, private router:Router){}
   @Output() newItemEvent = new EventEmitter<string>();
 
@@ -26,34 +27,14 @@ export class RegisterFormComponent {
     this.newItemEvent.emit(value);
   }
 
-  register(firstName: NgModel, lastName: NgModel, birthdate: NgModel, email: NgModel, password: NgModel, confirmPassword: NgModel){
-    if(firstName.valid && lastName.valid && birthdate.valid && email.valid && password.valid && confirmPassword.valid && this.checkUnderage(birthdate) == false){
-    this.http.registerUserData(this.newUser).subscribe({
-      next: (resp: any) => {
-        this.newCredentials.userId = resp.userId;
-        this.http.registerCredentials(this.newCredentials).subscribe({
-          next: (jsData: any) =>{
-            console.log(jsData)
-          },
-          // error: (error) => {
-          //   console.log(error)
-          //   this.httpCalls.deleteUserData(this.newCredentials.userId).subscribe({
-          //     next: (jsData: any) =>{
-          //       console.log(jsData)
-          //       //set login status and redirect
-          //       this.redirect("Home");
-          //     },
-          //     error: (error:any) => {
-          //       console.log(error)
-          //     }
-          //   })
-          // },
-        }) 
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
+  register(registerForm:any, birthdate:NgModel){
+    if(registerForm.valid && this.checkUnderage(birthdate) == false)
+    {
+      this.http.registerCredentials(this.newCredentials).subscribe((response) => {
+          console.log(response)
+          if(response.status == HttpStatusCode.Created)
+            this.completed = true
+      }) 
     }
   }
 

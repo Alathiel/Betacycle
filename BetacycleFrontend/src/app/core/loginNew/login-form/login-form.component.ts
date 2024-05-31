@@ -23,20 +23,16 @@ export class LoginFormComponent {
     this.newItemEvent.emit(value);
   }
 
-  loginJwt(){
-    this.http.LoginJWT(this.credentials).subscribe(resp => {
-      console.log(resp)
-      if(resp.status == HttpStatusCode.Ok){
-        this.http.SetLoginStatus(this.stayConnected, resp.body);
-        window.location.reload()
-        this.router.navigate(['home'])
-        // const jsonString: string =`{"Authorization": "Basic ${window.btoa(this.credentials.email+':'+this.credentials.password)}"}`;
-        // localStorage.setItem('header', JSON.stringify(jsonString));
-      }
-      else{
-        console.log("login non riuscito: "+resp.status);
-      }
-      
-    })
+  loginJwt(loginForm: any){
+    if(loginForm.valid){
+      this.http.LoginJWT(this.credentials).subscribe(resp => {
+        if(resp.status == HttpStatusCode.Ok){
+          this.http.SetLoginStatus(this.stayConnected, resp.body);
+          this.router.navigate(['home'])
+        }
+        else
+          console.log("login non riuscito: "+resp.status);
+      })
+    }
   }
 }

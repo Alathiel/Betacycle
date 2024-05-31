@@ -40,39 +40,39 @@ export class RegistrationComponent {
 
   register() {
 
-    console.log(this.newCredentials)
-    this.AuthService.registerUserData(this.newUser).subscribe({
-      next: (jsData: any) => {
+    // console.log(this.newCredentials)
+    // this.AuthService.registerUserData(this.newUser).subscribe({
+    //   next: (jsData: any) => {
 
-        this.newCredentials.userId = jsData.userId;
-        console.log(this)
-        this.AuthService.registerCredentials(this.newCredentials).subscribe({
-          next: (jsData: any) => {
-            console.log(jsData)
-            this.router.navigate(['/login'])
-          },
-          error: (error) => {
-            console.log(error)
-            this.http.deleteUserData(this.newCredentials.userId).subscribe({
-              next: (jsData: any) => {
-                console.log(jsData)
-              },
-              error: (error: any) => {
-                switch (error.status) {
-                  case HttpStatusCode.Conflict:
-                    alert("L'email inserita esiste già")
-                    break;
-                }
-              }
-            })
-          }
+    //     this.newCredentials.userId = jsData.userId;
+    //     console.log(this)
+    //     this.AuthService.registerCredentials(this.newCredentials).subscribe({
+    //       next: (jsData: any) => {
+    //         console.log(jsData)
+    //         this.router.navigate(['/login'])
+    //       },
+    //       error: (error) => {
+    //         console.log(error)
+    //         this.http.deleteUserData(this.newCredentials.userId).subscribe({
+    //           next: (jsData: any) => {
+    //             console.log(jsData)
+    //           },
+    //           error: (error: any) => {
+    //             switch (error.status) {
+    //               case HttpStatusCode.Conflict:
+    //                 alert("L'email inserita esiste già")
+    //                 break;
+    //             }
+    //           }
+    //         })
+    //       }
 
-        })
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
+    //     })
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   }
+    // })
   }
 
 }
