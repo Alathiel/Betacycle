@@ -86,9 +86,10 @@ namespace BetaCycle.Controllers
                 
                 var sqlP1 = new SqlParameter("@FirstName", user.user.FirstName);
                 var sqlP2 = new SqlParameter("@LastName", user.user.LastName);
-                var sqlP3 = new SqlParameter("@Email", user.cred.Email);
-                var sqlP4 = new SqlParameter("@Password", temp.Key);
-                var sqlP5 = new SqlParameter("@PasswordSalt", temp.Value);
+                var sqlP3 = new SqlParameter("@Birthdate", user.user.BirthDate);
+                var sqlP4 = new SqlParameter("@Email", user.cred.Email);
+                var sqlP5 = new SqlParameter("@Password", temp.Key);
+                var sqlP6 = new SqlParameter("@PasswordSalt", temp.Value);
                 var sqlPOut = new SqlParameter
                 {
                     ParameterName = "@result",
@@ -99,8 +100,8 @@ namespace BetaCycle.Controllers
                 await _context.Database.ExecuteSqlRawAsync(@$"
                     DECLARE @curDate date = CAST(GETDATE() AS DATE); 
                     Exec [BetaSecurity].[dbo].[Register_Procedure] 
-                    @FirstName, @LastName, @Email, @Password, @PasswordSalt, @LastModified=@curDate, @rowsAffected=@result OUTPUT",
-                    sqlP1, sqlP2, sqlP3, sqlP4, sqlP5, sqlPOut
+                    @FirstName, @LastName, @Birthdate, @Email, @Password, @PasswordSalt, @LastModified=@curDate, @rowsAffected=@result OUTPUT",
+                    sqlP1, sqlP2, sqlP3, sqlP4, sqlP5, sqlP6, sqlPOut
                 );
 
                 if ((int)sqlPOut.Value < 2)

@@ -30,11 +30,14 @@ export class RegisterFormComponent {
   register(registerForm:any, birthdate:NgModel){
     if(registerForm.valid && this.checkUnderage(birthdate) == false)
     {
-      this.http.registerCredentials(this.newCredentials).subscribe((response) => {
+      this.http.registerCredentials(this.newCredentials).subscribe({
+        next: (response:any) =>{
           console.log(response)
           if(response.status == HttpStatusCode.Created)
             this.completed = true
+        }
       }) 
+      
     }
   }
 
