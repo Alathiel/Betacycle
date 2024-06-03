@@ -1,5 +1,5 @@
 <div class="main-container">
-    <form class="form" #form='ngForm' (submit)="loginJwt()">
+    <form class="form" #form='ngForm' (submit)="loginJwt(form)">
         <p class="form-title">Login</p>
         <div class="input-container">
             <input #email='ngModel'  [(ngModel)]="credentials.email" placeholder="Email" name="email" required minlength="6"><br>

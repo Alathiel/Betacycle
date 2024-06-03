@@ -18,6 +18,7 @@ export class LoggedInterceptorService implements HttpInterceptor {
     if (authToken) {
       const payload = this.auth.getDecodedToken()
       const {role} = payload as {role: string}
+      console.log(role)
       if(role === 'Admin'){
         const {exp} = payload as {exp: number}
         if (Date.now() >= exp * 1000) { // Check token exp.
@@ -39,11 +40,10 @@ export class LoggedInterceptorService implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((error) => {
         if(error instanceof HttpErrorResponse){
-          /*if(error.status === 401){
-            alert("Login expired, please login again.")
-            this.router.navigate(['admin-login'])
-          }*/
-          if(error.status === 404)
+          if(error.status === 401){
+            alert("Login expired or you haven't permission to access this page.")
+          }
+          else if(error.status === 404)
             console.log("Not found")
           else
           {

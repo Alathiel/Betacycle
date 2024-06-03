@@ -117,17 +117,7 @@ export class ProductserviceService {
       })
     }
     else
-    this.http.GetProducts(this.page).subscribe({
-      next: (jsData: any) => {
-        this.products = jsData.body.products.$values
-        this.totalProducts = jsData.body.totalProducts
-        this.loadedProducts = this.products.length
-        
-      },
-      error: (error: any) => {
-        console.log(error);
-      }
-    })
+      this.getAllDatas()
   }
 
   GetDetails(id: number)

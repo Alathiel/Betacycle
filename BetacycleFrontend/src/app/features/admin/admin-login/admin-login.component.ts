@@ -24,20 +24,22 @@ export class AdminLoginComponent {
   stayConnected: boolean = false
   successfull: boolean = false;
 
-  loginJwt(){
-    this.AuthService.AdminLoginJWT(this.credentials).subscribe({
-      next: (resp:any) => {
-        console.log(resp)
-        if(resp.status == HttpStatusCode.Ok){
-          this.AuthService.SetLoginStatus(this.stayConnected, resp.body);
-          this.toast.dismissToast()
-          this.router.navigate(['admin-menu']);
+  loginJwt(form:any){
+    if(form.valid){
+      this.AuthService.AdminLoginJWT(this.credentials).subscribe({
+        next: (resp:any) => {
+          console.log(resp)
+          if(resp.status == HttpStatusCode.Ok){
+            this.AuthService.SetLoginStatus(this.stayConnected, resp.body);
+            this.toast.dismissToast()
+            this.router.navigate(['admin-menu']);
+          }
+        },
+        error: (error:any) =>{
+          this.toast.showToast(TOAST_STATE.error, 'Email o password non corretti')
         }
-      },
-      error: (error:any) =>{
-        this.toast.showToast(TOAST_STATE.error, 'Email o password non corretti')
-      }
-    })
+      })
+    }
   }
 }
 

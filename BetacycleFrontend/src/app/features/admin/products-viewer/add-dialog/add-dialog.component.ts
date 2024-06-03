@@ -59,7 +59,7 @@ export class AddDialog{
 
   validate(name: NgModel, price: NgModel, color: NgModel, description: NgModel, productNumber: NgModel, weight: NgModel, model: NgModel, category: NgModel)
   {
-     this.productDatas.actualPrice = price.value
+    this.productDatas.actualPrice = price.value
     this.productDatas.modelId = this.selectedModel
     this.productDatas.categoryId = this.selectedCategory
     if(name.valid && price.valid && color.valid && description.valid && productNumber.valid && weight.valid && this.selectedCategory!= 0 && this.selectedModel != 0)
