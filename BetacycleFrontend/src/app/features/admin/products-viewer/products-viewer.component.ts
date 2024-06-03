@@ -16,6 +16,7 @@ import { AddModelDialogComponent } from './add-model-dialog/add-model-dialog.com
 import { NgOptimizedImage } from '@angular/common'
 import { DomSanitizer } from '@angular/platform-browser';
 import { HttprequestservicesService } from '../../../shared/services/httprequestservices.service';
+import { AuthServiceService } from '../../../shared/services/auth-service.service';
 
 @Component({
   selector: 'app-products-viewer',
@@ -37,7 +38,9 @@ export class ProductsViewerComponent {
   addIcon = faAdd
   editIcon = faPenToSquare
   image:any
-  constructor(private http: HttprequestservicesService, private router: Router, public dialog: MatDialog, private toast: ToastService,private sanitizer: DomSanitizer){
+  constructor(private http: HttprequestservicesService, private router: Router, public dialog: MatDialog, private toast: ToastService,private sanitizer: DomSanitizer, token:AuthServiceService){
+    if(!token.getLoginStatus() || !token.checkAdmin())
+      this.router.navigate(['admin-login']);
     this.getAllDatas()
   }
 

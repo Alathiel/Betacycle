@@ -7,6 +7,7 @@ import { ToastComponent } from '../../../shared/components/toast/toast.component
 import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
 import { AuthServiceService } from '../../../shared/services/auth-service.service';
 import { Credentials } from '../../../shared/models/credential';
+import { NavbarServiceService } from '../../../shared/services/navbar-service.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -16,10 +17,12 @@ import { Credentials } from '../../../shared/models/credential';
   styleUrl: './admin-login.component.css'
 })
 export class AdminLoginComponent {
-  constructor(private AuthService: AuthServiceService, private router: Router, private toast: ToastService){
-    if(AuthService.getLoginStatus())
+  constructor(private AuthService: AuthServiceService, private router: Router, private toast: ToastService, navService: NavbarServiceService){
+    navService.hide();
+    if(AuthService.getLoginStatus() && AuthService.checkAdmin())
       this.router.navigate(['admin-menu']);
   }
+  
   credentials: Credentials = new Credentials()
   stayConnected: boolean = false
   successfull: boolean = false;

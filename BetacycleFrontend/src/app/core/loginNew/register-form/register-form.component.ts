@@ -7,6 +7,7 @@ import { AuthServiceService } from '../../../shared/services/auth-service.servic
 import { Credentials } from '../../../shared/models/credential';
 import { RegisterUser } from '../../../shared/models/RegisterUser';
 import { HttpStatusCode } from '@angular/common/http';
+import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-register-form',
@@ -20,7 +21,7 @@ export class RegisterFormComponent {
   ConfirmPassword: string = ''
   birthdateError = false;
   completed = false;
-  constructor(private http: AuthServiceService, private router:Router){}
+  constructor(private http: AuthServiceService, private router:Router, private toast:ToastService){}
   @Output() newItemEvent = new EventEmitter<string>();
 
   change(value: string) {
@@ -32,9 +33,10 @@ export class RegisterFormComponent {
     {
       this.http.registerCredentials(this.newCredentials).subscribe({
         next: (response:any) =>{
-          console.log(response)
-          if(response.status == HttpStatusCode.Created)
             this.completed = true
+        },
+        error: (error:any) => {
+          this.toast.showToast(TOAST_STATE.error,error)
         }
       }) 
       

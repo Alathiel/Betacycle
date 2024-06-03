@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttprequestservicesService } from '../../shared/services/httprequestservices.service';
+import { Router } from '@angular/router';
+import { AuthServiceService } from '../../shared/services/auth-service.service';
 
 @Component({
   selector: 'app-confirm-order',
@@ -10,7 +12,10 @@ import { HttprequestservicesService } from '../../shared/services/httprequestser
   styleUrl: './confirm-order.component.css'
 })
 export class ConfirmOrderComponent {
-  constructor(private http:HttprequestservicesService){}
+  constructor(private http:HttprequestservicesService, router:Router, token: AuthServiceService){
+    if(!token.getLoginStatus() || !token.checkUser())
+      router.navigate(['login']);
+  }
   loaded = false;
   totalPrice:number = 0;
   cart:any;

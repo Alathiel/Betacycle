@@ -17,11 +17,15 @@ details[open] summary ~ * {
 }
 
 summary{
-    border-radius: 20px;
+    border-radius: 10px;
     background-color: #9BB0C1;
     width: fit-content;
     padding: 10px;
     border: 1px solid #93a4b38f
+}
+
+summary:hover{
+    background-color: #8c9dac;
 }
 
 .viewer{

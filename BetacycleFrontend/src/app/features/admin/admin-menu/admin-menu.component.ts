@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthServiceService } from '../../../shared/services/auth-service.service';
+import { NavbarServiceService } from '../../../shared/services/navbar-service.service';
 @Component({
   selector: 'app-admin-menu',
   standalone: true,
@@ -9,7 +10,8 @@ import { AuthServiceService } from '../../../shared/services/auth-service.servic
   styleUrl: './admin-menu.component.css'
 })
 export class AdminMenuComponent {
-  constructor(private token: AuthServiceService, private router: Router){
+  constructor(private token: AuthServiceService, private router: Router, navService: NavbarServiceService){
+    navService.hide();
     if(!token.getLoginStatus())
     {
       alert("Error you didn't login.")

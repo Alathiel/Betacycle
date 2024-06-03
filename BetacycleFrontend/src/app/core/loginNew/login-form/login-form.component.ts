@@ -28,6 +28,7 @@ export class LoginFormComponent {
       this.http.LoginJWT(this.credentials).subscribe(resp => {
         if(resp.status == HttpStatusCode.Ok){
           this.http.SetLoginStatus(this.stayConnected, resp.body);
+          window.location.reload()
           this.router.navigate(['home'])
         }
         else

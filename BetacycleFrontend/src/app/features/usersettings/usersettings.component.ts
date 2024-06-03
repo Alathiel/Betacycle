@@ -7,6 +7,8 @@ import { UserInfoComponent } from './user-info/user-info.component';
 import { UserCredentialsComponent } from "./user-credentials/user-credentials.component";
 import { UseraddressComponent } from './useraddress/useraddress.component';
 import { UserpaymentsComponent } from './userpayments/userpayments.component';
+import { Router } from '@angular/router';
+import { AuthServiceService } from '../../shared/services/auth-service.service';
 
 @Component({
   selector: 'app-usersettings',
@@ -17,5 +19,8 @@ import { UserpaymentsComponent } from './userpayments/userpayments.component';
 })
 export class UsersettingsComponent {
   active = 'top';
-  constructor(){}
+  constructor(router: Router, token: AuthServiceService){
+    if(!token.getLoginStatus() || !token.checkUser())
+      router.navigate(['login']);
+  }
 }
