@@ -8,6 +8,7 @@ import { Credentials } from '../../shared/models/credential';
 import { HttprequestservicesService } from '../../shared/services/httprequestservices.service';
 import { ProductserviceService } from '../../shared/services/productservice.service';
 import { FormsModule } from '@angular/forms';
+import { NavbarServiceService } from '../../shared/services/navbar-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -19,18 +20,18 @@ import { FormsModule } from '@angular/forms';
 export class NavbarComponent {
   token:any
   user:User=new User()
-  constructor(private route:Router,private auth:AuthServiceService,private http:HttprequestservicesService,public service:ProductserviceService)
+  constructor(private route:Router,private auth:AuthServiceService,private http:HttprequestservicesService,public service:ProductserviceService, public navService:NavbarServiceService)
   {   
-    if(auth.getLoginStatus())
+    if(auth.getLoginStatus() && auth.checkUser())
       {
         this.isLogged=true
         this.DisplayUserInfo() 
       }
   }
+
   isLogged: boolean = false;
   jwtToken: any;
   decodedTokenPayload: any;
-
   DisplayUserInfo()
   {
     var decodedToken = JSON.parse(window.atob(this.auth.getToken()!.split('.')[1]));

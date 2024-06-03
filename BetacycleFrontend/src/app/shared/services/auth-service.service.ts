@@ -62,6 +62,20 @@ export class AuthServiceService {
       return '';
   }
 
+  checkUser(){
+    const {role} = this.getDecodedToken() as {role: string}
+    if(role == "User")
+      return true
+    return false; 
+  }
+
+  checkAdmin(){
+    const {role} = this.getDecodedToken() as {role: string}
+    if(role == "Admin")
+      return true
+    return false; 
+  }
+
   getDecodedToken(){
     if(sessionStorage.getItem('token') != null)
       return jwtDecode(sessionStorage.getItem('token')+'');

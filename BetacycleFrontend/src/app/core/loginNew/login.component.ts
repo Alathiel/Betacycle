@@ -4,6 +4,7 @@ import { RouterModule, Router  } from '@angular/router';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { AuthServiceService } from '../../shared/services/auth-service.service';
+import { NavbarServiceService } from '../../shared/services/navbar-service.service';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +15,10 @@ import { AuthServiceService } from '../../shared/services/auth-service.service';
 })
 export class LoginComponent {
   status:string = "login"
-  constructor(private http:AuthServiceService, public router: Router){
-    if(http.getLoginStatus()){
-      this.router.navigate(['home'])
-    }
+  constructor(private http:AuthServiceService, public router: Router, navService: NavbarServiceService, token: AuthServiceService){
+    navService.show()
+    if(token.getLoginStatus() && token.checkUser())
+      router.navigate(['home']);
   }
   changeForm(status:any) {
     this.status = status
