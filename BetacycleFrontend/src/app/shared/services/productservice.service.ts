@@ -104,7 +104,7 @@ export class ProductserviceService {
       })
     }
     else
-      console.log("???");
+      this.getAllDatas()
   }
 
   GetDetails(id: number)
