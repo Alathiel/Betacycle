@@ -12,8 +12,8 @@ h1{
    background-image: url(background-scritta.jpg);
    background-size: cover;
    background-clip: text;
-   -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: black;
+   /* -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: black; */
  }
  
 .appfooter{
@@ -87,7 +87,8 @@ h1{
  
    .h3Image2{
        
-     margin-left : 1140px ;
+     margin-left : 75% ;
+     margin-top: 12%;
      font-style: italic;
      font-size: 45px;
      position: absolute ; top: 126%;
@@ -110,10 +111,9 @@ h1{
  
    .p2{
      position: absolute ; top: 140%;
-     
      font-style: italic;
-     margin-left: 1000px;
-     margin-right: 30px;
+     margin-top: 12%;
+     margin-left: 70%;
      font-size: 16px;
      }
  
