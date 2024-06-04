@@ -6,6 +6,8 @@ import { FormsModule,NgForm } from '@angular/forms';
 import { RouterModule,RouterLink,RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../footer/footer/footer.component';
 import { ProductserviceService } from '../../shared/services/productservice.service';
+import { NavbarServiceService } from '../../shared/services/navbar-service.service';
+import { FootServiceService } from '../../shared/services/foot-service.service';
 
 @Component({
   selector: 'app-home',
@@ -16,8 +18,10 @@ import { ProductserviceService } from '../../shared/services/productservice.serv
 })
 export class HomeComponent {
   products:Product[]=[]
-  constructor(private http:HttprequestservicesService, public service: ProductserviceService)
+  constructor(private http:HttprequestservicesService, public service: ProductserviceService, navService:NavbarServiceService, footServ: FootServiceService)
   {
+    footServ.show()
+    navService.show()
     this.service.operand = '>';
     this.service.byprice = 0;
     this.service.page = 1;

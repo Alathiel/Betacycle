@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Editing Product</h2>
+<h2 mat-dialog-title>Adding Product</h2>
 <mat-dialog-content>
   <div style="display: flex; flex-direction: column;">
     <div style="padding: 10px;" class="input-container">
@@ -40,9 +40,15 @@
     </select>
     </div>
 
-    <div class="dropzone">
-      <button (click)="uploader.click()">Upload</button>
-      <fa-icon [icon]="uploadIcon"></fa-icon>
+    
+    <div class="dropzone" (click)="uploader.click()">
+      <ng-container *ngIf="productDatas.thumbnailPhoto===''">
+        <fa-icon [icon]="uploadIcon"></fa-icon>
+        <button class="upload-button">Upload Image</button>
+      </ng-container>
+      <ng-container *ngIf="productDatas.thumbnailPhoto!==''">
+        <label class="upload-button" style="color: green;">Upload Image Complete</label>
+      </ng-container>
     </div>
   
   <input hidden type="file" #uploader (change)="getBase64($event)"/>

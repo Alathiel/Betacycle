@@ -7,6 +7,8 @@ import { ToastComponent } from '../../../shared/components/toast/toast.component
 import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
 import { AuthServiceService } from '../../../shared/services/auth-service.service';
 import { Credentials } from '../../../shared/models/credential';
+import { NavbarServiceService } from '../../../shared/services/navbar-service.service';
+import { FootServiceService } from '../../../shared/services/foot-service.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -16,28 +18,33 @@ import { Credentials } from '../../../shared/models/credential';
   styleUrl: './admin-login.component.css'
 })
 export class AdminLoginComponent {
-  constructor(private AuthService: AuthServiceService, private router: Router, private toast: ToastService){
-    if(AuthService.getLoginStatus())
+  constructor(private AuthService: AuthServiceService, private router: Router, private toast: ToastService, navService: NavbarServiceService, footServ: FootServiceService){
+    navService.hide();
+    footServ.hide();
+    if(AuthService.getLoginStatus() && AuthService.checkAdmin())
       this.router.navigate(['admin-menu']);
   }
+  
   credentials: Credentials = new Credentials()
   stayConnected: boolean = false
   successfull: boolean = false;
 
-  loginJwt(){
-    this.AuthService.AdminLoginJWT(this.credentials).subscribe({
-      next: (resp:any) => {
-        console.log(resp)
-        if(resp.status == HttpStatusCode.Ok){
-          this.AuthService.SetLoginStatus(this.stayConnected, resp.body);
-          this.toast.dismissToast()
-          this.router.navigate(['admin-menu']);
+  loginJwt(form:any){
+    if(form.valid){
+      this.AuthService.AdminLoginJWT(this.credentials).subscribe({
+        next: (resp:any) => {
+          console.log(resp)
+          if(resp.status == HttpStatusCode.Ok){
+            this.AuthService.SetLoginStatus(this.stayConnected, resp.body);
+            this.toast.dismissToast()
+            this.router.navigate(['admin-menu']);
+          }
+        },
+        error: (error:any) =>{
+          this.toast.showToast(TOAST_STATE.error, 'Email o password non corretti')
         }
-      },
-      error: (error:any) =>{
-        this.toast.showToast(TOAST_STATE.error, 'Email o password non corretti')
-      }
-    })
+      })
+    }
   }
 }
 

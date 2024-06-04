@@ -88,11 +88,11 @@ namespace BetaCycle.Controllers
                         products = await _context.Products
                             .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
                             && product.Color.ToLower().Contains(color.ToLower())
-                            && product.InsertPrice <= (int)price)
+                            && product.ActualPrice <= (int)price)
                             .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                         totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
                         && product.Color.ToLower().Contains(color.ToLower())
-                        && (product.InsertPrice <= (int)price)).LongCountAsync();
+                        && (product.ActualPrice <= (int)price)).LongCountAsync();
                     }
                     else if ((productName != "" || color != "") && price <= 0)
                     {
@@ -121,11 +121,11 @@ namespace BetaCycle.Controllers
                         products = await _context.Products
                             .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
                             && product.Color.ToLower().Contains(color.ToLower())
-                            && product.InsertPrice >= (int)price)
+                            && product.ActualPrice >= (int)price)
                             .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                         totalProducts = await _context.Products.Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
                         && product.Color.ToLower().Contains(color.ToLower())
-                        && (product.InsertPrice >= (int)price)).LongCountAsync();
+                        && (product.ActualPrice >= (int)price)).LongCountAsync();
                     }
                     else if ((productName != "" || color != "") && price <= 0)
                     {

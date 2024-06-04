@@ -5,6 +5,7 @@ import { Product } from '../models/product';
 import { Cart } from '../models/cart';
 import { TOAST_STATE, ToastService } from './toast.service';
 import { ToastComponent } from '../components/toast/toast.component';
+import { delay, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class ProductserviceService {
   cart: Cart = new Cart();
   categoryNavbar:any
   modelNavbar:any
-
+  
   quantity = {"quantity" : 1};
 
   constructor(private http:HttprequestservicesService, private toast: ToastService) { }
@@ -117,17 +118,7 @@ export class ProductserviceService {
       })
     }
     else
-    this.http.GetProducts(this.page).subscribe({
-      next: (jsData: any) => {
-        this.products = jsData.body.products.$values
-        this.totalProducts = jsData.body.totalProducts
-        this.loadedProducts = this.products.length
-        
-      },
-      error: (error: any) => {
-        console.log(error);
-      }
-    })
+      this.getAllDatas()
   }
 
   GetDetails(id: number)
@@ -171,7 +162,10 @@ export class ProductserviceService {
     this.cart.productId = prod.productId;
     this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
-        alert("Prodotto aggiunto al carrello");
+        // alert("Prodotto aggiunto al carrello");
+        this.toast.showToast(TOAST_STATE.success, "Prodotto aggiunto con successo al carrello")
+        timer(10)
+        this.toast.dismissToast()
       },
       error: (err: any) => {
         this.toast.showToast(TOAST_STATE.error,"Fare l'accesso prima di aggiungere prodotti al carrello");
@@ -181,13 +175,14 @@ export class ProductserviceService {
 
   AddToCartFromCards(prod: Product)
   {
+    this.toast.dismissToast()
     this.cart.Product = prod;
     this.cart.Product.Model = {"name": ""}
     this.cart.Product.Category = {"name": ""}
     this.cart.productId = prod.productId;
     this.http.PostCart(this.cart).subscribe({
-      next: (resp:any) =>{
-        alert("Prodotto aggiunto al carrello")
+      next: async (resp:any) =>{
+        this.toast.showToast(TOAST_STATE.success, "Prodotto aggiunto con successo al carrello")
       },
       error: (err: any) => {
         this.toast.showToast(TOAST_STATE.error,"Fare l'accesso prima di aggiungere prodotti al carrello");

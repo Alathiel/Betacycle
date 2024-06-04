@@ -15,12 +15,11 @@ public partial class ViewDeal
 
     public double InsertPrice { get; set; }
 
-    //public string? Description { get; set; }
-
     public string Culture { get; set; } = null!;
 
     public long CategoryId { get; set; }
-    public byte[]? ThumbnailPhoto { get; set; }
 
-    //public double Deal { get; set; }
+    public double Expr1 { get; set; }
+
+    public byte[]? ThumbnailPhoto { get; set; }
 }

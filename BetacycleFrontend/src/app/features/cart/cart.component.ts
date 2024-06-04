@@ -3,6 +3,7 @@ import { ProductSectionComponent } from './product-section/product-section.compo
 import { CommonModule } from '@angular/common';
 import { HttprequestservicesService } from '../../shared/services/httprequestservices.service';
 import { Router, RouterModule } from '@angular/router';
+import { AuthServiceService } from '../../shared/services/auth-service.service';
 
 @Component({
   selector: 'app-cart',
@@ -16,7 +17,10 @@ export class CartComponent {
   cart:any;
   totalPrice:number = 0;
   loaded = false;
-  constructor(private http: HttprequestservicesService, private router: Router){}
+  constructor(private http: HttprequestservicesService, private router: Router, token: AuthServiceService){
+    if(!token.getLoginStatus() || !token.checkUser())
+      this.router.navigate(['login']);
+  }
 
   ngOnInit(): void {
     this.http.GetCart().subscribe({

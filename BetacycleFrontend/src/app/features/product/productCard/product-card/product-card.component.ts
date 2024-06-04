@@ -36,6 +36,7 @@ export class ProductCardComponent {
   totalProducts = 0;
   page = 1;
   loadedProducts = 0;
+  
 
   constructor(private http: HttprequestservicesService, private router: Router,
      public dialog: MatDialog, private toast: ToastService, private sanitizer: DomSanitizer, public service:ProductserviceService) 
@@ -66,8 +67,13 @@ export class ProductCardComponent {
 
   GoToDetailsPage(id: number) {
     //sessionStorage.setItem('tmpprodid', id.toString());
-    this.service.GetDetails(id);
-    this.router.navigate(['productDetails']);
+    //this.service.GetDetails(id);
+    this.router.navigate(['productDetails'],{queryParams:{id:id}});
+  }
+
+  ColorText(colore:string)
+  {
+    return 'color:'+colore
   }
 }
 
