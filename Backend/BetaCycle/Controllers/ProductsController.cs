@@ -96,7 +96,7 @@ namespace BetaCycle.Controllers
                         .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                         totalProducts = await _context.Products.LongCountAsync();
                     }
-                    else if ((productName != "" || color != "" || price >= 0) && price >= 0)
+                    else if ((productName != "" || color != "" || price > 0) && price > 0)
                     {
                         products = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
