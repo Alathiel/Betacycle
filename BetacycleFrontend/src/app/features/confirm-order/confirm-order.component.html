@@ -18,7 +18,7 @@
                             </ng-container>
                         </div>
                         <div class="footer">
-                            <label style="font-size: large; font-weight: 600;">Totale: {{totalPrice}}</label>
+                            <label style="font-size: large; font-weight: 600;">Totale: {{totalPrice | number:'1.2-2'}}</label>
                         </div>
                     </div>
                     <button class="confirm" style="width: 100%;" (click)="completeOrder()"> Conferma Ordine</button>
