@@ -12,8 +12,8 @@ h1{
    background-image: url(background-scritta.jpg);
    background-size: cover;
    background-clip: text;
-   -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: black;
+   /* -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: black; */
  }
  
 .appfooter{

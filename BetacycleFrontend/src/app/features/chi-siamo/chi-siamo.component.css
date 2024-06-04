@@ -34,8 +34,8 @@
 margin-left: 5rem ;
 font-style: italic;
 font-size: 3rem;
-margin-top: 
-30px;
+margin-top: 30px;
+text-align: center;
 }
 
 .h3Image2 
@@ -44,7 +44,7 @@ margin-top:
     margin-left: 45rem;
     font-style: italic;
     font-size: 3rem; 
-
+    margin-top: 10%;
  
 }
 
@@ -54,37 +54,35 @@ margin-top:
     margin-left: 3rem;
     font-style: italic;
     font-size: 3rem; 
+    margin-top: 10%;
 
- 
 }
 
 .p1
 {
     
     font-style: italic;
-       
-    margin-left: 5em;
-    margin-right: 40rem;
+    margin-left: 25em;
+    margin-right: 25rem;
     font-size: 1em;
+    text-align: center;
 }
 
 .p2
 {
-    
-   
         position: absolute ; top: 220%;
-         
         font-style: italic;
         margin-left: 45em;
         margin-right: 5em;
+        margin-top: 11%;
         font-size: 1em;
 }
 
 .p3
 {
     position:absolute;top: 275%;
-    margin-top: 5em;
-    margin-left: 3em;
+    margin-top: 16%;
+    margin-left: 2em;
     margin-right: 50rem;
 }
 
@@ -103,6 +101,7 @@ button {
     font-size: 15px;
     transition: all 0.5s ease;
     margin-left: 15%;
+    margin-top: 5%;
     position: absolute;top:155em;
 
 }
