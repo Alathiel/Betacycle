@@ -43,7 +43,7 @@ h1{
   }
   .carousel-inner{
     border: 3px transparent grey;
-    border-radius: 10%;
+    /* border-radius: 10%; */
   }
   
   .carousel-indicators
