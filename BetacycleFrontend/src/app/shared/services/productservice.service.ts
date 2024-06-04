@@ -58,14 +58,14 @@ export class ProductserviceService {
   
   quantity = {"quantity" : 1};
 
-  constructor(private http:HttprequestservicesService, private toast: ToastService) { }
+  constructor(private http:HttprequestservicesService, private toast: ToastService) {}
 
   /**
      * Function for research a product with specific details, like name,color or price
   */
   FilterProduct()
   {
-    
+    if(this.byprice.toString() === '') this.byprice = 0;
     this.page = 1;
     this.http.getFilteredProductsUser(this.selectedValue, this.byname,
       this.selectedColor, this.bycolor,
