@@ -10,7 +10,7 @@
                     <hr />
                 </ng-container>
                 <div class="button-wrapper">
-                    <label style="font-size: large; font-weight: 600">Totale spesa (Incl. Tax): {{ totalPrice }}
+                    <label style="font-size: large; font-weight: 600">Totale spesa (Incl. Tax): {{ totalPrice| number:'1.2-2' }}
                         €</label>
                     <button class="confirm" (click)="redirect('confirm-order')">
                         Procedi alla pagina di pagamento
