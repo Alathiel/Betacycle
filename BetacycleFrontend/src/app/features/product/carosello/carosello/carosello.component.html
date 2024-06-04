@@ -9,8 +9,10 @@
   </div>
   <div class="carousel-inner">
     <div  class="carousel-item active">
-      <img src="assets/offerte.png" class="d-block w-100" alt="1">
-      </div>
+      <div class="d-flex justify-content-center">
+      <img src="assets/offerte.png" class="d-block w-50" alt="1">
+    </div>  
+    </div>
     <div *ngFor="let p of service.carosel" class="carousel-item" (click)="GoToDetailsPage(p.productId)">
       <div class="d-flex justify-content-center">
       <img [src]="convert(p.thumbnailPhoto)" width="30%" height="30%" alt="1">
