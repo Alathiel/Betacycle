@@ -19,16 +19,8 @@ export class UserCredentialsComponent {
 
   constructor(private http: HttprequestservicesService,
     private auth:AuthServiceService, ){
-      this.http.GetHttpCredential().subscribe
-      ({
-        next: (data: any) => {
-          this.credential = data
-        },
-        error: (err: any) => {
-          console.log("Errore: " + err.status);
-        }
-      })       
-
+      var {email} = auth.getDecodedToken() as {email:string}
+      this.credential.email = email;
   }
 
   UpdateCredentialsEmail()

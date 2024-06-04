@@ -35,20 +35,17 @@ export class LoginFormComponent {
     if(loginForm.valid){
       this.http.LoginJWT(this.credentials).subscribe({
         next: (resp:any) => {
-        if(resp.status == HttpStatusCode.Ok){
-          
-          this.http.SetLoginStatus(this.stayConnected, resp.body);
+          console.log(resp.token)
+          this.http.SetLoginStatus(this.stayConnected, resp);
           window.location.reload()
           this.router.navigate(['home'])
+        },
+        error: (error:any) => {
+          if(error.status == 401)
+              this.PasswordExpired.emit({status:'expired', credentials:this.credentials});
+          else
+            this.toast.showToast(TOAST_STATE.error, error)
         }
-        else
-          console.log("login non riuscito: "+resp.status);
-          this.toast.showToast(TOAST_STATE.error,'resp')
-      },
-      error: (error:any) => {
-        if(error.status == 401)
-            this.PasswordExpired.emit({status:'expired', credentials:this.credentials});
-      }
       })
     }
   }

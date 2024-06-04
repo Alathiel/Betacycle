@@ -9,7 +9,7 @@
       <app-register-form (newItemEvent)="changeForm($event)"></app-register-form>
     </ng-container>
     <ng-container *ngIf="status == 'expired'">
-      <app-password-expired-form [oldCredentials]="oldCredentials" (newItemEvent)="changeForm($event)"></app-password-expired-form>
+      <app-password-expired-form [oldCredentials]="oldCredentials" (changeForm)="changeForm($event)"></app-password-expired-form>
     </ng-container>
   </div>
 </div>

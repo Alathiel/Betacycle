@@ -44,7 +44,6 @@ export class AuthServiceService {
   }
 
   SetLoginStatus(stayConnected: boolean, resp: any){
-    //var temp = jwtDecode(resp.token)
     if(!stayConnected){
       sessionStorage.setItem('token', resp.token);
     }
