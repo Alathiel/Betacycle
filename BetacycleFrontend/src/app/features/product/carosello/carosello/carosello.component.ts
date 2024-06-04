@@ -45,8 +45,7 @@ export class CaroselloComponent {
 
   GoToDetailsPage(id: number)
   {
-    this.service.GetDetails(id)
-    this.router.navigate(['productDetails']);
+    this.router.navigate(['productDetails'],{queryParams:{id:id}});
   }
 
 }
