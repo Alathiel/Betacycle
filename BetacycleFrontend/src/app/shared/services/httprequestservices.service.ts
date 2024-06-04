@@ -328,7 +328,9 @@ export class HttprequestservicesService {
   /** Get method that return the single product searched by id ADMIN ACCESSABLE*/
   GetProductByID(id:number):Observable<any>
   {
-    return this.http.get(`https://localhost:7044/api/Products/${id}`)
+    var params = new HttpParams()
+      .append('id', id)
+    return this.http.get(`https://localhost:7044/api/Products/GetProduct`,{params:params})
   }
 
   /** Get method that return the single model searched by id ADMIN ACCESSABLE*/
@@ -346,7 +348,7 @@ export class HttprequestservicesService {
   /** Get method that return all the deals of the month. They will show on carousel in the product page */
   GetHttpDeal():Observable<any>
   {
-    return this.http.get(`https://localhost:7044/Deals`)
+    return this.http.get(`https://localhost:7044/api/Products/GetDeals`)
   }
 
   

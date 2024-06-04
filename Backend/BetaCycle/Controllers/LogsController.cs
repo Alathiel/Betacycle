@@ -25,6 +25,7 @@ namespace BetaCycle.Controllers
         private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         private IMongoCollection<BsonDocument> mongoBsCollection;
 
+        //setup mongo DB 
         public LogsController(IOptions<MongoSettings> options)
         {
             var mongoClient = new MongoClient(options.Value.ConnectionString);
@@ -33,7 +34,11 @@ namespace BetaCycle.Controllers
         }
 
         #region HttpGet
-
+        /// <summary>
+        /// Get all logs without filters
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <returns>ActionResult, List<Log></returns>
         [Authorize(Policy = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetLogs(int pageNumber = 1)
@@ -82,6 +87,13 @@ namespace BetaCycle.Controllers
             }
         }
 
+        /// <summary>
+        /// Filter logs based on input params
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="filterC"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns>ActionResult, List<Log></returns>
         [Authorize(Policy = "Admin")]
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetFilteredLogs(string value="", string filterC="Date", int pageNumber = 1)
@@ -138,55 +150,13 @@ namespace BetaCycle.Controllers
             }
         }
 
+        /// <summary>
+        /// Toggle error logging 
+        /// </summary>
+        /// <returns>ActionResult</returns>
         [Authorize(Policy = "Admin")]
         [HttpGet("[action]")]
-        public async Task<ActionResult<IEnumerable<Models.Mongo.Log>>> GetLogsByUserId(string id)
-        {
-            List<Models.Mongo.Log> logs = [];
-            try
-            {
-                BsonDocument filter = new BsonDocument
-                {
-                    {
-                        "Properties.UserId", id
-                    }
-                };
-
-                var bson = await mongoBsCollection.Find(filter).Limit(0).ToListAsync();
-                foreach (var val in bson)
-                {
-                    var props = val.Elements.ElementAt(val.Elements.Count() - 1).Value.AsBsonDocument;
-                    Models.Mongo.Log log = new();
-                    foreach (var element in val.Elements)
-                    {
-                        if (element.Name == "Date" || element.Name == "Timestamp" || element.Name == "Level")
-                            log.Header.Add(element.Value.AsString);
-                        if (element.Name != "_id" && element.Name != "Properties")
-                            log.Stats.Add(new KeyValuePair<string, string>(element.Name, element.Value.AsString));
-                    }
-
-                    foreach (var bsonElement in props)
-                    {
-                        log.Props.Add(new KeyValuePair<string, string>(bsonElement.Name, bsonElement.Value.AsString));
-                    }
-                    logs.Add(log);
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
-                {
-                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
-                    new ("Exception", e),
-                }).Log();
-                return BadRequest("Unexpected error has been encountered");
-            }
-            return logs;
-        }
-
-        [Authorize(Policy = "Admin")]
-        [HttpGet("[action]")]
-        public ActionResult ToggleLogging()
+        public async Task<ActionResult> ToggleLogging()
         {
             if (LogManager.IsLoggingEnabled())
             {
@@ -212,6 +182,11 @@ namespace BetaCycle.Controllers
 
         #region HttpPost
 
+        /// <summary>
+        /// Insert error log in our mongoDB collection 
+        /// </summary>
+        /// <param name="log"></param>
+        /// <returns>ActionResult</returns>
         [HttpPost("[action]")]
         public async Task<ActionResult> PostError(FrontEndLog log)
         {

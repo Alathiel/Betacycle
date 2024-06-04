@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router,RouterOutlet,RouterLink, Route } from '@angular/router';
+import { Router, RouterOutlet, RouterLink, Route } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { loginservice } from '../../shared/services/loginservice.service';
 import { AuthServiceService } from '../../shared/services/auth-service.service';
@@ -13,56 +13,51 @@ import { NavbarServiceService } from '../../shared/services/navbar-service.servi
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterOutlet,RouterLink,CommonModule,FormsModule],
+  imports: [RouterOutlet, RouterLink, CommonModule, FormsModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  token:any
-  user:User=new User()
-  constructor(private route:Router,private auth:AuthServiceService,private http:HttprequestservicesService,public service:ProductserviceService, public navService:NavbarServiceService)
-  {   
-    if(auth.getLoginStatus() && auth.checkUser())
-      {
-        this.isLogged=true
-        this.DisplayUserInfo() 
-      }
+  token: any;
+  user: User = new User();
+  constructor(
+    private route: Router,
+    private auth: AuthServiceService,
+    private http: HttprequestservicesService,
+    public service: ProductserviceService,
+    public navService: NavbarServiceService
+  ) {
+    if (auth.getLoginStatus() && auth.checkUser()) {
+      this.isLogged = true;
+      this.DisplayUserInfo();
+    }
   }
 
   isLogged: boolean = false;
   jwtToken: any;
   decodedTokenPayload: any;
-  DisplayUserInfo()
-  {
-    var decodedToken = JSON.parse(window.atob(this.auth.getToken()!.split('.')[1]));
-    if(this.auth.getLoginStatus() && decodedToken.role !== 'Admin')
-    {
-      this.http.GetUserInfo().subscribe(
-      {
-        next: (data: any) => {
-          this.user = data
-        },
-        error: (err: any) => {
-          console.log("Errore: " + err.status);
-        }
-      })
-    }
+  DisplayUserInfo() {
+    this.http.GetUserInfo().subscribe({
+      next: (data: any) => {
+        this.user = data;
+      },
+      error: (err: any) => {
+        console.log('Errore: ' + err.status);
+      },
+    });
   }
 
-  GoToUserSettings()
-  {
-    this.route.navigate(['usersetting'])
+  GoToUserSettings() {
+    this.route.navigate(['usersetting']);
   }
 
-  LogOut()
-  {
+  LogOut() {
     this.auth.Logout();
     window.location.reload();
-    this.route.navigate(['home'])
+    this.route.navigate(['home']);
   }
 
-  GoToSearch()
-  {
-    this.route.navigate(['product'])
+  GoToSearch() {
+    this.route.navigate(['product']);
   }
 }

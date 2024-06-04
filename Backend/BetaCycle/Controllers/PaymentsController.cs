@@ -28,15 +28,21 @@ namespace BetaCycle.Controllers
             _context = context;
         }
 
-        // GET: api/Payments
+        #region HttpGet
+
+        /// <summary>
+        /// Get all payment methods from user account
+        /// </summary>
+        /// <returns>List<Payment></returns>
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
         {
+
             return await _context.Payments.Where(p => p.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier))).ToListAsync();
         }
 
-
+        #endregion
         // GET: api/Payments/5
         /*[Authorize]
         [HttpGet("{userId}")]
@@ -64,47 +70,21 @@ namespace BetaCycle.Controllers
             }
         }*/
 
-        // PUT: api/Payments/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPayment(long id, Payment payment)
-        {
-            if (id != payment.IdPayment)
-            {
-                return BadRequest();
-            }
+        #region HttpPost
 
-            _context.Entry(payment).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PaymentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Payments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Used by users to add a credit/debit card
+        /// </summary>
+        /// <param name="payment"></param>
+        /// <returns>ActionResult</returns>
         [Authorize]
         [HttpPost("[action]")]
-        public async Task<ActionResult<Payment>> PostPayment(Payment payment)
+        public async Task<ActionResult> PostPayment(Payment payment)
         {
             try
             {
                 payment.UserId = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                KeyValuePair<string, string> card, cvv,tmp;
+                KeyValuePair<string, string> card, cvv;
                 card = EncryptionData.EncryptionData.SaltEncrypt(payment.NameCard);
                 cvv = EncryptionData.EncryptionData.SaltEncrypt(payment.Cvv);
                 payment.NumberCard = card.Key;
@@ -124,14 +104,20 @@ namespace BetaCycle.Controllers
                 }).Log();
                 return BadRequest("Unexpected error has been encountered");
             }
-                       
-
             return Created();
         }
 
-        // DELETE: api/Payments/5
+        #endregion
+
+        #region HttpDelete
+
+        /// <summary>
+        /// Used by users to delete credit or debit card
+        /// </summary>
+        /// <param name="idPayment"></param>
+        /// <returns>IActionResult</returns>
         [Authorize]
-        [HttpDelete("[controller]")]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeletePayment(long idPayment)
         {
             try
@@ -141,11 +127,8 @@ namespace BetaCycle.Controllers
                 {
                     return NotFound();
                 }
-
                 _context.Payments.Remove(payment);
                 await _context.SaveChangesAsync();
-
-                return NoContent();
             }
             catch (Exception e)
             {
@@ -155,13 +138,10 @@ namespace BetaCycle.Controllers
                     new ("Exception", e),
                 }).Log();
                 return BadRequest("Unexpected error has been encountered");
-                throw;
             }
-        }
-
-        private bool PaymentExists(long id)
-        {
-            return _context.Payments.Any(e => e.IdPayment == id);
+            return Ok();
         }
     }
+
+    #endregion
 }

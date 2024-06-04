@@ -16,7 +16,7 @@ import { TOAST_STATE, ToastService } from '../../../shared/services/toast.servic
   styleUrl: './login-form.component.css'
 })
 export class LoginFormComponent {
-  constructor(private http:AuthServiceService,private router:Router,private toast:ToastService){}
+  constructor(private http:AuthServiceService,private router:Router, public toast:ToastService){}
   @Output() newItemEvent = new EventEmitter<string>();
 
   /**

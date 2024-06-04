@@ -12,6 +12,7 @@
                         <option value="all" hidden disabled selected>Filters</option>
                         <option value="Date">Date</option>
                         <option value="Level">Level</option>
+                        <option value="Properties.UserId">User Id</option>
                     </select>
                     <input type="text" style="height: 100%;" [(ngModel)]="search"  (keydown.enter)="filter('b')">
                     <button  class="search-button" (click)="filter('b')">Search</button>
