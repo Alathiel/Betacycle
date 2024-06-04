@@ -3,10 +3,13 @@
   </div>
   <div class="right-side">
     <ng-container *ngIf="status == 'login'">
-      <app-login-form (newItemEvent)="changeForm($event)"></app-login-form>
+      <app-login-form (changeForm)="changeForm($event)" (PasswordExpired)="changeForm($event)"></app-login-form>
     </ng-container>
     <ng-container *ngIf="status == 'register'">
       <app-register-form (newItemEvent)="changeForm($event)"></app-register-form>
+    </ng-container>
+    <ng-container *ngIf="status == 'expired'">
+      <app-password-expired-form [oldCredentials]="oldCredentials" (newItemEvent)="changeForm($event)"></app-password-expired-form>
     </ng-container>
   </div>
 </div>

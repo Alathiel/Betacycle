@@ -49,7 +49,7 @@ namespace BetaCycle.Controllers
                         if ((DateOnly.FromDateTime(DateTime.Now).DayNumber - cred[0].LastModified.DayNumber) > 100)
                             return Unauthorized(new {
                                 Status = 401,
-                                Description = "Password expired"
+                                Description = "Password expired",
                             });
                         var token = this.token.GenerateJwtToken(credentials.Email, cred[0].UserId); 
                         return Ok(new
@@ -76,6 +76,12 @@ namespace BetaCycle.Controllers
         }
 
 
+        /// <summary>
+        /// Register user using 'Register' stored procedure 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>ActionResult</returns>
+        /// <exception cref="DbUpdateException"></exception>
         [HttpPost("[action]")]
         public async Task<ActionResult> Register(RegisterUser user)
         {

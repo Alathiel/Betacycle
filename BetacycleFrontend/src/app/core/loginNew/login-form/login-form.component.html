@@ -20,5 +20,5 @@
             <input type="checkbox" (change)="stayConnected = !stayConnected" style="width: 20px;"><label style="padding-left: 10px;">Resta Connesso</label>
         </div>
     <button type="submit">Login</button>
-    <label style="align-self: center;">Non sei ancora registrato? <a (click)="change('register')" class="clickable">Registrati subito</a></label>
+    <label style="align-self: center;">Non sei ancora registrato? <a (click)="this.changeForm.emit('register')" class="clickable">Registrati subito</a></label>
 </form>

@@ -351,5 +351,9 @@ export class HttprequestservicesService {
     return this.http.get(`https://localhost:7044/api/Products/GetDeals`)
   }
 
+  UpdatePassword(cred: Credentials):Observable<any>
+  {
+    return this.http.patch('https://localhost:7044/api/Credentials/PatchPassword',cred);
+  }
   
 }

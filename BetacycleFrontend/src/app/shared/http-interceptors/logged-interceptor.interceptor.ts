@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
 import { HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, throwError} from 'rxjs';
 import { Router } from '@angular/router';
 import { LoggingService } from '../services/logging.service';
 @Injectable({
@@ -40,17 +40,16 @@ export class LoggedInterceptorService implements HttpInterceptor {
       catchError((error) => {
         if(error instanceof HttpErrorResponse){
           if(error.status === 401){
-            // alert("Login expired or you haven't permission to access this page.")
           }
           else if(error.status === 404)
             console.log("Not found")
           else
           {
-            this.logger.logError(this.logger.populateLog(error)).subscribe(response => {
-            })
+            this.logger.logError(this.logger.populateLog(error)).subscribe()
+            
           }
         }
-        return (error);
+        return throwError( error);
       })
     );
   }

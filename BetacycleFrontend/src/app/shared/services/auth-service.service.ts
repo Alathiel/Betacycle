@@ -18,7 +18,7 @@ export class AuthServiceService {
 
   LoginJWT(credentials: Credentials): Observable<any>
   {
-    return this.http.post('https://localhost:7044/JwtLogin',credentials, {observe: 'response'})
+    return this.http.post('https://localhost:7044/JwtLogin',credentials)
   }
 
   AdminLoginJWT(credentials: Credentials): Observable<any>

@@ -5,6 +5,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using BetaCycle.Contexts;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using NLog;
 
 namespace BetaCycle.Controllers
 {
@@ -12,6 +13,7 @@ namespace BetaCycle.Controllers
     [ApiController]
     public class CredentialsController : ControllerBase
     {
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         private readonly BetaSecurityContext _context;
 
         public CredentialsController(BetaSecurityContext context)
@@ -30,73 +32,60 @@ namespace BetaCycle.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> ChangePasswordLogOn(Credential credential)
         {
-            KeyValuePair<string, string> a;
-            a = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
-            credential.Password = a.Key;
-            credential.PasswordSalt = a.Value;
-
-            _context.Entry(credential).State = EntityState.Modified;
-
             try
             {
+                KeyValuePair<string, string> a;
+                a = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
+                credential.Password = a.Key;
+                credential.PasswordSalt = a.Value;
+
+                _context.Entry(credential).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception e)
             {
-                if (!CredentialExists(credential.UserId))
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
             }
-
-            return NoContent();
+            return Ok();
         }
 
         #endregion
 
         //[Authorize]
-        [HttpPut("[action]")]
-        public async Task<IActionResult> PutCredentialPassword( Credential credential)
+        [HttpPatch("[action]")]
+        public async Task<IActionResult> PatchPassword(Credential credential)
         {
-            var cred = _context.Credentials.Where( c=> c.Email==credential.Email).ToList();
-            if ( cred.Count()<=0)
-            {
-                return BadRequest();
-            }
-
-            KeyValuePair<string, string> a;
-            a = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
-            cred[0].Password = a.Key;
-            cred[0].PasswordSalt = a.Value;
-
-            _context.Entry(cred[0]).State = EntityState.Modified;
 
             try
             {
+                var cred = await _context.Credentials.FirstAsync(c => c.Email == credential.Email);
+                if ( cred == null)
+                    return BadRequest();
+
+                KeyValuePair<string, string> temp;
+                temp = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
+                cred.Password = temp.Key;
+                cred.PasswordSalt = temp.Value;
+                cred.LastModified = DateOnly.FromDateTime(DateTime.Now);
+
+                _context.Entry(cred).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception e)
             {
-                if (!CredentialExists(cred[0].UserId))
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
             }
-
-            return NoContent();
-        }
-
-        private bool CredentialExists(long id)
-        {
-            return _context.Credentials.Any(e => e.UserId == id);
+            return Ok();
         }
     }
 }
