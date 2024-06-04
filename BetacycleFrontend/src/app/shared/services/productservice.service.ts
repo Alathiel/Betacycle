@@ -32,7 +32,7 @@ export class ProductserviceService {
   cart: Cart = new Cart();
   categoryNavbar:any
   modelNavbar:any
-
+  
   quantity = {"quantity" : 1};
 
   constructor(private http:HttprequestservicesService, private toast: ToastService) { }
