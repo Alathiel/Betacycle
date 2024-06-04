@@ -14,13 +14,19 @@ import { NgModel } from '@angular/forms';
   templateUrl: './userpayments.component.html',
   styleUrl: './userpayments.component.css'
 })
+
+/**
+ * All the function need for the CRUD of payment methods
+ * @param getPayment All the credit card the user ha
+ * @param newPayment Data of the new payment to insert
+ */
 export class UserpaymentsComponent {
   getPayment: Payment[] = []
   newPayment: PaymentPost = new PaymentPost()
-  stringCardNumber: string[] = []
   constructor(private http: HttprequestservicesService,
     private auth: AuthServiceService,
     private route: Router) {
+      //Fill get payment with the payment methods of the user
       this.http.GetHttpPaymentById().subscribe(
         {
           next: (data: any) => {
@@ -30,7 +36,8 @@ export class UserpaymentsComponent {
         }
       )
   }
-
+  
+  /**Delete a payment method*/
   DeletePayment(idPayment: number) {
     this.http.DeleteHttpPayment(idPayment).subscribe(
       {
@@ -41,6 +48,14 @@ export class UserpaymentsComponent {
       }
     )
   }
+
+  /**
+   * Add a new payment method 
+   * @param month month of expiration date
+   * @param year  year of the expiration date
+   * 
+   * Just few check if the card is valid like the circuit and the date
+   */
   AddPayment(month: NgModel, year: NgModel) {
     if (this.newPayment.numberCard.at(0) == '3' || this.newPayment.numberCard.at(0) == '4' || this.newPayment.numberCard.at(0) == '5') 
     {

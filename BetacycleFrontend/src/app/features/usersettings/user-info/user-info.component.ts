@@ -25,11 +25,10 @@ export class UserInfoComponent {
       },
     });
   }
-
+  /**Update user info */
   UpdateUser() {
     this.http.PutUserData(this.user).subscribe({
-      next: (data: any) => {
-        
+      next: (data: any) => {       
       },
     });
   }

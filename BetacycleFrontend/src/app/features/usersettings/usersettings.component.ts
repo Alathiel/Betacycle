@@ -19,6 +19,8 @@ import { AuthServiceService } from '../../shared/services/auth-service.service';
 })
 export class UsersettingsComponent {
   active = 'top';
+
+  /**Can't open this page if you aren't logged */
   constructor(router: Router, token: AuthServiceService){
     if(!token.getLoginStatus() || !token.checkUser())
       router.navigate(['login']);

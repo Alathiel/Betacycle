@@ -120,7 +120,8 @@ export class ProductserviceService {
     }
   }
 
-  /**Show the next page */
+  /**
+   * Show the next page */
   next() {
     if (this.page < this.totalProducts / 10) {
       this.page++;

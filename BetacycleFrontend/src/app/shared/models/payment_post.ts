@@ -1,3 +1,6 @@
+/**
+ * Sama as Payment but with the credential info for backend
+ */
 export class PaymentPost{
     idPayment:number=0
     numberCard:string=''

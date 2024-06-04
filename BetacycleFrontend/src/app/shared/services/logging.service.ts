@@ -13,7 +13,11 @@ export class LoggingService {
   constructor(handler: HttpBackend, private token:AuthServiceService) {
     this.http = new HttpClient(handler);
   }
-
+  /**
+   * Function that create a Log item with the user id if a user is logged or not
+   * @param log A log item used for the post function
+   * @returns 
+   */
   logError(log:ErrorLog):Observable<any>
   {
     var token = this.token.getToken();
@@ -28,6 +32,7 @@ export class LoggingService {
       return this.http.post("https://localhost:7044/api/Logs/PostError", log);
   }
 
+  /**Create the item */
   populateLog(error:any){
     var log = new ErrorLog();
     log = {

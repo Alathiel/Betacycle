@@ -1,5 +1,6 @@
 /**
  * Class used when need to insert a new address
+ * Same as address but has user information
  */
 export class AddressPost
 {
