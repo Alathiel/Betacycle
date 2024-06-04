@@ -28,7 +28,6 @@ export class LoggingService {
       return this.http.post("https://localhost:7044/api/Logs/PostError", log);
   }
 
-
   populateLog(error:any){
     var log = new ErrorLog();
     log = {

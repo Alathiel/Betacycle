@@ -7,11 +7,11 @@ import { Credentials } from '../../shared/models/credential';
 import { User } from '../../shared/models/user';
 import { HttpStatusCode } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { NgForm } from '@angular/forms';
 import { loginservice } from '../../shared/services/loginservice.service';
-import { UpdatepswComponent } from '../updatepsw/updatepsw.component';
-
+import { timer } from 'rxjs';
 import {MatCardModule} from '@angular/material/card';
+import { TOAST_STATE, ToastService } from '../../shared/services/toast.service';
+
 
 @Component({
   selector: 'app-login',
@@ -31,15 +31,18 @@ export class LoginComponent {
   newUser: User = new User();
   newCredentials: Credentials = new Credentials();
 
-  constructor(private http:HttprequestservicesService, private logservice:loginservice,public router: Router, private AuthService:AuthServiceService){
+  constructor(private http:HttprequestservicesService, private logservice:loginservice,public router: Router, private AuthService:AuthServiceService,private toast:ToastService){
     if(logservice.CheckingLogin()){
       this.router.navigate(['home'])
     }
   }
 
+  /**
+   * Login function with JWT token
+   * If the result of the operation is negative go on switch to show different result
+   */
   loginJwt()
   {
-    console.log(this.credentials)
     this.AuthService.LoginJWT(this.credentials).subscribe({
       next:(response:any)=>
         {
@@ -58,29 +61,24 @@ export class LoginComponent {
             this.router.navigate(['/updatepsw'])
             break;
           case HttpStatusCode.BadRequest:
-            alert("Email/Password errata")
+            this.toast.showToast(TOAST_STATE.error,"Email e/o Password errati")
+            timer(10)
+            this.toast.dismissToast()
             console.log(error)
             break;
         }
-       }
-      // if(resp.status == HttpStatusCode.Ok){
-      //   this.AuthService.setLoggedStatus(this.stayConnected, resp.body);
-      //   localStorage.setItem('userId', window.btoa(resp.body.userId));
-      //   window.location.reload();
-      //   this.router.navigate(['home'])
-      // }
-      // else{
-      //   console.log("login non riuscito: "+resp.status);
-      //     
+       } 
     })
   }
 
+  /**Logout operation */
   logout(){
     sessionStorage.clear()
     localStorage.clear()
     this.router.navigate(['home'])
   }
 
+  /** */
   GoToRestorePsw()
   {
     this.router.navigate(['restore'])

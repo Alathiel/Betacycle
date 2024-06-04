@@ -1,8 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../models/user';
-import { HttprequestservicesService } from './httprequestservices.service';
-import { jwtDecode } from 'jwt-decode';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +15,7 @@ export class loginservice {
   });
 
   constructor() {}
+  /**Check if the user is alredy logged */
   CheckingLogin(): boolean 
     {
        var validcredentials = sessionStorage.getItem('token');
@@ -28,9 +27,7 @@ export class loginservice {
         {
           this.logCheck = true;
         }
-
         console.log(this.logCheck);
-
         return this.logCheck;
     }
 }

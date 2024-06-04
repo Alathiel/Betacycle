@@ -11,7 +11,7 @@
             <p>Prezzo: €{{p.actualPrice | number : '1.2-2'}}</p>
             <p [style]="ColorText(p.color)">Colore: {{p.color}}</p>
             <a (click)="GoToDetailsPage(p.productId)" style="cursor: pointer;">Show more details</a><br>
-            <i (click)="service.AddToCartFromCards(p)"  class="bi bi-cart-fill" style="color:blue">Add to cart</i>
+            <i (click)="service.AddToCart(p)"  class="bi bi-cart-fill" style="color:blue">Add to cart</i>
         </div>
     </ng-container>
 </div>

@@ -1,3 +1,6 @@
+/**
+ * Class used when need to insert a new address
+ */
 export class AddressPost
 {
     userId: number = 0;

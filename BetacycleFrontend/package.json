@@ -24,6 +24,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@microsoft/signalr": "^8.0.0",
+    "@microsoft/tsdoc": "^0.15.0",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "@popperjs/core": "^2.11.8",
     "base64-js": "^1.5.1",

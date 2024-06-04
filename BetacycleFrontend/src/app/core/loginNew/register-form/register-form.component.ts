@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { User } from '../../../shared/models/user';
-import { FormControl, FormGroup, FormsModule, NgModel, Validators } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { AuthServiceService } from '../../../shared/services/auth-service.service';
-import { Credentials } from '../../../shared/models/credential';
 import { RegisterUser } from '../../../shared/models/RegisterUser';
-import { HttpStatusCode } from '@angular/common/http';
 import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
 
 @Component({
@@ -17,17 +14,22 @@ import { TOAST_STATE, ToastService } from '../../../shared/services/toast.servic
   styleUrl: './register-form.component.css'
 })
 export class RegisterFormComponent {
+  /**
+   * @param newCredentials Item for new user
+   * @param ConfirmPassword String used for match password
+   * @param completed Check for operation succeed
+   */
   newCredentials: RegisterUser = new RegisterUser()
   ConfirmPassword: string = ''
-  birthdateError = false;
   completed = false;
   constructor(private http: AuthServiceService, private router:Router, private toast:ToastService){}
   @Output() newItemEvent = new EventEmitter<string>();
 
+  /**Login change */
   change(value: string) {
     this.newItemEvent.emit(value);
   }
-
+  /** Register New user */ 
   register(registerForm:any, birthdate:NgModel){
     if(registerForm.valid && this.checkUnderage(birthdate) == false)
     {
@@ -43,6 +45,7 @@ export class RegisterFormComponent {
     }
   }
 
+  /**Check if the age insert is under 18 */
   checkUnderage(date: NgModel): boolean
   {
     if(new Date().getTime() - new Date(date.value).getTime() > 568025136000){
@@ -51,7 +54,9 @@ export class RegisterFormComponent {
     return true
   }
 
+  /**Redirect function for all method */
   redirect(route: string){
     this.router.navigate([route])
   }
+
 }

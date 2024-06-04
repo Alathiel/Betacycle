@@ -28,7 +28,7 @@ export class AddModelDialogComponent {
   };
   
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http:HttprequestservicesService) {
-    http.getModels().subscribe((response) => this.models = response.$values);
+  http.GetModel().subscribe((response) => this.models = response.$values);
   }
 
   validate(modelName: NgModel)

@@ -1,3 +1,4 @@
+/**Class used for address operation */
 export class Address
 {
     userId: number = 0;

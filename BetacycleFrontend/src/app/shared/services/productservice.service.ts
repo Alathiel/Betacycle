@@ -10,18 +10,41 @@ import { delay, timer } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
+/**
+ * This service is used for the operation on product used by all user
+ */
 export class ProductserviceService {
+  /**
+   * @param products List with all the products get from db
+   * @param carosel List of product showed on carousel
+   * @param product Single product with all details
+   * @param model Single model of the product
+   * @param category Single category of the product
+   * @param selectedValue Filter used for name
+   * @param selectedColor Filter used for color
+   * @param selectedPrice Filter used for price
+   * @param selectedOperand Filter used for operand for price
+   * @param totalProducts Total of products returned form the get calls
+   * @param page Need to show products in sequence
+   * @param loadedProducts Number of products
+   * @param byname Input from the user to research by name
+   * @param bycolor Input from the user to research by color
+   * @param byprice Input from the user to reasearch by price
+   * @param operand Input from the user that want to see products < or > of the price insert
+   * @param cart Item cart used for CRUD operation on cart
+   * @param categoryNavbar All the category used for research
+   * @param quantity Quantity for cart
+   */
   products: any;
   carosel: any;
   product:any;
-  prodtocart: any;
   model: any;
   category: any;
   selectedValue = "productName";
   selectedColor = "color";
   selectedPrice = "price";
   selectedOperand = "operand";
-  search = "";
   totalProducts = 0;
   page = 1;
   loadedProducts = 0;
@@ -37,8 +60,12 @@ export class ProductserviceService {
 
   constructor(private http:HttprequestservicesService, private toast: ToastService) { }
 
+  /**
+     * Function for research a product with specific details, like name,color or price
+  */
   FilterProduct()
   {
+    
     this.page = 1;
     this.http.getFilteredProductsUser(this.selectedValue, this.byname,
       this.selectedColor, this.bycolor,
@@ -56,6 +83,8 @@ export class ProductserviceService {
         }
       })
   }
+
+  /** Function used to get all products from DB */
   getAllDatas() {
     this.http.GetProducts(this.page).subscribe({
       next: (jsData: any) => {
@@ -70,6 +99,7 @@ export class ProductserviceService {
     })
   }
   
+  /**Function used to get all the deals */
   getDeal() {
     this.http.GetHttpDeal().subscribe({
       next: (jsData: any) => {
@@ -82,6 +112,7 @@ export class ProductserviceService {
     })
   }
 
+  /**Show the previous page */
   prev() {
     if (this.page > 1) {
       this.page--;
@@ -89,6 +120,7 @@ export class ProductserviceService {
     }
   }
 
+  /**Show the next page */
   next() {
     if (this.page < this.totalProducts / 10) {
       this.page++;
@@ -96,6 +128,7 @@ export class ProductserviceService {
     }
   }
   
+  /** Show the product page by page */
   filter(temp:string = "aa"){
     if(temp === "bb")
       this.page = 1
@@ -121,6 +154,7 @@ export class ProductserviceService {
       this.getAllDatas()
   }
 
+  /**Show the details of the single product */
   GetDetails(id: number)
   {
     this.http.GetProductByID(id)
@@ -154,6 +188,7 @@ export class ProductserviceService {
     })
   }
 
+  /**Add a product to the cart */
   AddToCart(prod: any)
   {
     this.cart.Product = prod;
@@ -162,7 +197,6 @@ export class ProductserviceService {
     this.cart.productId = prod.productId;
     this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
-        // alert("Prodotto aggiunto al carrello");
         this.toast.showToast(TOAST_STATE.success, "Prodotto aggiunto con successo al carrello")
         timer(10)
         this.toast.dismissToast()
@@ -173,23 +207,7 @@ export class ProductserviceService {
     })
   }
 
-  AddToCartFromCards(prod: Product)
-  {
-    this.toast.dismissToast()
-    this.cart.Product = prod;
-    this.cart.Product.Model = {"name": ""}
-    this.cart.Product.Category = {"name": ""}
-    this.cart.productId = prod.productId;
-    this.http.PostCart(this.cart).subscribe({
-      next: async (resp:any) =>{
-        this.toast.showToast(TOAST_STATE.success, "Prodotto aggiunto con successo al carrello")
-      },
-      error: (err: any) => {
-        this.toast.showToast(TOAST_STATE.error,"Fare l'accesso prima di aggiungere prodotti al carrello");
-      }
-    })
-  }
-
+  /**Get Categories to show in navbar */
   GetCategories()
   {
     this.http.getCategories().subscribe(
