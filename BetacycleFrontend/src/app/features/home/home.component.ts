@@ -7,6 +7,7 @@ import { RouterModule,RouterLink,RouterOutlet } from '@angular/router';
 import { FooterComponent } from '../footer/footer/footer.component';
 import { ProductserviceService } from '../../shared/services/productservice.service';
 import { NavbarServiceService } from '../../shared/services/navbar-service.service';
+import { FootServiceService } from '../../shared/services/foot-service.service';
 
 @Component({
   selector: 'app-home',
@@ -17,8 +18,9 @@ import { NavbarServiceService } from '../../shared/services/navbar-service.servi
 })
 export class HomeComponent {
   products:Product[]=[]
-  constructor(private http:HttprequestservicesService, public service: ProductserviceService, navService:NavbarServiceService)
+  constructor(private http:HttprequestservicesService, public service: ProductserviceService, navService:NavbarServiceService, footServ: FootServiceService)
   {
+    footServ.show()
     navService.show()
     this.service.operand = '>';
     this.service.byprice = 0;

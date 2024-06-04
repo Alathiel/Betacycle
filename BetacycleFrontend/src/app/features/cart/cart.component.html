@@ -1,22 +1,32 @@
-<div class="main-container">
-    <div class="content-container">
-        <h2>Prodotti presenti nel carrello</h2>
-        <hr>
-        <ng-container *ngIf="loaded">
-            <ng-container *ngIf="cart.length > 0">
+<ng-container *ngIf="loaded">
+    <ng-container *ngIf="cart.length > 0">
+        <div class="main-container">
+            <div class="content-container">
+                <h2>Prodotti presenti nel carrello</h2>
+                <hr />
                 <ng-container *ngFor="let product of cart">
-                    <app-product-section [product]="product" (reloadPriceEvent)="ReloadTotalPrice($event)"></app-product-section>
-                    <hr>
+                    <app-product-section [product]="product"
+                        (reloadPriceEvent)="ReloadTotalPrice($event)"></app-product-section>
+                    <hr />
                 </ng-container>
-                    <div class="button-wrapper">
-                        <label style="font-size: large; font-weight: 600;">Totale spesa (Incl. Tax): {{totalPrice}} €</label>
-                        <button class="confirm" (click)="redirect('confirm-order')"> Procedi alla pagina di pagamento</button>
-                    </div>
-            </ng-container>
-            <ng-container *ngIf="cart.length <= 0">
-                <label>Non sono ancora presenti prodotti nel tuo carrello</label>
-            </ng-container>
-        </ng-container>
-    </div>
+                <div class="button-wrapper">
+                    <label style="font-size: large; font-weight: 600">Totale spesa (Incl. Tax): {{ totalPrice }}
+                        €</label>
+                    <button class="confirm" (click)="redirect('confirm-order')">
+                        Procedi alla pagina di pagamento
+                    </button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>
 
-</div>
+<ng-container *ngIf="cart.length <= 0">
+    <div class="main-container" style="height: 100%">
+        <div class="content-container">
+            <h2>Prodotti presenti nel carrello</h2>
+            <hr />
+            <label>Non sono ancora presenti prodotti nel tuo carrello</label>
+        </div>
+    </div>
+</ng-container>

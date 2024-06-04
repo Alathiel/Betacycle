@@ -17,5 +17,7 @@ public partial class Order
 
     public long IdPayment { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual User User { get; set; } = null!;
 }

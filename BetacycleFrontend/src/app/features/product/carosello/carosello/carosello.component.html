@@ -1,4 +1,4 @@
-<div id="carouselExampleIndicators" class="carousel carousel-dark galleria">
+<div id="carouselExampleIndicators" class="carousel carousel-dark galleria" style="width: 30%;">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active bottone" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" class="bottone" aria-label="Slide 2"></button>
@@ -11,7 +11,7 @@
     <div  class="carousel-item active">
       <img src="https://paleosalus.com/wp-content/uploads/2022/11/Logo-Offerta-1.png " class="d-block w-100" alt="1">
       </div>
-    </div>
+    
     <div *ngFor="let p of service.carosel" class="carousel-item" (click)="GoToDetailsPage(p.productId)">
       <img [src]="convert(p.thumbnailPhoto)" width="30%" height="30%" alt="1">
       <div class="carousel-caption d-none d-md-block">
@@ -27,4 +27,6 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
+
+</div>
 </div>

@@ -138,6 +138,9 @@ public partial class BetacycleContext : DbContext
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
@@ -206,6 +209,9 @@ public partial class BetacycleContext : DbContext
 
             entity.Property(e => e.UserId).HasColumnName("UserID");
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .IsUnicode(false);
 
             entity.HasOne(d => d.Product).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.ProductId)
@@ -243,17 +249,12 @@ public partial class BetacycleContext : DbContext
             entity.Property(e => e.Culture)
                 .HasMaxLength(5)
                 .IsUnicode(false);
-            /*entity.Property(e => e.Description)
-                .HasMaxLength(1000)
-                .IsUnicode(false);*/
-            entity.Property(e => e.ProductName)
-                .HasMaxLength(30)
-                .IsUnicode(false);
             entity.Property(e => e.ProductId)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("ProductID");
-            entity.Property(e => e.ThumbnailPhoto)
-                .HasColumnName("ThumbnailPhoto");
+            entity.Property(e => e.ProductName)
+                .HasMaxLength(50)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);
