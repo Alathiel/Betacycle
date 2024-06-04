@@ -5,9 +5,8 @@ import { Injectable } from '@angular/core';
 })
 
 export class NavbarServiceService {
-  active:boolean = true;
   constructor() { }
-
+  active:boolean = true;
   show = () => this.active=true;
   hide = () => this.active = false;
   toggle = () => this.active = !this.active

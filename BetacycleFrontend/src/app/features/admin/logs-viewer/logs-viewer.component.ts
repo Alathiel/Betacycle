@@ -6,6 +6,8 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Route, Router, RouterModule } from '@angular/router';
 import { HttprequestservicesService } from '../../../shared/services/httprequestservices.service';
 import { AuthServiceService } from '../../../shared/services/auth-service.service';
+import { FootServiceService } from '../../../shared/services/foot-service.service';
+import { NavbarServiceService } from '../../../shared/services/navbar-service.service';
 
 
 @Component({
@@ -25,7 +27,9 @@ export class LogsViewerComponent {
   page = 1
   backIcon = faHome
   loggingState = true;
-  constructor(private http: HttprequestservicesService, private router: Router, token: AuthServiceService){
+  constructor(private http: HttprequestservicesService, private router: Router, token: AuthServiceService, footServ:FootServiceService, navService:NavbarServiceService){
+    navService.hide();
+    footServ.hide();
     if(!token.getLoginStatus() || !token.checkAdmin())
       this.router.navigate(['admin-login']);
     this.http.GetLoggingState().subscribe({

@@ -8,6 +8,7 @@ import { TOAST_STATE, ToastService } from '../../../shared/services/toast.servic
 import { AuthServiceService } from '../../../shared/services/auth-service.service';
 import { Credentials } from '../../../shared/models/credential';
 import { NavbarServiceService } from '../../../shared/services/navbar-service.service';
+import { FootServiceService } from '../../../shared/services/foot-service.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -17,8 +18,9 @@ import { NavbarServiceService } from '../../../shared/services/navbar-service.se
   styleUrl: './admin-login.component.css'
 })
 export class AdminLoginComponent {
-  constructor(private AuthService: AuthServiceService, private router: Router, private toast: ToastService, navService: NavbarServiceService){
+  constructor(private AuthService: AuthServiceService, private router: Router, private toast: ToastService, navService: NavbarServiceService, footServ: FootServiceService){
     navService.hide();
+    footServ.hide();
     if(AuthService.getLoginStatus() && AuthService.checkAdmin())
       this.router.navigate(['admin-menu']);
   }
