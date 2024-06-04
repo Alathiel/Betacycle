@@ -9,6 +9,7 @@ using BetaCycle.Contexts;
 using BetaCycle.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using NLog;
 
 namespace BetaCycle.Controllers
 {
@@ -16,6 +17,7 @@ namespace BetaCycle.Controllers
     [ApiController]
     public class CartsController : ControllerBase
     {
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         private readonly BetacycleContext _context;
 
         public CartsController(BetacycleContext context)
@@ -23,7 +25,12 @@ namespace BetaCycle.Controllers
             _context = context;
         }
 
-        // GET: api/Carts
+        #region HttpGet
+
+        /// <summary>
+        /// Get all products in user cart
+        /// </summary>
+        /// <returns>IQueryable<Cart></returns>
         [Authorize]
         [HttpGet("[action]")]
         public async Task<IQueryable<Cart>> GetCart()
@@ -35,29 +42,16 @@ namespace BetaCycle.Controllers
             return cart;
         }
 
+        #endregion
 
-        // PUT: api/Carts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("[action]")]
-        public async Task<IActionResult> PutCart(Cart cart)
-        {
 
-            _context.Entry(cart).State = EntityState.Modified;
+        #region HttpPost
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Carts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Used by users to add products to cart
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <returns>ActionResult, Cart</returns>
         [Authorize]
         [HttpPost("[action]")]
         public async Task<ActionResult<Cart>> PostCart(Cart cart)
@@ -83,30 +77,82 @@ namespace BetaCycle.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
             }
+            return Ok();
         }
 
-        // DELETE: api/Carts/5
+        #endregion
+
+
+        #region HttpPut
+
+        /// <summary>
+        /// Used by users to edit the number of one specific product in their cart
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <returns>IactionResult</returns>
+        [HttpPut("[action]")]
+        public async Task<IActionResult> PutCart(Cart cart)
+        {
+            try
+            {
+                _context.Entry(cart).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+            return Ok();
+        }
+
+        #endregion
+
+
+        #region HttpDelete
+        /// <summary>
+        /// Used by users to delete a product from cart
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns>IActionResult</returns>
         [Authorize]
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteCart(long productId)
         {
-            var cart = await _context.Carts.FindAsync(Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)),productId);
-            if (cart == null)
+            try
             {
-                return NotFound();
+                var cart = await _context.Carts.FindAsync(
+                    Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)), productId);
+                if (cart == null)
+                {
+                    return NotFound();
+                }
+                _context.Carts.Remove(cart);
+                await _context.SaveChangesAsync();
             }
-
-            _context.Carts.Remove(cart);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+            return Ok();
         }
 
-        private bool CartExists(long id)
-        {
-            return _context.Carts.Any(e => e.UserId == id);
-        }
+        #endregion
     }
 }

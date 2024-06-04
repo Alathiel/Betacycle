@@ -5,6 +5,7 @@ import { HttpStatusCode } from '@angular/common/http';
 import { AuthServiceService } from '../../../shared/services/auth-service.service';
 import { Credentials } from '../../../shared/models/credential';
 import { Router } from '@angular/router';
+import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-login-form',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
   styleUrl: './login-form.component.css'
 })
 export class LoginFormComponent {
-  constructor(private http:AuthServiceService,private router:Router){}
+  constructor(private http:AuthServiceService,private router:Router, public toast:ToastService){}
   @Output() newItemEvent = new EventEmitter<string>();
   stayConnected:boolean = false;
   credentials: Credentials = new Credentials();
@@ -33,6 +34,7 @@ export class LoginFormComponent {
         }
         else
           console.log("login non riuscito: "+resp.status);
+          this.toast.showToast(TOAST_STATE.error,'resp')
       })
     }
   }

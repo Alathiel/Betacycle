@@ -26,7 +26,10 @@ namespace BetaCycle.Controllers
         }
 
         #region HttpGet
-
+        /// <summary>
+        /// Get all address linked to user account
+        /// </summary>
+        /// <returns>ActionResult, List<Address></returns>
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Address>>> GetAddresses()
@@ -34,6 +37,11 @@ namespace BetaCycle.Controllers
             return await _context.Addresses.Where(address => address.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier))).ToListAsync();
         }
 
+        /// <summary>
+        /// Get one specific address based on AddressId
+        /// </summary>
+        /// <param name="addressId"></param>
+        /// <returns>ActionResult, Address</returns>
         [Authorize]
         [HttpGet("[action]")]
         public async Task<ActionResult<Address>> GetAddress(long addressId)
@@ -49,9 +57,13 @@ namespace BetaCycle.Controllers
 
         #endregion
 
-
-        // POST: api/Addresses
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        #region HttpPost
+        
+        /// <summary>
+        /// Used by users to add an address
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns>ActionResult, Address</returns>
         [Authorize]
         [HttpPost("[action]")]
         public async Task<ActionResult<Address>> PostAddress(Address address)
@@ -81,7 +93,48 @@ namespace BetaCycle.Controllers
             return Created();
         }
 
-        // DELETE: api/Addresses/5
+        #endregion
+
+        #region HttpPut
+
+        /// <summary>
+        /// Used by users to edit an address
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns>IAcctionResult</returns>
+        [Authorize]
+        [HttpPut("[action]")]
+        public async Task<IActionResult> PutAddress(Address address)
+        {
+            try
+            {
+                if (await _context.Addresses.FindAsync(address.AddressId) == null)
+                {
+                    return NotFound();
+                }
+                _context.Entry(address).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has occurred.");
+            }
+            return Ok();
+        }
+
+        #endregion
+
+        #region HttpDelete
+        /// <summary>
+        /// Used by users to delete an address
+        /// </summary>
+        /// <param name="addressId"></param>
+        /// <returns>IActionResult</returns>
         [Authorize]
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteAddress(long addressId)
@@ -110,38 +163,6 @@ namespace BetaCycle.Controllers
             }
         }
 
-        // PUT: api/Addresses/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize]
-        [HttpPut("[action]")]
-        public async Task<IActionResult> PutAddress(Address address)
-        {
-            address.User = await _context.Users.FindAsync(address.UserId);
-            
-            _context.Entry(address).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AddressExists(address.AddressId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        private bool AddressExists(long id)
-        {
-            return _context.Addresses.Any(e => e.UserId == id);
-        }
+        #endregion
     }
 }

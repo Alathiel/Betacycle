@@ -48,7 +48,6 @@ export class ProductCardComponent {
       }
     else 
     {
-      this.service.filter();
       this.service.getAllDatas();
     }
   }

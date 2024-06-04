@@ -8,6 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using BetaCycle.Models;
 using BetaCycle.Contexts;
 using BetaCycle.Contexts;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using NLog;
+
 namespace BetaCycle.Controllers
 {
     [Route("api/[controller]")]
@@ -15,94 +19,54 @@ namespace BetaCycle.Controllers
     public class ModelsController : ControllerBase
     {
         private readonly BetacycleContext _context;
-
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         public ModelsController(BetacycleContext context)
         {
             _context = context;
         }
 
-        // GET: api/Models
+        #region HttpGet
+
+        /// <summary>
+        /// Get all models
+        /// </summary>
+        /// <returns>List<Model></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Model>>> GetModels()
+        public async Task<IEnumerable<Model>> GetModels()
         {
             return await _context.Models.ToListAsync();
         }
 
-        // GET: api/Models/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Model>> GetModel(long id)
-        {
-            var model = await _context.Models.FindAsync(id);
+        #endregion
 
-            if (model == null)
-            {
-                return NotFound();
-            }
+        #region HttpPost
 
-            return model;
-        }
-
-        // PUT: api/Models/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutModel(long id, Model model)
-        {
-            if (id != model.ModelId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(model).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Models
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Used by Admins to add models 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>ActionResult, Model</returns>
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Model>> PostModel(Model model)
         {
-            _context.Models.Add(model);
-            await _context.SaveChangesAsync();
+            try{
+                _context.Models.Add(model);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetModel", new { id = model.ModelId }, model);
-        }
-
-        // DELETE: api/Models/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteModel(long id)
-        {
-            var model = await _context.Models.FindAsync(id);
-            if (model == null)
-            {
-                return NotFound();
+                return Created();
             }
-
-            _context.Models.Remove(model);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
         }
 
-        private bool ModelExists(long id)
-        {
-            return _context.Models.Any(e => e.ModelId == id);
-        }
+        #endregion
     }
 }

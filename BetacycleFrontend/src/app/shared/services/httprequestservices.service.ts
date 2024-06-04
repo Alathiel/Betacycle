@@ -156,7 +156,7 @@ export class HttprequestservicesService {
   }
   DeleteHttpPayment(idPayment: number): Observable<any> {
     var params = new HttpParams().append('idPayment', idPayment);
-    return this.http.delete(`https://localhost:7044/api/Payments/Payments`, {
+    return this.http.delete(`https://localhost:7044/api/Payments/DeletePayment`, {
       params: params,
     });
   }
@@ -247,7 +247,9 @@ export class HttprequestservicesService {
 
   GetProductByID(id:number):Observable<any>
   {
-    return this.http.get(`https://localhost:7044/api/Products/${id}`)
+    var params = new HttpParams()
+      .append('id', id)
+    return this.http.get(`https://localhost:7044/api/Products/GetProduct`,{params:params})
   }
 
   GetModelByID(id:number):Observable<any>
@@ -261,7 +263,7 @@ export class HttprequestservicesService {
   }
   GetHttpDeal():Observable<any>
   {
-    return this.http.get(`https://localhost:7044/Deals`)
+    return this.http.get(`https://localhost:7044/api/Products/GetDeals`)
   }
 
   DeleteProductFromCart(productId:any):Observable<any>

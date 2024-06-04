@@ -9,6 +9,8 @@ using NLog;
 using NLog.Fluent;
 using Log = BetaCycle.Models.Log;
 using System.Security.Claims;
+using System.Data;
+using Microsoft.Data.SqlClient;
 
 namespace BetaCycle.Controllers
 {
@@ -26,6 +28,10 @@ namespace BetaCycle.Controllers
 
         #region HttpGet
 
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns>ActionResult, List<User></returns>
         [Authorize(Policy = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -45,6 +51,10 @@ namespace BetaCycle.Controllers
             }
         }
 
+        /// <summary>
+        /// Get user infos when needed
+        /// </summary>
+        /// <returns>ActionResult, User</returns>
         [Authorize]
         [HttpGet("[action]")]
         public async Task<ActionResult<User>> GetUser()
@@ -70,18 +80,21 @@ namespace BetaCycle.Controllers
 
         #endregion
 
+        #region HttpPut
 
-        #region HttpPost
-
-
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        /// <summary>
+        /// Used by users to edit their infos
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>ActionResult</returns>
+        [Authorize]
+        [HttpPut("[action]")]
+        public async Task<IActionResult> PutUser(User user)
         {
             try
             {
-                _context.Users.Add(user);
+                _context.Entry(user).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
-                return CreatedAtAction("GetUser", new { id = user.UserId }, user);
             }
             catch (Exception e)
             {
@@ -90,85 +103,57 @@ namespace BetaCycle.Controllers
                     new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
                     new ("Exception", e),
                 }).Log();
-                return BadRequest("Unexpected error has been encountered");
+                return BadRequest("Unexpected error has occurred.");
             }
+            return Ok();
         }
-
 
         #endregion
 
+        #region HttpDelete
+
+        /// <summary>
+        /// Used by users to delete their account and all datas linked to them
+        /// </summary>
+        /// <returns>IActionResult</returns>
+        /// <exception cref="DbUpdateException"></exception>
         [Authorize]
-        [HttpPut("[action]/{id}")]
-        public async Task<IActionResult> PutAddress(Address address)
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> DeleteUser()
         {
-
-            if (await _context.Addresses.FindAsync(address.AddressId) == null)
-            {
-                return NotFound();
-            }
-
-            _context.Entry(address).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException e)
-            {
-                _logger.ForErrorEvent().Message(e.Message).Property("userId", 1).Log();
-            }
+                var a = Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var sqlP1 = new SqlParameter("@userId", a);
+                var sqlPOut = new SqlParameter
+                {
+                    ParameterName = "@result",
+                    SqlDbType = SqlDbType.Int,
+                    Direction = ParameterDirection.Output
+                };
 
-            return NoContent();
+                await _context.Database.ExecuteSqlRawAsync(@$"
+                    Exec [Betacycle].[dbo].[DeleteUser] @userId, @rowsAffected=@result OUTPUT",
+                    sqlP1, sqlPOut
+                );
+
+                if ((int)sqlPOut.Value < 2)
+                    throw new DbUpdateException();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has occurred.");
+            }
         }
 
+        #endregion
 
-        // PUT: api/Users/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [Authorize]
-        [HttpPut("[action]")]
-        public async Task<IActionResult> PutUser(User user)
-        {
-            
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                
-            }
-
-            return NoContent();
-        }
-
-
-        
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(long id)
-        {
-            var user = await _context.Users.FindAsync(id);
-
-            //var cred = await _betaSecurityContext.Credentials.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            
-            //_betaSecurityContext.Credentials.Remove(cred);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool UserExists(long id)
-        {
-            return _context.Users.Any(e => e.UserId == id);
-        }
     }
 }

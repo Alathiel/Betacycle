@@ -83,7 +83,6 @@ namespace BetaCycle.Controllers
             {
                 KeyValuePair<string, string> temp = EncryptionData.EncryptionData.SaltEncrypt(user.cred.Password);
 
-                
                 var sqlP1 = new SqlParameter("@FirstName", user.user.FirstName);
                 var sqlP2 = new SqlParameter("@LastName", user.user.LastName);
                 var sqlP3 = new SqlParameter("@Birthdate", user.user.BirthDate);

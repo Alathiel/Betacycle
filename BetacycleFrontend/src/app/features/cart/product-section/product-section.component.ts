@@ -49,10 +49,8 @@ export class ProductSectionComponent{
         }
       })
     }
-    else{
+    else
       this.confirmDialog('0ms', '0ms')
-        
-    }
   }
 
   MoreQuantity(){
@@ -70,7 +68,6 @@ export class ProductSectionComponent{
     this.http.PutCart(this.product).subscribe({
       next: (resp:any) =>{
         this.reloadPriceEvent.emit("+");
-
       }
     })
   }
