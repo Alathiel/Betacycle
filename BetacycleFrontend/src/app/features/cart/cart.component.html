@@ -6,7 +6,7 @@
                 <hr />
                 <ng-container *ngFor="let product of cart">
                     <app-product-section [product]="product"
-                        (reloadPriceEvent)="ReloadTotalPrice($event)"></app-product-section>
+                        (reloadPriceEvent)="ReloadTotalPrice()"></app-product-section>
                     <hr />
                 </ng-container>
                 <div class="button-wrapper">

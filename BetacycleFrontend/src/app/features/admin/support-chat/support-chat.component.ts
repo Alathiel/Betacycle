@@ -11,8 +11,14 @@ import { HttprequestservicesService } from '../../../shared/services/httprequest
   templateUrl: './support-chat.component.html',
   styleUrl: './support-chat.component.css'
 })
+/**SignalR Chat support Functions */
 export class SupportChatComponent {
   constructor(private signalRService: SupportChatSignalRService, private http:HttprequestservicesService) {}
+  /**
+   * @param receivedMessage Array of message received
+   * @param writeMessage Message sent
+   * @param connections COnnection of users
+   */
   receivedMessage:any[] = [];
   writeMessage: string = ''
   connections:any[] = [] 

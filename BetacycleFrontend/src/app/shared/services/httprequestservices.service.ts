@@ -244,7 +244,7 @@ export class HttprequestservicesService {
   }
 
   /** Delete method for delete a product from db ONLY ADMIN ACCESSABLE */
-  DeleteProduct(id: string): Observable<any> {
+  DeleteProduct(id: number): Observable<any> {
     var params = new HttpParams().append('id', id);
     return this.http.delete(
       'https://localhost:7044/api/Products/DeleteProduct',

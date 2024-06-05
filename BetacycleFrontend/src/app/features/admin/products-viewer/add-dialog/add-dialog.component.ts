@@ -23,6 +23,8 @@ import { HttprequestservicesService } from '../../../../shared/services/httprequ
   standalone: true,
   imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, FormsModule, CommonModule, FontAwesomeModule],
 })
+
+/**Window access to add a new product on db */
 export class AddDialog{
   uploadIcon = faUpload
   selectedModel = 0

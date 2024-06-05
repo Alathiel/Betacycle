@@ -11,6 +11,7 @@ import { AuthServiceService } from '../../shared/services/auth-service.service';
   templateUrl: './confirm-order.component.html',
   styleUrl: './confirm-order.component.css'
 })
+/**Confirm the order */
 export class ConfirmOrderComponent {
   constructor(private http:HttprequestservicesService, router:Router, token: AuthServiceService){
     if(!token.getLoginStatus() || !token.checkUser())
@@ -21,6 +22,7 @@ export class ConfirmOrderComponent {
   cart:any;
   orderCompleted = false;
 
+  /**Showing the actual cart of the user */
   ngOnInit()
   {
     this.http.GetCart().subscribe({

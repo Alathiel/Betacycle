@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 SQL/AdventureWorks.bak
 Backend/SQL/AdventureWorks.bak
+Backend/BetaCycle/appsettings.json

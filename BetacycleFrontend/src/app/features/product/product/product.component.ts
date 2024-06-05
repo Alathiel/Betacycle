@@ -18,11 +18,8 @@ import { FooterComponent } from '../../footer/footer/footer.component';
   styleUrl: './product.component.css'
 })
 export class ProductComponent {
+  
   showOriginalCards:boolean=true
-  products:any
-  page=1
-  totalProducts=0
-  loadedProducts=0
   constructor(private http: HttprequestservicesService, private router: Router, public dialog: MatDialog, private toast: ToastService,private sanitizer: DomSanitizer){
 
     

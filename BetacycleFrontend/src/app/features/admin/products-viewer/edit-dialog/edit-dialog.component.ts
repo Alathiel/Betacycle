@@ -20,6 +20,7 @@ import { HttprequestservicesService } from '../../../../shared/services/httprequ
   standalone: true,
   imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, FormsModule],
 })
+/**Window for delete product */
 export class EditDialog{
   editResult: boolean = false;
   productDatas: any;
@@ -27,6 +28,7 @@ export class EditDialog{
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http:HttprequestservicesService,) {
     this.productDatas = data;
   }
+  /** Show all details of the product to modify*/
   getBase64(event:any) {
     let me = this;
     let file = event.target.files[0];
