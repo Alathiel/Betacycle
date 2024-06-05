@@ -296,7 +296,7 @@ namespace BetaCycle.Controllers
         /// <param name="id"></param>
         /// <returns>IActionResult</returns>
         [Authorize(Policy = "Admin")]
-        [HttpDelete("{id}")]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteProduct(long id)
         {
             try
