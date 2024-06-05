@@ -124,8 +124,6 @@ export class HttprequestservicesService {
   }
   /** Update method for address*/
   PutHttpAddress(address: any): Observable<any> {
-
-    console.log(address)
     return this.http.put(
       `https://localhost:7044/api/Addresses/PutAddress`,
       address

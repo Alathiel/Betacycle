@@ -2,11 +2,9 @@ import { Routes } from '@angular/router';
 
 import { HomeComponent } from './features/home/home.component';
 import { NavbarComponent } from './core/navbar/navbar.component';
-// import { LoginComponent } from './core/login/login.component';
 import { RegistrationComponent } from './core/registration/registration.component';
 import { UpdatepswComponent } from './core/updatepsw/updatepsw.component';
 import { UsersettingsComponent } from './features/usersettings/usersettings.component';
-import { UpdateaddressComponent } from './features/usersettings/address/updateaddress/updateaddress.component';
 import { RestoreComponent } from './core/restorepassword/restore/restore.component';
 import { AdminLoginComponent } from './features/admin/admin-login/admin-login.component';
 import { AdminMenuComponent } from './features/admin/admin-menu/admin-menu.component';
@@ -32,7 +30,6 @@ export const routes: Routes = [
     {path:'restore',component:RestoreComponent},
     {path:'updatepsw',component:UpdatepswComponent},
     {path:'usersetting',component:UsersettingsComponent},
-    {path: 'updateaddress',component:UpdateaddressComponent},
     {path:'product',component:ProductComponent},
     {path: 'admin-login', component:AdminLoginComponent},
     {path: 'admin-menu', component:AdminMenuComponent},
