@@ -23,7 +23,7 @@
         <li *ngIf="!isLogged"><a routerLink="/login"><i class="bi bi-person-fill"></i> Login</a>
         <li *ngIf="isLogged" class="nav-item dropdown">
           <div class="dropdown">
-            <a class="dropbtn">{{user.firstName}} {{user.lastName}}</a>
+            <a class="dropbtn"> Ciao {{user.firstName}} {{user.lastName}}</a>
             <div class="dropdown-content">
               <a style="cursor: pointer;" (click)="GoToUserSettings()"><i class="bi bi-gear-fill"></i> Impostazioni</a>
               <a routerLink="/cart"><i class="bi bi-cart-fill"></i> Carrello</a>

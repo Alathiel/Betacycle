@@ -24,12 +24,18 @@ import { HttprequestservicesService } from '../../../../shared/services/httprequ
   imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, FormsModule, CommonModule, FontAwesomeModule],
 })
 
-/**Window access to add a new product on db */
+/**Window access to add a new product on db 
+ * @param uploadIcon Generic icon to upload image
+ * @param selectedModel Model choose by admin for the product
+ * @param selectedCategory Category chose by admin for the product
+ * @param productDatas Information of all product to insert
+ * @param categories All categories to show
+ * @param models All models to show
+*/
 export class AddDialog{
   uploadIcon = faUpload
   selectedModel = 0
   selectedCategory = 0
-  editResult: boolean = false;
   productDatas: any = {
     productName: '',
     color: '',
@@ -54,11 +60,13 @@ export class AddDialog{
   categories: any;
   models: any
   
+  /**Loading categories and model from db */
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http:HttprequestservicesService) {
     http.getCategories().subscribe((response) => this.categories = response.$values)
     http.GetModel().subscribe((response) => this.models = response.$values);
   }
 
+  /**Check if data ara valid */
   validate(name: NgModel, price: NgModel, color: NgModel, description: NgModel, productNumber: NgModel, weight: NgModel, model: NgModel, category: NgModel)
   {
     this.productDatas.actualPrice = price.value
@@ -69,6 +77,7 @@ export class AddDialog{
     return false;
   } 
 
+  /**Image function to insert */
   getBase64(event:any) {
     let me = this;
     let file = event.target.files[0];

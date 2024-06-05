@@ -17,6 +17,7 @@ import { FootServiceService } from '../../../shared/services/foot-service.servic
   templateUrl: './admin-login.component.html',
   styleUrl: './admin-login.component.css'
 })
+/**Exclusive logine page only if you are an admin */
 export class AdminLoginComponent {
   constructor(private AuthService: AuthServiceService, private router: Router, private toast: ToastService, navService: NavbarServiceService, footServ: FootServiceService){
     navService.hide();
@@ -27,8 +28,9 @@ export class AdminLoginComponent {
   
   credentials: Credentials = new Credentials()
   stayConnected: boolean = false
-  successfull: boolean = false;
 
+
+  /** Login operation, if it's correct you will be redirect on admin menu*/
   loginJwt(form:any){
     if(form.valid){
       this.AuthService.AdminLoginJWT(this.credentials).subscribe({

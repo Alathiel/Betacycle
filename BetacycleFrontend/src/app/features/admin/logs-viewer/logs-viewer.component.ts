@@ -17,6 +17,12 @@ import { NavbarServiceService } from '../../../shared/services/navbar-service.se
   templateUrl: './logs-viewer.component.html',
   styleUrl: './logs-viewer.component.css'
 })
+
+/**All logs function 
+ * @param logs Logs 
+ * @param 
+ */
+
 export class LogsViewerComponent {
   logs: any;
   selectedValue = "all"

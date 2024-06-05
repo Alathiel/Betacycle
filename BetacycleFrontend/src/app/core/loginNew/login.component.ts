@@ -15,6 +15,7 @@ import { Credentials } from '../../shared/models/credential';
     styleUrl: './login.component.css',
     imports: [CommonModule, RouterModule, LoginFormComponent, RegisterFormComponent, PasswordExpiredFormComponent]
 })
+/**Login switch from login form to register form */
 export class LoginComponent {
   status:string = "login"
   oldCredentials: Credentials = new Credentials()

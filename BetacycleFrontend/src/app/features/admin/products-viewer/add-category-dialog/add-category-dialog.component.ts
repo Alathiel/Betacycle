@@ -21,6 +21,12 @@ import { HttprequestservicesService } from '../../../../shared/services/httprequ
   templateUrl: './add-category-dialog.component.html',
   styleUrl: './add-category-dialog.component.css'
 })
+
+/**Access window to add a new category
+ * @param categoriesall All categories avaible on db
+ * @param category New category to add
+ */
+
 export class AddCategoryDialogComponent {
   categories: any = [];
   category: any = {
@@ -33,6 +39,7 @@ export class AddCategoryDialogComponent {
     
   }
 
+  /**Check if the new category is valid */
   validate(category: NgModel)
   {
     var check = false

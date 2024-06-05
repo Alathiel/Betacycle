@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './updatepsw.component.html',
   styleUrl: './updatepsw.component.css'
 })
+
 export class UpdatepswComponent {
   token:any
   credentials:Credentials=new Credentials

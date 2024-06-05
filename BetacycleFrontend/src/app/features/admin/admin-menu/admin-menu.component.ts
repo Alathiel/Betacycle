@@ -10,6 +10,10 @@ import { FootServiceService } from '../../../shared/services/foot-service.servic
   templateUrl: './admin-menu.component.html',
   styleUrl: './admin-menu.component.css'
 })
+
+/** Menu of all admin function avaible
+ * You can enter only if you are an ADMIN
+*/
 export class AdminMenuComponent {
   constructor(private token: AuthServiceService, private router: Router, navService: NavbarServiceService, footServ:FootServiceService){
     footServ.hide();
