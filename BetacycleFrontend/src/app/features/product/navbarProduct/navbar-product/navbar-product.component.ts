@@ -14,25 +14,27 @@ import { HttprequestservicesService } from '../../../../shared/services/httprequ
   templateUrl: './navbar-product.component.html',
   styleUrl: './navbar-product.component.css'
 })
+
+/** Navbar for the product research */
 export class NavbarProductComponent {
 
-
-
+  
   constructor(public service:ProductserviceService,private http:HttprequestservicesService)
   {
     this.service.GetCategories()
   }
-
+  /**Set if you want to research for lower or greater price */
   SetPriceOperand(op: HTMLElement)
   {
     this.service.operand = op.id;
   }
 
-
+  /**Reset the field for research */
   Azzera()
   {
     this.service.byname=''
     this.service.bycolor=''
     this.service.byprice=0
+    this.service.getAllDatas()
   }
 }

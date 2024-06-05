@@ -1,7 +1,5 @@
 import {Component, Inject} from '@angular/core';
 import {
-  MatDialog,
-  MatDialogRef,
   MatDialogActions,
   MatDialogClose,
   MatDialogTitle,
@@ -9,7 +7,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import { FormControl, FormGroup, FormsModule, NgModel, Validators } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttprequestservicesService } from '../../../../shared/services/httprequestservices.service';
 
@@ -20,6 +18,7 @@ import { HttprequestservicesService } from '../../../../shared/services/httprequ
   templateUrl: './add-model-dialog.component.html',
   styleUrl: './add-model-dialog.component.css'
 })
+/**Window with model form to add a new model */
 export class AddModelDialogComponent {
   models: any
   model:any = {
@@ -31,6 +30,7 @@ export class AddModelDialogComponent {
   http.GetModel().subscribe((response) => this.models = response.$values);
   }
 
+  /**Validating name model */
   validate(modelName: NgModel)
   {
     var check = false

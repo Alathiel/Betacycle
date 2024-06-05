@@ -23,21 +23,7 @@ import { CaroselloComponent } from '../../carosello/carosello/carosello.componen
 export class ProductCardComponent {
 
   showOriginalCards: boolean = true;
-  getname: string = '';
-  getprice: number = 0;
-  getcolor: string = '';
-  getoperand: string = '';
-  products: any;
-  selectedValue = "productName";
-  selectedColor = "color";
-  selectedPrice = "price";
-  selectedOperand = "operand";
-  search = "";
-  totalProducts = 0;
-  page = 1;
-  loadedProducts = 0;
-  
-
+    
   constructor(private http: HttprequestservicesService, private router: Router,
      public dialog: MatDialog, private toast: ToastService, private sanitizer: DomSanitizer, public service:ProductserviceService) 
   {
@@ -57,19 +43,21 @@ export class ProductCardComponent {
       return true
     return false;
   }
-
+  
   convert(buffer: any) {
     if (buffer != null)
       return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + buffer);
     return ''
   }
 
+  /**
+   * GO to the page of the specific product you click
+   * @param id Id product to get all details
+   */
   GoToDetailsPage(id: number) {
-    //sessionStorage.setItem('tmpprodid', id.toString());
-    //this.service.GetDetails(id);
     this.router.navigate(['productDetails'],{queryParams:{id:id}});
   }
-
+  /** Color of the text in base at color model */
   ColorText(colore:string)
   {
     return 'color:'+colore

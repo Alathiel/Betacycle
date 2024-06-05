@@ -27,9 +27,18 @@ import { FootServiceService } from '../../../shared/services/foot-service.servic
   templateUrl: './products-viewer.component.html',
   styleUrl: './products-viewer.component.css'
 })
+/**Admin managment of the product */
 export class ProductsViewerComponent {
+  /**
+   * @param products List with all the products get from db
+   * @param selectedValue Filter used for name
+   * @param search Search value 
+   * @param totalProducts Total of products returned form the get calls
+   * @param page Need to show products in sequence
+   * @param loadedProducts Number of products
+   * @param byname Input from the user to research by name
+   */
   products: any;
-  keys: any[] = [];
   selectedValue = "all"
   search = ""
   totalProducts = 0
@@ -39,8 +48,11 @@ export class ProductsViewerComponent {
   deleteIcon = faTrash
   addIcon = faAdd
   editIcon = faPenToSquare
-  image:any
+
   constructor(private http: HttprequestservicesService, private router: Router, public dialog: MatDialog, private toast: ToastService,private sanitizer: DomSanitizer, token:AuthServiceService, navService:NavbarServiceService, footServ: FootServiceService){
+    /**Access only if you are an admin
+     * Hide the normal navigation bar and footer
+     */
     navService.hide();
     footServ.hide();
     if(!token.getLoginStatus() || !token.checkAdmin())
@@ -48,19 +60,25 @@ export class ProductsViewerComponent {
     this.getAllDatas()
   }
 
+  /**Function for convert and show images */
   checkValue(l:any): boolean{
     if((typeof l.value === 'object' && !Array.isArray(l.value)) && (l.value === null || l.value !== null))
       return true
     return false;
   }
+  convert(buffer:any) {
+    if(buffer!=null)
+      return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,'+buffer);
+    return ''
+  }
 
-
+  /**Redirect function  */
   redirect(route: string){
     this.toast.dismissToast()
     this.router.navigate([route])
   }
 
-
+  /**Loading all product in db */
   getAllDatas(){
     this.http.GetProducts(this.page).subscribe({
       next: (jsData:any) => {
@@ -75,6 +93,7 @@ export class ProductsViewerComponent {
     })
   }
 
+  /**Previous and next page */
   prev(){
     if(this.page > 1)
     {
@@ -91,6 +110,7 @@ export class ProductsViewerComponent {
     }
   }
 
+  /**Filter research */
   filter(temp:string = "aa"){
     if(temp === "bb")
       this.page = 1
@@ -115,6 +135,7 @@ export class ProductsViewerComponent {
       this.getAllDatas()
   }
 
+  /**Function access window of edit product */
   editDialog(enterAnimationDuration: string, exitAnimationDuration: string, product:any): void {
     const dialogRef = this.dialog.open(EditDialog, {
       enterAnimationDuration,
@@ -132,6 +153,7 @@ export class ProductsViewerComponent {
     })
   }
 
+  /**Function access window of delete product */
   deleteDialog(enterAnimationDuration: string, exitAnimationDuration: string, product:any): void {
     const dialogRef = this.dialog.open(DeleteDialog, {
       enterAnimationDuration,
@@ -148,6 +170,7 @@ export class ProductsViewerComponent {
     })
   }
 
+  /**Function access window of edit product of add product */
   AddDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(AddDialog, {
       enterAnimationDuration,
@@ -164,6 +187,7 @@ export class ProductsViewerComponent {
     })
   }
 
+  /**Function access window of edit product of add category */
   AddCategoryDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(AddCategoryDialogComponent, {
       enterAnimationDuration,
@@ -180,6 +204,7 @@ export class ProductsViewerComponent {
     })
   }
 
+  /**Function access window of edit product of add model */
   AddModelDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(AddModelDialogComponent, {
       enterAnimationDuration,
@@ -195,7 +220,7 @@ export class ProductsViewerComponent {
       }
     })
   }
-
+  /**Add model on db */
   addModel(model:any){
     this.http.AddModel(model).subscribe({
       next: (response:any) => {
@@ -208,6 +233,7 @@ export class ProductsViewerComponent {
     })
   }
 
+  /**Add category on db */
   addCategory(category:any){
     this.http.AddCategory(category).subscribe({
       next: (response:any) => {
@@ -220,6 +246,7 @@ export class ProductsViewerComponent {
     })
   }
 
+  /**Modify product on db */
   editProduct(result:any){
     result.productDatas.category = {categoryId:0,name:''}
     result.productDatas.model = {modelId:0,name:''}
@@ -234,6 +261,7 @@ export class ProductsViewerComponent {
     })
   }
 
+  /**Delete product on db */
   deleteProduct(product:any){
     this.http.DeleteProduct(product.productId).subscribe({
       next: (response:any) => {
@@ -247,6 +275,7 @@ export class ProductsViewerComponent {
     })
   }
 
+  /**Add product on db */
   addProduct(product:any){
     this.http.AddProduct(product).subscribe({
       next: (response:any) => {
@@ -258,11 +287,7 @@ export class ProductsViewerComponent {
       } 
     })
   }
-convert(buffer:any) {
-  if(buffer!=null)
-    return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,'+buffer);
-  return ''
-}
+
 
 
 }

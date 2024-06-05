@@ -18,7 +18,10 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, FormsModule],
 })
+/**Just the window to confirm if you are sure to delete product or no */
 export class DeleteDialog {
+  productDatas: any;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
   }
+
 }
