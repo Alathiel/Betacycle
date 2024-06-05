@@ -202,6 +202,7 @@ namespace BetaCycle.Controllers
                 var product = await _context.Products
                     .Include(p => p.Model)
                     .Include(p => p.Category)
+                    .Where(p => p.ProductId == id)
                     .FirstAsync();
                 if (product == null)
                     return NotFound();
