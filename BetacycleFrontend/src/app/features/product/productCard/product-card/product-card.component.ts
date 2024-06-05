@@ -27,9 +27,8 @@ export class ProductCardComponent {
   constructor(private http: HttprequestservicesService, private router: Router,
      public dialog: MatDialog, private toast: ToastService, private sanitizer: DomSanitizer, public service:ProductserviceService) 
   {
-    if(this.service.byname != '')
+    if(this.service.byname != '' || this.service.bycolor != '' || this.service.byprice != 0)
       {
-        this.service.page = 1;
         this.service.filter();
       }
     else 
