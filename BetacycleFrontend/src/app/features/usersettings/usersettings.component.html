@@ -31,6 +31,15 @@
 
       </ng-template>
     </ng-container>
+
+    <ng-container ngbNavItem="deleteuser">
+      <button ngbNavLink>Cancella Account</button>
+      <ng-template ngbNavContent>
+        
+        <app-user-delete></app-user-delete>
+
+      </ng-template>
+    </ng-container>
   </div>
   <div [ngbNavOutlet]="nav" class="ms-4"></div>
 </div>

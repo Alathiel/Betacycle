@@ -104,7 +104,6 @@ export class ProductserviceService {
     this.http.GetHttpDeal().subscribe({
       next: (jsData: any) => {
         this.carosel = jsData.$values;
-        console.log(this.carosel);
       },
       error: (error: any) => {
         console.log(error);
@@ -162,6 +161,7 @@ export class ProductserviceService {
     .subscribe({
       next: (data:any) => {
         this.product = data;
+        console.log(data);
         this.http.GetModelByID(this.product.modelId)
         .subscribe
         ({

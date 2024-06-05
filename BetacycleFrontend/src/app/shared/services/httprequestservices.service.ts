@@ -31,7 +31,15 @@ export class HttprequestservicesService {
     return this.http.delete(`https://localhost:7044/api/Users/${id}`);
   }
 
- 
+ /* Delete User and all their data */
+ DeleteUser():Observable<any> {
+  return this.http.delete(`https://localhost:7044/api/Users/DeleteUser`);
+ }
+
+ /* Confirm Credentials */
+ ConfirmCredentials(cred: Credentials){
+  return this.http.post(`https://localhost:7044/Confirm`, cred);
+ }
 
   /**
    * Update password 

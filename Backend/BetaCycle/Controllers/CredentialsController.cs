@@ -21,6 +21,37 @@ namespace BetaCycle.Controllers
             _context = context;
         }
 
+        #region HttpPost
+        [Authorize]
+        [HttpPost("/Confirm")]
+        public IActionResult ConfirmCredentials(Credential credentials)
+        {
+            var cred = _context.Credentials.Where(e => e.Email == credentials.Email && e.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier))).ToList();
+            try
+            {
+                if (cred.Count > 0)
+                {
+                    var pw = EncryptionData.EncryptionData.SaltDecrypt(credentials.Password, cred[0].PasswordSalt);
+                    if (pw == cred[0].Password)
+                    {
+                        return Ok();
+                    }
+                    return BadRequest("Wrong Password");
+                }
+                return BadRequest("Email not found");
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+        }
+        #endregion
+
         #region HttpPut
 
         /// <summary>

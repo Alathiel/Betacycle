@@ -44,7 +44,7 @@ export class LoginFormComponent {
           if(error.status == 401)
               this.PasswordExpired.emit({status:'expired', credentials:this.credentials});
           else
-            this.toast.showToast(TOAST_STATE.error, error)
+            this.toast.showToast(TOAST_STATE.error, error.message)
         }
       })
     }

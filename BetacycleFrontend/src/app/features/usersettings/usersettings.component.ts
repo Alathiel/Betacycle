@@ -9,11 +9,12 @@ import { UseraddressComponent } from './useraddress/useraddress.component';
 import { UserpaymentsComponent } from './userpayments/userpayments.component';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../../shared/services/auth-service.service';
+import { UserDeleteComponent } from './user-delete/user-delete.component';
 
 @Component({
   selector: 'app-usersettings',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgTemplateOutlet,NgbNavModule,ReactiveFormsModule,UseraddressComponent,UserpaymentsComponent,UserInfoComponent, UserCredentialsComponent],
+  imports: [CommonModule, FormsModule, NgTemplateOutlet,NgbNavModule,ReactiveFormsModule,UseraddressComponent,UserpaymentsComponent,UserInfoComponent, UserCredentialsComponent,UserDeleteComponent],
   templateUrl: './usersettings.component.html',
   styleUrl: './usersettings.component.css'
 })
