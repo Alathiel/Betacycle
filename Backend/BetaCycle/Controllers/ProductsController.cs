@@ -195,6 +195,31 @@ namespace BetaCycle.Controllers
         }
 
         [HttpGet("[action]")]
+        public async Task<ActionResult<Product>> GetProductDetails(long id)
+        {
+            try
+            {
+                var product = await _context.Products
+                    .Include(p => p.Model)
+                    .Include(p => p.Category)
+                    .FirstAsync();
+                if (product == null)
+                    return NotFound();
+
+                return product;
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<ViewDeal>>> GetDeals()
         {
             try

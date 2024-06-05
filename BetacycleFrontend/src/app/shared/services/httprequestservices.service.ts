@@ -341,6 +341,14 @@ export class HttprequestservicesService {
     return this.http.get(`https://localhost:7044/api/Products/GetProduct`,{params:params})
   }
 
+  /* Get method that returns a single products with all its details by id */
+  GetProductDetails(id:number):Observable<any>
+  {
+    var params = new HttpParams()
+      .append('id', id)
+    return this.http.get(`https://localhost:7044/api/Products/GetProductDetails`,{params:params})
+  }
+
   /** Get method that return the single model searched by id ADMIN ACCESSABLE*/
   GetModelByID(id:number):Observable<any>
   {

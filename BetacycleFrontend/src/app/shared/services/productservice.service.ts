@@ -157,31 +157,11 @@ export class ProductserviceService {
   /**Show the details of the single product */
   GetDetails(id: number)
   {
-    this.http.GetProductByID(id)
+    this.http.GetProductDetails(id)
     .subscribe({
       next: (data:any) => {
         this.product = data;
         console.log(data);
-        this.http.GetModelByID(this.product.modelId)
-        .subscribe
-        ({
-          next: (modeldata: any) => {
-            this.model = modeldata;
-          },
-          error: (err:any) => {
-            console.log(err.message);
-          }
-        })
-        this.http.GetCategoryByID(this.product.categoryId)
-        .subscribe
-        ({
-          next: (categorydata: any) => {
-            this.category = categorydata;
-          },
-          error: (err:any) => {
-            console.log(err.message);
-          }
-        })
       },
       error: (error:any) => {
         console.log(error);
