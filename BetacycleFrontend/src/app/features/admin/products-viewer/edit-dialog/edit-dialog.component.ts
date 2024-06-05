@@ -22,7 +22,7 @@ import { HttprequestservicesService } from '../../../../shared/services/httprequ
 })
 /**Window for delete product */
 export class EditDialog{
-  editResult: boolean = false;
+
   productDatas: any;
   
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http:HttprequestservicesService,) {

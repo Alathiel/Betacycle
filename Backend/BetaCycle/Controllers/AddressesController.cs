@@ -108,10 +108,7 @@ namespace BetaCycle.Controllers
         {
             try
             {
-                if (await _context.Addresses.FindAsync(address.AddressId) == null)
-                {
-                    return NotFound();
-                }
+                address.User = await _context.Users.FindAsync(address.UserId);
                 _context.Entry(address).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }

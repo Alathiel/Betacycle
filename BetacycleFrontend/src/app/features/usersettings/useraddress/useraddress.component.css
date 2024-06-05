@@ -6,6 +6,22 @@
     margin-top: 20px;
 }
 
+.add-button{
+    display: flex; 
+    flex-direction: row; 
+    width: 200px; 
+    border-radius: 15px; 
+    border: 1px solid #4c7a91; 
+    justify-content: center; 
+    height: 50px; 
+    align-items: center; 
+    background-color: #51829B; 
+    color: white;
+}
+
+.add-button:hover{
+    background-color: #40677a; 
+}
 
 
 .card {

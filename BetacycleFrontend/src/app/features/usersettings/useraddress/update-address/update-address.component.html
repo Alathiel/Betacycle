@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Aggiungi nuovo indirizzo</h2>
+<mat-dialog-content>
+    <div>
+        <form #postAddress="ngForm">
+            <div style="padding: 10px;" class="input-container">
+                <label for="Indirizzo">Indirizzo </label>
+                <input type="text" class="form-control" placeholder="Via/Viale/Corso ecc..." matInput
+                    #address1="ngModel" ngModel [(ngModel)]="updateAddress.address1" name="address1" required
+                    minlength="1" />
+            </div>
+
+            <div style="padding: 10px;" class="input-container">
+                <label for="Citta">Città</label>
+                <input type="text" class="form-control" placeholder="Città" matInput #city="ngModel"
+                    [(ngModel)]="updateAddress.city" name="city" required minlength="3" pattern="[a-zA-Z]*" />
+            </div>
+            <div style="padding: 10px;" class="input-container">
+                <label for="Provincia">Provincia</label>
+                <input type="text" class="form-control" placeholder="Città" matInput #province="ngModel"
+                    [(ngModel)]="updateAddress.province" name="province" required minlength="2" maxlength="2"
+                    pattern="[A-Z]*" />
+            </div>
+            <div style="padding: 10px;" class="input-container">
+                <label for="Cap">CAP</label>
+                <input type="text" class="form-control" placeholder="Città" matInput #cap="ngModel"
+                    [(ngModel)]="updateAddress.cap" name="cap" required minlength="3" maxlength="5" pattern="[0-9]{5}" />
+            </div>
+            <div style="padding: 10px;" class="input-container">
+                <label for="Nazione">Nazione</label>
+                <input type="text" class="form-control" placeholder="Città" matInput #nation="ngModel"
+                    [(ngModel)]="updateAddress.nation" name="nation" required minlength="3" maxlength="15"
+                    pattern="[a-zA-Z]*" />
+            </div>
+        </form>
+    </div>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Annulla</button>
+        <button mat-button mat-dialog-close [disabled]="postAddress.invalid" 
+            [mat-dialog-close]="{state:true,updateAddress}" style="color:blue">Modifica</button>
+    </mat-dialog-actions>
+</mat-dialog-content>
