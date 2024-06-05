@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <form class="form-inline d-flex" #searchProduct="ngForm"  (submit)="service.FilterProduct()">
-        <button style="border: 0cap;" type="submit" class="navbar-brand"><i class="bi bi-search"></i> Ricerca</button>
+        <button class="buttonRicerca"> Ricerca</button>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -9,7 +9,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
             </ul>
-            <select >
+            <select title="select">
                 <option>Tutte le categorie</option>
                 <option *ngFor="let c of service.categoryNavbar" >{{c.name}}</option>
             </select>
@@ -38,10 +38,9 @@
                     type="text" class="form-control" placeholder="Inserisci nome del prodotto" aria-label="Name"
                         aria-describedby="search-name">
                 </div>
-                     <button type="button" class="btn btn-danger" (click)="Azzera()">Resetta</button>
+                     <button type="button" class="buttonReset" (click)="Azzera()">Resetta</button>
         </div>
         </form>
     </div>
 
 </nav>
-

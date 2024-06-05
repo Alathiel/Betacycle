@@ -21,7 +21,8 @@ export class UserDeleteComponent {
   
   credentials: Credentials = new Credentials();
   deleteButton: boolean = true;
-
+  
+  /* This method checks if the inserted credentials are valid */
   ConfirmLogin(ConfirmLogin: any)
   {
     if(ConfirmLogin.valid){
@@ -36,6 +37,7 @@ export class UserDeleteComponent {
     }
   }
 
+  /* This method deletes all the user data, meaning credentials, user info, payments, cart and addresses */
   DeleteAccountForever()
   {
     this.http.DeleteUser().subscribe({

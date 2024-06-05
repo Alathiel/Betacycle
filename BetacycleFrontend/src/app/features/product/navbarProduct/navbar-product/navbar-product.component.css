@@ -5,7 +5,50 @@
     margin-right: 1rem;
     margin-top: 10px;
 }
+.buttonRicerca {
+    margin-right: 1em;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Aggiungi una transizione per una transizione più fluida */
+}
 
+.buttonReset {
+    margin-left: 1em;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s; /* Aggiungi una transizione per una transizione più fluida */
+}
+.buttonRicerca:active {
+    transform: translateY(0.3em);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiungi un'ombra leggera al click */
+    background-color: white; /* Cambia il colore di sfondo al click */
+    color: black; /* Cambia il colore del testo al click */
+    font-weight: bold;
+}
+
+/* CSS per il button hover */
+.button:hover,
+.buttonReset:hover {
+    background-color: #333;
+    color: white; 
+}
+
+/* CSS per il button reset al click */
+.buttonReset:active {
+    transform: translateY(0.3em);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Aggiungi un'ombra leggera al click */
+    background-color: white; /* Cambia il colore di sfondo al click */
+    color: black; 
+    font-weight: bold;
+}
 .nav-brand{
 
     color: #ffff;
@@ -32,8 +75,7 @@
 }
 
 .input-group-text {
-    /*background-color: #495057;  Colore di sfondo del gruppo di input */
-    /*border-color: #495057;  Colore del bordo del gruppo di input */
+    
     color: #ffffff; /* Colore del testo */
 }
 
