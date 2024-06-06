@@ -3,7 +3,8 @@ import { User } from '../../../shared/models/user';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttprequestservicesService } from '../../../shared/services/httprequestservices.service';
-import { AuthServiceService } from '../../../shared/services/auth-service.service';
+import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-user-info',
@@ -17,7 +18,7 @@ export class UserInfoComponent {
 
   constructor(
     private http: HttprequestservicesService,
-    private auth: AuthServiceService
+    private toast:ToastService
   ) {
     this.http.GetUserInfo().subscribe({
       next: (data: any) => {
@@ -28,7 +29,10 @@ export class UserInfoComponent {
   /**Update user info */
   UpdateUser() {
     this.http.PutUserData(this.user).subscribe({
-      next: (data: any) => {       
+      next: (data: any) => {    
+        this.toast.showToast(TOAST_STATE.success,"Modifica effettuata con successo")
+        timer(5)
+        this.toast.dismissToast()
       },
     });
   }

@@ -138,7 +138,7 @@ export class HttprequestservicesService {
   /** Delete method of the single payment  */
   DeleteHttpPayment(idPayment: number): Observable<any> {
     var params = new HttpParams().append('idPayment', idPayment);
-    return this.http.delete(`https://localhost:7044/api/Payments/Payments`, {
+    return this.http.delete(`https://localhost:7044/api/Payments/DeletePayment`, {
       params: params,
     });
   }

@@ -1,0 +1,84 @@
+<h2 mat-dialog-title>Aggiungi nuovo metodo di Pagamento</h2>
+<mat-dialog-content>
+    <div>
+        <form #postPayment="ngForm">
+            <div style="padding: 10px;" class="input-container">
+                <label for="numberCard">Numero carta </label>
+                    <input type="text" class="form-control" placeholder="Numero Carta" matInput #numberCard="ngModel"
+                      [(ngModel)]="newPayment.numberCard" name="numberCard" required minlength="16" maxlength="16"
+                      pattern="^[0-9]{16}$">
+                    <ng-container *ngIf="numberCard.invalid && numberCard.dirty">
+                      <div *ngIf="numberCard.errors?.['required']" style="color: rgb(175, 5, 5);">
+                        Il campo Numero Carta è obbligatorio.
+                      </div>
+                      <div *ngIf="numberCard.errors?.['minlength']" style="color: rgb(175, 5, 5);">
+                        Il numero della carta deve essere di 16 cifre.
+                      </div>
+                      <div *ngIf="numberCard.errors?.['pattern']" style="color: rgb(175, 5, 5);">
+                        Il numero della carta deve contenere solo cifre.
+                      </div>
+                    </ng-container>
+
+            </div>
+
+            <div style="padding: 10px;" class="input-container">
+                <label for="expirationDate">Data di scadenza</label>
+                    <input type="text" class="form-control" placeholder="MM" matInput #expirationMonth="ngModel"
+                      name="expirationMonth" required min="1" max="12" style="float: left;" [ngModel]
+                      maxlength="2" minlength="2" pattern="[0-9]{2}"> -
+                    <input type="text" class="form-control" placeholder="AA" matInput #expirationYear="ngModel"
+                      name="expirationYear" required min="24" max="99" [ngModel] maxlength="2" minlength="2"
+                      pattern="[0-9]{2}">
+                    <ng-container *ngIf="((expirationMonth.invalid && expirationMonth.dirty) ||
+                     (expirationYear.invalid && expirationYear.dirty)) ||
+                      expirationMonth.errors?.['pattern'] || expirationYear.errors?.['pattern']">
+                      <div  *ngIf="expirationMonth.errors?.['minlength'] || expirationMonth.errors?.['required'] || 
+                      expirationYear.errors?.['minlength']" style="color: rgb(175, 5, 5);">
+                        Mese e anno devono essere a 2 cifre e contenere solo cifre.
+                      </div>
+                    </ng-container>
+            </div>
+            <div style="padding: 10px;" class="input-container">
+                <label for="cVV">CVV</label>
+                    <input type="text" class="form-control" placeholder="CVV" pattern="^[0-9]{3}$" matInput
+                           #cVV="ngModel" [(ngModel)]="newPayment.cVV" name="cVV" required minlength="3"
+                           maxlength="3">
+                    <ng-container *ngIf="cVV.invalid && (cVV.dirty)">
+                      <div *ngIf="cVV.errors?.['minlength'] || cVV.errors?.['maxlength'] || cVV.errors?.['required'] || cVV.errors?.['pattern']"
+                           style="color: rgb(175, 5, 5);">
+                        Il CVV deve essere di 3 numeri.
+                      </div>
+                    </ng-container>
+            </div>
+            <div style="padding: 10px;" class="input-container">
+                <label for="Cap">Nome Proprietario carta</label>
+                    <input type="text" class="form-control" placeholder="Nome Carta" matInput #nameCard="ngModel"
+                           [(ngModel)]="newPayment.nameCard" name="nameCard" required minlength="3" maxlength="20"
+                           pattern="[A-Za-z ]*">
+                    <ng-container *ngIf="(nameCard.invalid && nameCard.dirty)">
+                      <div *ngIf="nameCard.errors?.['minlength'] || nameCard.errors?.['maxlength'] || nameCard.errors?.['required'] || nameCard.errors?.['pattern']"
+                           style="color: rgb(175, 5, 5);">
+                        Il nome deve contenere solo lettere e avere una lunghezza minima di 3 e massima di 20 caratteri.
+                      </div>
+                    </ng-container>
+            </div>
+            <div style="padding: 10px;" class="input-container">
+                <label for="Cap">Cognome Proprietario carta</label>
+                    <input type="text" class="form-control" placeholder="Cognome Carta" matInput #surnameCard="ngModel"
+                           [(ngModel)]="newPayment.surnameCard" name="surnameCard" required minlength="3" maxlength="20"
+                           pattern="[A-Za-z ]*">
+                    <ng-container *ngIf="(surnameCard.invalid && surnameCard.dirty)">
+                      <div *ngIf="surnameCard.errors?.['minlength'] || surnameCard.errors?.['maxlength'] || surnameCard.errors?.['required'] || surnameCard.errors?.['pattern']"
+                           style="color: rgb(175, 5, 5);">
+                        Il cognome deve contenere solo lettere e avere una lunghezza minima di 3 e massima di 20 caratteri.
+                      </div>
+                    </ng-container>
+            </div>
+        </form>
+    </div>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Annulla</button>
+        <button mat-button mat-dialog-close [disabled]="postPayment.invalid" 
+            [mat-dialog-close]="{state:Check(expirationYear,expirationMonth),newPayment}" style="color:blue">Aggiungi</button>
+    </mat-dialog-actions>
+</mat-dialog-content>
