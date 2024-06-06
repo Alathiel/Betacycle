@@ -1,19 +1,91 @@
-.main-container{
+.main-container {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 100%;
-    margin-left: 3rem;
-    margin-top: 1rem
+    min-height: 100vh; /* Altezza minima pari all'altezza della viewport */
+
 }
 
-.content-container{
+.content-container {
     display: flex;
     flex-direction: column;
-    padding: 1%;
-    width: 90%;
-    height: 90%;
+    margin-top: 0.7em;
+    margin-left: 16em; 
+    width: 32.3em; 
+    background-color: rgb(255, 255, 255); /* Sfondo bianco per il form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Aggiungiamo un'ombra leggera */
+    border-radius: 8px; /* Aggiunge bordi arrotondati */
     justify-content: center;
     align-items: center;
-    column-gap: 10px;
+}
+
+.titleForm
+{
+
+    margin-bottom: 0.6em;
+    font-style: italic;     
+}
+
+
+.form-group {
+    width: 100%;
+    margin-bottom: 2em;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    display: block;
+    font-style: italic;
+    margin-top: 0.4em;
+    margin-right: 1em;
+}
+
+input {
+    width: 120%; /* Riduci leggermente la larghezza per evitare overflow */
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1em;
+    padding :0.8em;
+    margin-top: 0.5em;
+    transition: border-color 0.3s , box-shadow 0.3s;
+    text-align: center;
+}
+
+input:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+.col-md-12 {
+    width: 100%;
+    margin-top: 2em; /* Aumenta lo spazio sopra a 2em per una maggiore separazione */
+    text-align: center;
+}
+.button {
+    margin-top: 1.3em;
+    text-align: center;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.1s, box-shadow 0.1s;
+}
+
+.button:active {
+    transform: translateY(0.3em);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    background-color: white !important;
+    color: black !important;
+    font-weight: bold;
+}
+
+.button:hover {
+    background-color: #333;
+    color: white;
 }

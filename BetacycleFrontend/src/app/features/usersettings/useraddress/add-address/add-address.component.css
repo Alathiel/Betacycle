@@ -1,20 +1,78 @@
-.input-container {
-    position: relative;
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.7em;
+  margin-left: auto;
+  margin-right: auto;
+  width: 35em; /* Aumentiamo la larghezza della finestra di dialogo */
+  background-color: #fff;
+  box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.8);
+  border-radius: 0.6em; /* Impostiamo il border-radius per arrotondare i bordi dell'intera card */
+  padding: 1.6em;
+}
+
+.dialog-title
+{
+
+  margin-bottom: 0.8em;
+  text-align: center;
+  font-style: italic;
+
+}
+
+.dialog-content .input-container {
+  position: relative;
+  margin: 8px 0; /* Aggiungiamo un margine per separare gli input */
+}
+
+.dialog-content input {
+  outline: none;
+  border: 1px solid #e5e7eb;
+  background-color: #fff;
+  padding: 1rem;
+  padding-right: 3rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  width: calc(100% - 2 * 1rem); /* Calcoliamo la larghezza sottraendo il padding */
+  border-radius: 0.8rem; /* Aumentiamo il border radius per arrotondare i bordi */
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+
+.dialog-content .input-container label {
+  font-weight: bold;
+  font-style: italic;
+  color: black;
+}
+
+
+.dialog-content input {
+  margin-bottom: 16px; /* Aggiungiamo un margine inferiore per separare gli input */
+}
+
+.buttonRemove, .buttonAdd {
+  margin-top: 1.3em;
+  text-align: center;
+  background-color: black;
+  color: white!important; /* Aggiungi questa riga per impostare il colore del testo */
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, transform 0.1s, box-shadow 0.1s;
+}
+.buttonRemove:active, .buttonAdd:active {
+
+    transform: translateY(0.3em);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    background-color: white !important;
+    color: black !important; /* Impostiamo il colore del testo su nero quando il pulsante è attivo */
+    font-weight: bold;
   }
-  
-  .input-container input, .form button {
-    outline: none;
-    border: 1px solid #e5e7eb;
-    margin: 8px 0;
-  }
-  
-  .input-container input {
-    background-color: #fff;
-    padding: 1rem;
-    padding-right: 3rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    width: 300px;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  }
+
+
+.buttonRemove:hover, .buttonAdd:hover {
+  background-color: #333;
+  color: white;
+}

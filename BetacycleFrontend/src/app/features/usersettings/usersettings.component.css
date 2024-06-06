@@ -1,6 +1,7 @@
 body{
     background: #f5f5f5;
-    margin-top:20px;
+    margin-top:2em;
+    
 }
 
 .ui-w-80 {
@@ -99,13 +100,28 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 }
 
 
-.content-container{
+.content-container {
+ 
     display: flex;
     flex-direction: column;
-    padding: 1%;
-    width: 90%;
+    padding: 1em;
+    width: calc(100% - 2em); /* Utilizzo calc() per sottrarre 2em dalla larghezza */
     height: 90%;
     justify-content: center;
     align-items: center;
-    column-gap: 10px;
+    column-gap: 1em; /* Modifica la distanza tra le colonne */
+    background-color: #f0f0f0; /* Colore grigio chiaro */
+
 }
+
+.d-flex {
+    display: flex;
+    margin-top: 2em;
+}
+
+.nav-pills {
+    border-right: 1px solid #ccc; /* Aggiunge una linea verticale a destra */
+    padding-right: 0.5em; /* Modifica lo spazio tra la linea e i bottoni */
+    margin-right: 0.5em; /* Modifica lo spazio tra la linea e il contenuto del div */
+}
+
