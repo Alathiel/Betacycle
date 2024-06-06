@@ -55,7 +55,7 @@ export class ProductserviceService {
   cart: Cart = new Cart();
   categoryNavbar:any
   modelNavbar:any
-  
+  selectedCategory='category'
   quantity = {"quantity" : 1};
 
   constructor(private http:HttprequestservicesService, private toast: ToastService) {}
@@ -63,6 +63,7 @@ export class ProductserviceService {
   /**
      * Function for research a product with specific details, like name,color or price
   */
+ 
   FilterProduct()
   {
     if(this.byprice.toString() === '') this.byprice = 0;
@@ -200,4 +201,6 @@ export class ProductserviceService {
       }
     })
   }
+
+
 }

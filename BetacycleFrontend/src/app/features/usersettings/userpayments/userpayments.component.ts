@@ -27,7 +27,7 @@ export class UserpaymentsComponent {
   newPayment: PaymentPost = new PaymentPost()
   constructor(private http: HttprequestservicesService, private dialog: MatDialog, private toast: ToastService) {
     //Fill get payment with the payment methods of the user
-    this.http.GetHttpPaymentById().subscribe(
+    this.http.GetHttpPayments().subscribe(
       {
         next: (data: any) => {
           this.getPayment = data.$values
