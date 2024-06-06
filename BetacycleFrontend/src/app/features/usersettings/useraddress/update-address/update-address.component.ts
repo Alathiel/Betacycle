@@ -33,6 +33,5 @@ export class UpdateAddressComponent {
     this.updateAddress.user=new user()
     this.updateAddress.user.firstName=''
     this.updateAddress.user.lastName=''
-    console.log(this.updateAddress)
   }
 }

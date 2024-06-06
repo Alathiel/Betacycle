@@ -27,6 +27,13 @@ details[open] summary ~ * {
     transition: 0.3s;
 }
 
+details summary::-webkit-details-marker {
+    display: none;
+  }
+  details > summary:first-of-type {
+    list-style-type: none;
+  }
+
 summary{
     border-radius: 15px;
     /* background-color: #9BB0C1; */

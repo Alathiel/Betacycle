@@ -7,6 +7,7 @@ import { Address } from '../models/address';
 import { AddressPost } from '../models/address_post';
 import { PaymentPost } from '../models/payment_post';
 import { User } from '../models/user';
+import { Order } from '../models/order';
 
 @Injectable({
   providedIn: 'root',
@@ -132,9 +133,10 @@ export class HttprequestservicesService {
 
   //CRUD OPERATION FOR PAYMENTS
   /** Get method payment for the logged user */
-  GetHttpPaymentById(): Observable<any> {
+  GetHttpPayments(): Observable<any> {
     return this.http.get(`https://localhost:7044/api/Payments/`);
   }
+  
   /** Delete method of the single payment  */
   DeleteHttpPayment(idPayment: number): Observable<any> {
     var params = new HttpParams().append('idPayment', idPayment);
@@ -370,6 +372,16 @@ export class HttprequestservicesService {
   UpdatePassword(cred: Credentials):Observable<any>
   {
     return this.http.patch('https://localhost:7044/api/Credentials/PatchPassword',cred);
+  }
+
+  ConfirmOrder(order:Order[]):Observable<any>
+  {
+    return this.http.post('https://localhost:7044/api/Orders',order);
+  }
+
+  GetOrders():Observable<any>
+  {
+    return this.http.get('https://localhost:7044/api/Orders');
   }
   
 }
