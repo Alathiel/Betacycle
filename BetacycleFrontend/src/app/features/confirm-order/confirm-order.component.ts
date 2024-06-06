@@ -12,6 +12,7 @@ import { AddressPost } from '../../shared/models/address_post';
 import { AddAddressModalComponent } from './add-address-modal/add-address-modal.component';
 import { Order } from '../../shared/models/order';
 import { User } from '../../shared/models/user';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-confirm-order',
@@ -27,7 +28,8 @@ export class ConfirmOrderComponent {
     private router: Router,
     token: AuthServiceService,
     public dialog: MatDialog,
-    private toast: ToastService
+    private toast: ToastService,
+    private sanitizer: DomSanitizer
   ) {
     if (!token.getLoginStatus() || !token.checkUser())
       router.navigate(['login']);
@@ -193,5 +195,11 @@ export class ConfirmOrderComponent {
         }
       }
     });
+  }
+
+  convert(buffer: any) {
+    if (buffer != null)
+      return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + buffer);
+    return ''
   }
 }

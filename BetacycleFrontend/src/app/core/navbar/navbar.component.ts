@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet, RouterLink, Route } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { loginservice } from '../../shared/services/loginservice.service';
 import { AuthServiceService } from '../../shared/services/auth-service.service';
 import { User } from '../../shared/models/user';
 import { Credentials } from '../../shared/models/credential';
@@ -65,6 +64,7 @@ export class NavbarComponent {
 
   /**Go on the main page of the product */
   GoToSearch() {
-    this.route.navigate(['product']);
+    this.service.FilterProduct()
+    this.route.navigate(['products-search']);
   }
 }

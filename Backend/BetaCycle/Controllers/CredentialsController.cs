@@ -94,9 +94,8 @@ namespace BetaCycle.Controllers
                 var cred = await _context.Credentials.FirstAsync(c => c.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 if (cred == null)
                     return BadRequest();
-                credential.Password = cred.Password;
-                credential.PasswordSalt= cred.PasswordSalt;
-                _context.Entry(credential).State = EntityState.Modified;
+                cred.Email = credential.Email;
+                _context.Entry(cred).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)

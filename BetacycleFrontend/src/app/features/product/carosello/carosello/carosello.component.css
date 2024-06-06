@@ -14,23 +14,19 @@ h1{
   
   .p-First
   {
-    color:black;
+    color:white;
   }
   
   .h5-First 
   {
   
-    color: black;
-    font-family: 'Times New Roman', Times, serif;
-    font-style: italic;
+    color: white;
     font-weight: 900; 
   }
   
   
   .p-First
   {
-  font-family: 'Times New Roman', Times, serif;
-  font-style: italic;
   font-weight: 600;
   
   }

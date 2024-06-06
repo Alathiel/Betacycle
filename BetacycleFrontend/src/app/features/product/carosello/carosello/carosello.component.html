@@ -1,4 +1,4 @@
-<div id="carouselExampleIndicators" class="carousel carousel-dark galleria" style="width: 30%;" style="align-self: center;">
+<div id="carouselExampleIndicators" class="carousel carousel galleria" style="width: 30%;" style="align-self: center;">
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active bottone" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" class="bottone" aria-label="Slide 2"></button>
@@ -10,15 +10,19 @@
   <div class="carousel-inner">
     <div  class="carousel-item active">
       <div class="d-flex justify-content-center">
-      <img src="assets/offerte.png" width="30%" height="30%" class="d-block w-50" alt="1">
+      <img src="assets/offerte.png" width="40%" height="30%" class="d-block w-40" alt="1" style="border-radius: 20px;">
     </div>  
     </div>
-    <div *ngFor="let p of service.carosel" class="carousel-item" (click)="GoToDetailsPage(p.productId)">
+    <div *ngFor="let p of service.carosel" class="carousel-item" style="cursor: pointer;" (click)="GoToDetailsPage(p.productId)">
       <div class="d-flex justify-content-center">
-      <img [src]="convert(p.thumbnailPhoto)" width="30%" height="30%" alt="1">
+      <img [src]="convert(p.thumbnailPhoto)" width="30%" height="30%" alt="1" style="border-radius: 20px;">
       <div style="padding: 5%;">
         <h5 class ="h5-First">{{p.productName}}</h5>
+        <div style="display: flex; flex-direction: row;">
+        <p class="p-First" style="text-decoration:line-through; color: gray; padding-right: 20px;"> €{{p.insertPrice | number : '1.2-2'}}</p>
         <p class="p-First"> €{{p.actualPrice | number : '1.2-2'}}</p>
+      </div>
+        <p class="p-First"> Sconto del {{p.expr1 | number : '1.2-2'}}%</p>
       </div>
     </div>
     </div>

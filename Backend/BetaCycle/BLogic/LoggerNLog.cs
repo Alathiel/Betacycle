@@ -18,7 +18,6 @@ namespace BetaCycle.BLogic
             MongoTarget mongoDB = SetupMongo(opts);
 
             // Rules for mapping loggers to targets            
-            //config.AddRule(LogLevel.Error, LogLevel.Fatal, SetupMySql(connectionString));
             config.AddRule(LogLevel.Info, LogLevel.Fatal, logConsole);
             config.AddRule(LogLevel.Error, LogLevel.Fatal, mongoDB);
 
@@ -76,17 +75,6 @@ namespace BetaCycle.BLogic
                 }
             };
         }
-
-
-        /*public static void SetField()
-        {
-            mongoDB.Fields.Insert(0, new MongoField("Date", "${shortdate}", "String"));
-        }
-
-        public static void RemoveField(MongoTarget db)
-        {
-            db.Fields.RemoveAt(0);
-        }*/
 
         #endregion
 

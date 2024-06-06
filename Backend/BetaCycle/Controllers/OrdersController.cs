@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using Microsoft.EntityFrameworkCore.Internal;
+using NLog;
 
 namespace BetaCycle.Controllers
 {
@@ -18,6 +19,7 @@ namespace BetaCycle.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger(typeof(Logger));
         private readonly BetacycleContext _context;
 
         public OrdersController(BetacycleContext context)
@@ -98,10 +100,15 @@ namespace BetaCycle.Controllers
                 transaction.Commit();
                 
             }
-            catch (DbUpdateException)
+            catch (Exception e)
             {
                 transaction.Rollback();
-                return BadRequest();
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
             }
             return orders;
         }

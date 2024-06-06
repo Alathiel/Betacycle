@@ -1,9 +1,18 @@
 <div>
 
-<app-navbar-product></app-navbar-product>
-<app-carosello></app-carosello>
+<!-- <app-navbar-product></app-navbar-product> -->
+    <div style="height: 30%; background-color: rgb(42, 43, 43)">
+        <hr>
+        <app-carosello></app-carosello>
+        <hr>
+    </div>
 
-<app-product-card></app-product-card>
+
+    <!-- <app-product-card></app-product-card> -->
+    <div style="padding: 30px;">
+        <label style="font-size: 4em; font-weight: bold;">Nuovi arrivi</label>
+        <app-product-viewer [products]="service.products" [status]="false"></app-product-viewer>
+    </div>
 
 </div>
 

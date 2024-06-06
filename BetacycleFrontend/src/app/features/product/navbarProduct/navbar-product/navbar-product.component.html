@@ -10,7 +10,7 @@
             <ul class="navbar-nav mr-auto">
             </ul>
             <select title="select" [(ngModel)]="service.selectedCategory" (change)="service.FilterProduct()" [ngModelOptions]="{standalone: true}">
-                <option value='all' hidden disabled selected>Tutte le categorie</option>
+                <option value='0' >Tutte le categorie</option>
                 <option *ngFor="let c of service.categories" [value]="c.categoryId">{{c.name}}</option>
             </select>
                 <div class="input-group">

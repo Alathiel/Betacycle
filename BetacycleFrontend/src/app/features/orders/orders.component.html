@@ -5,7 +5,7 @@
             <hr>
             <div class="viewer">
                 <details *ngFor="let item of orders"  class="card-product">    
-                    <summary><label style="font-weight: bold;">Numero ordine{{item.$values.tRowGuide}}
+                    <summary><label style="font-weight: bold;">Numero ordine {{item.$values[0].tRowGuide}}
                         </label>
                     </summary>               
                 <ng-container *ngFor="let p of item.$values">

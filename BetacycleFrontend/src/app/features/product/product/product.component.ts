@@ -9,19 +9,21 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { FooterComponent } from '../../footer/footer/footer.component';
+import { ProductViewerComponent } from "../product-viewer/product-viewer.component";
+import { ProductserviceService } from '../../../shared/services/productservice.service';
 
 @Component({
-  selector: 'app-product',
-  standalone: true,
-  imports: [NavbarProductComponent,CaroselloComponent,ProductCardComponent,CommonModule,FooterComponent],
-  templateUrl: './product.component.html',
-  styleUrl: './product.component.css'
+    selector: 'app-product',
+    standalone: true,
+    templateUrl: './product.component.html',
+    styleUrl: './product.component.css',
+    imports: [NavbarProductComponent, CaroselloComponent, ProductCardComponent, CommonModule, FooterComponent, ProductViewerComponent]
 })
 export class ProductComponent {
   
   showOriginalCards:boolean=true
-  constructor(private http: HttprequestservicesService, private router: Router, public dialog: MatDialog, private toast: ToastService,private sanitizer: DomSanitizer){
-
+  constructor(private http: HttprequestservicesService, private router: Router, public dialog: MatDialog, private toast: ToastService,private sanitizer: DomSanitizer, public service:ProductserviceService){
+    service.GetNewProducts()
     
   }
 

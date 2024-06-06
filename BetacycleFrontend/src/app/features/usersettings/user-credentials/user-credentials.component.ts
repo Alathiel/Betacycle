@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Credentials } from '../../../shared/models/credential';
 import { HttprequestservicesService } from '../../../shared/services/httprequestservices.service';
 import { AuthServiceService } from '../../../shared/services/auth-service.service';
+import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-user-credentials',
@@ -18,26 +19,28 @@ export class UserCredentialsComponent {
   newPassword:string=''
 
   constructor(private http: HttprequestservicesService,
-    private auth:AuthServiceService, ){
+    private auth:AuthServiceService, private toast:ToastService ){
       var {email} = auth.getDecodedToken() as {email:string}
       this.credential.email = email;
   }
 
   UpdateCredentialsEmail()
   {
-    this.newCred=this.credential
-    this.http.PutEmailData(this.newCred)
-      .subscribe
-      ({
-        next: (data: any) => {
-          
-          this.newCred = data;
-          console.log(this.newCred)
-        },
-        error: (error: any) => {
-          console.log(error.message);
-        }
-      })
+    if(this.newCred.email != this.credential.email){
+      this.newCred=this.credential
+      this.http.PutEmailData(this.newCred)
+        .subscribe
+        ({
+          next: (data: any) => {
+            
+            this.newCred = data;
+            this.toast.showToast(TOAST_STATE.success, 'Email cambiata con successo')
+          },
+          error: (error: any) => {
+            console.log(error.message);
+          }
+        })
+    }
   }
 
   UpdateCredentialsPassword()

@@ -1,3 +1,13 @@
 .strikethrough {
-    text-decoration: line-through;
-  }
+  text-decoration: line-through;
+}
+
+.holder {
+  width: auto;
+  display: inline-block;
+}
+
+.holder img {
+  width: 60%;
+  height: auto;
+}

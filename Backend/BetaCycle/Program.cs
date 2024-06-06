@@ -27,7 +27,7 @@ namespace BetaCycle
                
                 builder.Services.AddControllers().AddJsonOptions(x =>
                     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
-                // Add services to the container.
+                // Add services 
                 builder.Services.AddDbContext<BetacycleContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("BetaCycle")));
                 builder.Services.AddDbContext<BetaSecurityContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("BetaSecurity")));
                 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("MongoDB"));
@@ -105,9 +105,11 @@ namespace BetaCycle
 
                 app.UseCors("Policies");
                 app.UseRouting();
+                //setup signalR
                 app.MapHub<SupportChatHub>("/SupportChatHub");
                 app.UseHttpsRedirection();
-                app.UseAuthorization();//for login
+                //setup login
+                app.UseAuthorization();
                 app.MapControllers();
                 app.Run();
             }

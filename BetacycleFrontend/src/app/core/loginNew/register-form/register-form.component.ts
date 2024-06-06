@@ -38,7 +38,7 @@ export class RegisterFormComponent {
             this.completed = true
         },
         error: (error:any) => {
-          this.toast.showToast(TOAST_STATE.error,error)
+          this.toast.showToast(TOAST_STATE.error,error.error)
         }
       }) 
       

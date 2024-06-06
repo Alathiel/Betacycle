@@ -17,6 +17,6 @@
             <label style="padding-left: 25px; padding-right: 25px;">{{product.quantity}}</label>
             <button (click)="MoreQuantity()"> + </button>
         </div>
-        <fa-icon [icon]='deleteIcon' title="Delete" class="delete-button" (click)="deleteProduct()"></fa-icon>
+        <fa-icon [icon]='deleteIcon' title="Delete" class="delete-button" (click)="confirmDialog('0ms', '0ms')"></fa-icon>
     </div>
 </div>

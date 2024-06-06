@@ -2,7 +2,6 @@ import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ErrorLog } from '../models/errorLog';
-import { loginservice } from './loginservice.service';
 import { AuthServiceService } from './auth-service.service';
 
 @Injectable({

@@ -32,6 +32,7 @@ export class NavbarProductComponent {
   /**Reset the field for research */
   Azzera()
   {
+    this.service.selectedCategory='0'
     this.service.byname=''
     this.service.bycolor=''
     this.service.byprice=0

@@ -2,10 +2,7 @@ import { Routes } from '@angular/router';
 
 import { HomeComponent } from './features/home/home.component';
 import { NavbarComponent } from './core/navbar/navbar.component';
-import { RegistrationComponent } from './core/registration/registration.component';
-import { UpdatepswComponent } from './core/updatepsw/updatepsw.component';
 import { UsersettingsComponent } from './features/usersettings/usersettings.component';
-import { RestoreComponent } from './core/restorepassword/restore/restore.component';
 import { AdminLoginComponent } from './features/admin/admin-login/admin-login.component';
 import { AdminMenuComponent } from './features/admin/admin-menu/admin-menu.component';
 import { LogsViewerComponent } from './features/admin/logs-viewer/logs-viewer.component';
@@ -17,9 +14,9 @@ import { ChiSiamoComponent } from './features/chi-siamo/chi-siamo.component';
 import { ContactsComponent } from './features/contacts/contacts.component';
 import { ProductComponent } from './features/product/product/product.component';
 import { ProductdetailsComponent } from './features/product/productdetails/productdetails.component';
-import { LoginFormComponent } from './core/loginNew/login-form/login-form.component';
 import { LoginComponent } from './core/loginNew/login.component';
 import { OrdersComponent } from './features/orders/orders.component';
+import { ProductSearchComponent } from './features/product/product-search/product-search.component';
 
 
 export const routes: Routes = [
@@ -27,15 +24,13 @@ export const routes: Routes = [
     {path:'home',component:HomeComponent},
     {path:'navbar',component:NavbarComponent},
     {path:'login',component:LoginComponent},
-    {path:'registration',component:RegistrationComponent},
-    {path:'restore',component:RestoreComponent},
-    {path:'updatepsw',component:UpdatepswComponent},
     {path:'usersetting',component:UsersettingsComponent},
     {path:'product',component:ProductComponent},
     {path: 'admin-login', component:AdminLoginComponent},
     {path: 'admin-menu', component:AdminMenuComponent},
     {path: 'logs-viewer', component:LogsViewerComponent},
     {path: 'products-viewer', component:ProductsViewerComponent},
+    {path: 'products-search', component:ProductSearchComponent},
     {path:'productDetails',component:ProductdetailsComponent},
     {path: 'chisiamo', component:ChiSiamoComponent},
     {path:'contact',component:ContactsComponent},

@@ -45,7 +45,7 @@ export class ProductserviceService {
   selectedColor = "color";
   selectedPrice = "price";
   selectedOperand = "operand";
-  selectedCategory = 'all'
+  selectedCategory = '0'
   totalProducts = 0;
   page = 1;
   loadedProducts = 0;
@@ -199,6 +199,17 @@ export class ProductserviceService {
       },
       error: (err: any) => {
         console.log("Errore: " + err.status);
+      }
+    })
+  }
+
+
+  GetNewProducts(){
+    this.http.GetNewProducts().subscribe({
+    
+      next: (resp:any) => {
+        console.log(resp)
+        this.products = resp.$values
       }
     })
   }

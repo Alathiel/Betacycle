@@ -1,12 +1,15 @@
-<body>
+
     <div *ngIf="loaded == true">
         <h2 style="text-align: center; color: #929aad;">Details of Product {{service.product.productName}}</h2>
 
         <div class="container">
             <div class="row">
-                <div class="col" style="align-content: center;justify-content: center;">
-                    <img [src]="convert(service.product.thumbnailPhoto)" alt="..." width="60%" height="55%">
-                </div>
+                <div class="row">
+                    <div class="col" style="align-content: center;justify-content: center;margin-top: 10%;">
+                        <div class="holder">
+                        <img [src]="convert(service.product.thumbnailPhoto)" alt="...">
+                    </div>
+                    </div>
                 <div class="col" style="margin-top: 10%;font-weight: bold;">
                     <p>Color: {{service.product.color}}</p>
                     <p *ngIf="service.product.insertPrice >= service.product.actualPrice">Price: <s>€{{service.product.insertPrice | number : '1.2-2'}}</s>
@@ -21,4 +24,3 @@
             </div>
         </div>
     </div>
-</body>

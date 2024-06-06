@@ -75,17 +75,26 @@
                                 </details>
                             </div>
                             <hr>
-                            <ng-container *ngFor="let product of cart">
-                                <div class="product-container">
-                                    <label style="padding-left: 10px; padding-right: 10px;">Prodotto:
-                                        {{product.product.productName}}</label>
-                                    <label style="padding-left: 10px; padding-right: 10px;">Quantita':
-                                        {{product.quantity}}</label>
-                                    <label style="padding-left: 10px; padding-right: 10px;">Prezzo totale:
-                                        {{product.product.actualPrice * product.quantity | number:'1.2-2'}}</label>
+                            <details (click)="getAddresses()">
+                                <summary>
+                                    <label style="font-size: large"> Prodotti</label>
+                                </summary>
+                                
+                                <div style="padding-top: 30px;">
+                                    <ng-container *ngFor="let product of cart">
+                                        <div class="product-container">
+                                            <img [src]="convert(product.product.thumbnailPhoto)" width="20%" style="border-radius: 20px;">
+                                            <label style="padding-left: 10px; padding-right: 10px;">
+                                                {{product.product.productName}}</label>
+                                            <label style="padding-left: 10px; padding-right: 10px;">Quantita':
+                                                {{product.quantity}}</label>
+                                            <label style="padding-left: 10px; padding-right: 10px;">Prezzo totale:
+                                                {{product.product.actualPrice * product.quantity | number:'1.2-2'}}</label>
+                                        </div>
+                                    </ng-container>
                                 </div>
-                                <hr>
-                            </ng-container>
+                            </details>
+                            <hr>
                         </div>
                         <div class="footer">
                             <label style="font-size: large; font-weight: 600;">Totale: {{totalPrice |
