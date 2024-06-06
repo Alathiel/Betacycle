@@ -1,5 +1,6 @@
 <div class="main-container" id="account-general" #generalContainer>
   <div class="content-container">
+    <H3 class="titleForm">Aggiornamento Informazioni</H3>
     <form #updateUserForm="ngForm" (submit)="UpdateUser()">
       <div class="form-group">
         <label for="firstName">Nome </label>
@@ -60,7 +61,7 @@
         <button
           type="submit"
           [disabled]="updateUserForm.invalid || !updateUserForm.dirty"
-          class="btn btn-primary"
+          class="button"
         >
           Aggiorna
         </button>
