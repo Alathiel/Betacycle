@@ -34,7 +34,7 @@ namespace BetaCycle.Controllers
             return await _context.Orders.ToListAsync();
         }
 
-
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<Object>>> GetOrderUser()
         {
@@ -52,18 +52,21 @@ namespace BetaCycle.Controllers
                             tProd = o.Product,
                             tQt = o.Quantity,
                             tUserId = o.UserId,
-                            tDate=o.Date
+                            tDate = o.Date
                         })
                     .Where(o => o.tUserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)))
-                    .GroupBy(o=> o.tRowGuide)
-                    
+                    .GroupBy(o => o.tRowGuide)
                     .ToListAsync();
                 return temp;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest();
             }
         }
 
