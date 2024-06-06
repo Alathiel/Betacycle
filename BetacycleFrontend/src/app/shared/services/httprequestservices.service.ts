@@ -378,5 +378,10 @@ export class HttprequestservicesService {
   {
     return this.http.post('https://localhost:7044/api/Orders',order);
   }
+
+  GetOrders():Observable<any>
+  {
+    return this.http.get('https://localhost:7044/api/Orders');
+  }
   
 }

@@ -19,6 +19,7 @@ import { ProductComponent } from './features/product/product/product.component';
 import { ProductdetailsComponent } from './features/product/productdetails/productdetails.component';
 import { LoginFormComponent } from './core/loginNew/login-form/login-form.component';
 import { LoginComponent } from './core/loginNew/login.component';
+import { OrdersComponent } from './features/orders/orders.component';
 
 
 export const routes: Routes = [
@@ -41,5 +42,6 @@ export const routes: Routes = [
     {path: 'support-chat', component:SupportChatComponent},
     {path: 'cart', component:CartComponent},
     {path: 'confirm-order', component:ConfirmOrderComponent},
+    {path: 'order', component:OrdersComponent},
     {path:'', redirectTo:'/home',pathMatch:'full'}
 ];

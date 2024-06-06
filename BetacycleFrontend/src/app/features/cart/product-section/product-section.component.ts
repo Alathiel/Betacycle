@@ -99,12 +99,9 @@ export class ProductSectionComponent{
   }
 
   refreshChildComponent() {
-
-    // save current route first
     const currentRoute = this.router.url;
-
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate([currentRoute]); // navigate to same route
     }); 
-}
+  }
 }
