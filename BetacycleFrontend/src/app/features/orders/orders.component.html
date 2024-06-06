@@ -1,11 +1,15 @@
-<ng-container>
+<ng-container *ngIf="loaded">
     <div class="main-container">
         <div class="content-container">
             <h2>I tuoi ordini precedenti:</h2>
             <hr>
             <div class="viewer">
                 <details *ngFor="let item of orders"  class="card-product">    
-                    <summary><label style="font-weight: bold;">Numero ordine{{item.$values.tRowGuide}}
+                    <summary>
+                        <label style="font-weight: bold;">
+                            Ordine effettuato il {{item.$values[0].tDate}} 
+                        </label>
+                        <label style="font-weight: lighter; float: right;"> Numero ordine:{{item.$values[0].tRowGuide}}
                         </label>
                     </summary>               
                 <ng-container *ngFor="let p of item.$values">
@@ -17,11 +21,10 @@
         </div>
     </div>
 </ng-container>
-
 <ng-container *ngIf="!loaded">
     <div class="main-container" style="height: 100%">
         <div class="content-container">
-            <h2>Non sono ancora stati effettuati ordini</h2>
+            <label>Non sono stati effettuati ordini</label>
         </div>
     </div>
 </ng-container>

@@ -50,10 +50,10 @@ namespace BetaCycle.Controllers
                             tProd = o.Product,
                             tQt = o.Quantity,
                             tUserId = o.UserId,
-                            tDate=o.Date
+                            tDate = o.Date
                         })
                     .Where(o => o.tUserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)))
-                    .GroupBy(o=> o.tRowGuide)
+                    .GroupBy(o => o.tRowGuide)
                     
                     .ToListAsync();
                 return temp;
