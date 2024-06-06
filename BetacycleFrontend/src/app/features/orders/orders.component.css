@@ -4,3 +4,33 @@
     width: 100%;
     justify-content: center;
 }
+
+.viewer{
+    position: relative;
+    overflow: auto;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    /* background-color: #f2f2f2; */
+    transition: 0.3s;
+}
+
+.card-product{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    height: fit-content;
+    background-color: #f2f2f2;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+details[open] summary ~ * {
+    animation: sweep .5s ease-in-out;
+}
