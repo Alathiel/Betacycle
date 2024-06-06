@@ -192,11 +192,12 @@ export class HttprequestservicesService {
     var params = new HttpParams()
       .append(filter, value)
       .append('pageNumber', page);
-    return this.http.get('https://localhost:7044/api/Products/FilterProducts', {
+    return this.http.get('https://localhost:7044/api/Products/FilterProductsAdmin', {
       params: params,
       observe: 'response',
     });
   }
+
   /**
    * Research the products and show them
    * @param filter Filter of the name
@@ -214,6 +215,7 @@ export class HttprequestservicesService {
     filter2: string,value2: string,
     filter3: string,value3: number,
     filter4: string,value4: string,
+    filter5: string,value5: string,
     page: number
   ): Observable<any> {
     var params = new HttpParams()
@@ -221,6 +223,7 @@ export class HttprequestservicesService {
       .append(filter2, value2)
       .append(filter3, value3)
       .append(filter4, value4)
+      .append(filter5, value5)
       .append('pageNumber', page);
     return this.http.get('https://localhost:7044/api/Products/FilterProducts', {
       params: params,
