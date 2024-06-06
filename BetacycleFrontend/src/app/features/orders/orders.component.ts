@@ -30,7 +30,7 @@ export class OrdersComponent {
         next: (data: any) => {
           this.orders=data.$values
           console.log(this.orders)
-          if(this.orders.lenght > 0)
+          if(this.orders!=undefined)
           this.loaded=true
         },
         error: (error: any) => { console.log(error.message) }
