@@ -85,6 +85,33 @@ namespace BetaCycle.Controllers
             return Ok();
         }
 
+        [Authorize]
+        [HttpPut("[action]")]
+        public async Task<IActionResult> ChangeEmail(Credential credential)
+        {
+            try
+            {
+                var cred = await _context.Credentials.FirstAsync(c => c.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                if (cred == null)
+                    return BadRequest();
+                credential.Password = cred.Password;
+                credential.PasswordSalt= cred.PasswordSalt;
+                _context.Entry(credential).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
+            }
+            return Ok();
+        }
+
+
         #endregion
 
         //[Authorize]

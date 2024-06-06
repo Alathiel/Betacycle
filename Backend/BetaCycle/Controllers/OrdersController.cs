@@ -39,25 +39,7 @@ namespace BetaCycle.Controllers
 
             try
             {
-                //var orders =  _context.Orders
-                //    .Where(o => o.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                //var transaction = orders.GroupBy(o => o.TransactionId).ToList();
-                //KeyValuePair<string, List<Order>> keyValuePair = new KeyValuePair<string, List<Order>>();
-                //transaction.ForEach(t =>
-                //{
-                //    Transaction temp= _context.Transactions.FindAsync(t).Result;
-
-                //    keyValuePair = new KeyValuePair<string, List<Order>>(temp.Identifier.ToString(), []);
-                //    orders.ForEach(o=>
-                //    {
-                //        keyValuePair.Value.Add(o);
-                //    }
-                //    );
-
-                //}
-                //);
-
-                var temp = _context.Transactions.Join(
+                var temp = await _context.Transactions.Join(
                         _context.Orders,
                         t => t.TransactionId,
                         o => o.TransactionId,
@@ -67,12 +49,13 @@ namespace BetaCycle.Controllers
                             tRowGuide = t.Identifier,
                             tProd = o.Product,
                             tQt = o.Quantity,
-                            tUserId = o.UserId
+                            tUserId = o.UserId,
+                            tDate=o.Date
                         })
                     .Where(o => o.tUserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)))
                     .GroupBy(o=> o.tRowGuide)
-                    .ToList();
-
+                    
+                    .ToListAsync();
                 return temp;
             }
             catch (Exception)

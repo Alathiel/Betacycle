@@ -75,7 +75,7 @@ export class HttprequestservicesService {
    * @returns 
    */
   PutEmailData(cred: Credentials): Observable<any> {
-    return this.http.put(`https://localhost:7044/api/Credentials/PutCredential`, cred);
+    return this.http.put(`https://localhost:7044/api/Credentials/ChangeEmail`, cred);
   }
 
   /**
