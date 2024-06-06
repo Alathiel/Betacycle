@@ -145,7 +145,7 @@ public partial class BetacycleContext : DbContext
 
             entity.HasOne(d => d.Product).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK_Order_Product");
 
             entity.HasOne(d => d.Transaction).WithMany(p => p.Orders)

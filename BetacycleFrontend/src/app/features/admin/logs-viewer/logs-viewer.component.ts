@@ -9,104 +9,104 @@ import { AuthServiceService } from '../../../shared/services/auth-service.servic
 import { FootServiceService } from '../../../shared/services/foot-service.service';
 import { NavbarServiceService } from '../../../shared/services/navbar-service.service';
 
-
 @Component({
   selector: 'app-logs-viewer',
   standalone: true,
   imports: [CommonModule, FormsModule, FontAwesomeModule],
   templateUrl: './logs-viewer.component.html',
-  styleUrl: './logs-viewer.component.css'
+  styleUrl: './logs-viewer.component.css',
 })
 
-/**All logs function 
- * @param logs Logs 
- * @param 
+/**All logs function
+ * @param logs Logs
+ * @param
  */
-
 export class LogsViewerComponent {
   logs: any;
-  selectedValue = "all"
-  search = ""
+  selectedValue = 'all';
+  search = '';
   currentLogs = 0;
-  totalLogs = 0
+  totalLogs = 0;
   logsLoaded = 0;
-  page = 1
-  backIcon = faHome
+  page = 1;
+  backIcon = faHome;
   loggingState = true;
-  constructor(private http: HttprequestservicesService, private router: Router, token: AuthServiceService, footServ:FootServiceService, navService:NavbarServiceService){
+  constructor(
+    private http: HttprequestservicesService,
+    private router: Router,
+    token: AuthServiceService,
+    footServ: FootServiceService,
+    navService: NavbarServiceService
+  ) {
     navService.hide();
     footServ.hide();
-    if(!token.getLoginStatus() || !token.checkAdmin())
+    if (!token.getLoginStatus() || !token.checkAdmin())
       this.router.navigate(['admin-login']);
     this.http.GetLoggingState().subscribe({
-      next: (response:any) => {
-        this.loggingState = response
+      next: (response: any) => {
+        this.loggingState = response;
       },
-      error: (error:any) => {
+      error: (error: any) => {
         console.log(error);
-      }
+      },
     });
     this.getAllLogs();
   }
 
-  filter(temp:string = 'a'){
-    if(temp === 'b'){
-      this.page = 1}
-    if(this.selectedValue === "all")
-      this.getAllLogs();
-    else
-    {
-      this.http.getLogsByFilter(this.search, this.selectedValue, this.page).subscribe({
-        next: (jsData:any) => {
-            this.logs = jsData.body.logs.$values
-            this.logsLoaded = this.logs.length
-            this.totalLogs = jsData.body.totalLogs
-        },
-        error: (error:any) => {
-          console.log(error);
-        }
-      })
+  filter(temp: string = 'a') {
+    if (temp === 'b') {
+      this.page = 1;
+    }
+    if (this.selectedValue === 'all') this.getAllLogs();
+    else {
+      this.http
+        .getLogsByFilter(this.search, this.selectedValue, this.page)
+        .subscribe({
+          next: (jsData: any) => {
+            this.logs = jsData.body.logs.$values;
+            this.logsLoaded = this.logs.length;
+            this.totalLogs = jsData.body.totalLogs;
+          },
+          error: (error: any) => {
+            console.log(error);
+          },
+        });
     }
   }
 
-  toggleLogging(){
-    this.http.toggleLogging().subscribe((response) => console.log(response));
-    this.http.GetLoggingState().subscribe((response) => this.loggingState = response)
+  toggleLogging() {
+    this.http.toggleLogging().subscribe((response) => this.loggingState = response.body);
   }
 
-  prev(){
-    if(this.page > 1)
-    {
+  prev() {
+    if (this.page > 1) {
       this.page--;
       this.filter();
     }
   }
 
-  next(){
-    if(this.page < this.totalLogs/10)
-    {
+  next() {
+    if (this.page < this.totalLogs / 10) {
       this.page++;
       this.filter();
     }
   }
 
-  getAllLogs(){
+  getAllLogs() {
     this.http.getLogs(this.page).subscribe({
-      next: (jsData:any) => {
-        this.logs = jsData.body.logs.$values
-        console.log(this.logs)
-        this.logsLoaded = this.logs.length
-        this.totalLogs = jsData.body.totalLogs
-        
+      next: (jsData: any) => {
+        this.logs = jsData.body.logs.$values;
+        console.log(this.logs);
+        this.logsLoaded = this.logs.length;
+        this.totalLogs = jsData.body.totalLogs;
       },
-      error: (error:any) => {
+      error: (error: any) => {
         console.log(error);
-      }
-    })
+      },
+    });
   }
 
-  redirect(route: string){
-    this.router.navigate([route])
+  redirect(route: string) {
+    this.router.navigate([route]);
   }
-
 }

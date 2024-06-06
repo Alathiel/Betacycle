@@ -62,6 +62,7 @@ namespace BetaCycle.Controllers
                 var orderUser = await _context.Users.FindAsync(Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 foreach (var order in orders)
                 {
+                    order.Date = DateOnly.FromDateTime(DateTime.Now);
                     order.Transaction = trans;
                     order.Product = await _context.Products.FindAsync(order.ProductId);
                     order.Product.Category = await _context.Categories.FindAsync(order.Product.CategoryId);

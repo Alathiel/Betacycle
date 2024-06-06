@@ -18,163 +18,180 @@ import { User } from '../../shared/models/user';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './confirm-order.component.html',
-  styleUrl: './confirm-order.component.css'
+  styleUrl: './confirm-order.component.css',
 })
 /**Confirm the order */
 export class ConfirmOrderComponent {
-  constructor(private http:HttprequestservicesService, private router:Router, token: AuthServiceService,public dialog: MatDialog, private toast:ToastService){
-    if(!token.getLoginStatus() || !token.checkUser())
+  constructor(
+    private http: HttprequestservicesService,
+    private router: Router,
+    token: AuthServiceService,
+    public dialog: MatDialog,
+    private toast: ToastService
+  ) {
+    if (!token.getLoginStatus() || !token.checkUser())
       router.navigate(['login']);
   }
   loaded = false;
-  totalPrice:number = 0;
-  cart:any;
+  totalPrice: number = 0;
+  cart: any;
   orderCompleted = false;
-  cards: PaymentPost[] = []
-  addresses: AddressPost [] = []
+  cards: PaymentPost[] = [];
+  addresses: AddressPost[] = [];
   cardsLoaded = false;
   addressesLoaded = false;
   selectedAddress: any;
-  selectedCard:any
+  selectedCard: any;
   order: Order[] = [];
 
-
   /**Showing the actual cart of the user */
-  ngOnInit()
-  {
+  ngOnInit() {
     this.http.GetCart().subscribe({
-      next:(resp:any) =>{
+      next: (resp: any) => {
         this.cart = resp.body;
-        console.log(this.cart)
-        this.cart.forEach((product:any) => {
-          this.totalPrice += product.quantity * product.product.actualPrice
+        console.log(this.cart);
+        this.cart.forEach((product: any) => {
+          this.totalPrice += product.quantity * product.product.actualPrice;
         });
         this.loaded = true;
       },
-    })
+    });
   }
 
-  getPayments(){
+  getPayments() {
     this.http.GetHttpPayments().subscribe({
-      next: (resp:any) => {
-        this.cards = resp.$values
+      next: (resp: any) => {
+        this.cards = resp.$values;
         this.cardsLoaded = true;
       },
-      error: (error:any) => {
-        console.log(error)
-      }
-    })
+      error: (error: any) => {
+        console.log(error);
+      },
+    });
   }
 
-  getAddresses(){
+  getAddresses() {
     this.http.GetHttpAddresses().subscribe({
-      next: (resp:any) => {
-        this.addresses = resp.$values
+      next: (resp: any) => {
+        this.addresses = resp.$values;
         this.addressesLoaded = true;
       },
-      error: (error:any) => {
-        console.log(error)
-      }
-    })
-  }
-
-  selectPayment(id:any){
-    this.selectedCard = id
-    
-  }
-
-  selectAddress(id:any){
-    this.selectedAddress = id
-  }
-  completeOrder(){
-    this.cart.forEach((product:any) => {
-      console.log(product)
-      delete product.product.carts
-      delete product.product.$id
-      product.product.model = {name: ''}
-      product.product.category = {name: ''}
-      this.order.push({
-        userId: product.userId,
-        productId: product.productId,
-        quantity: product.quantity,
-        productPrice: product.product.actualPrice,
-        idPayment: this.selectedCard,
-        addressId: this.selectedAddress,
-        status: 'Storage',
-        transactionId: 0,
-        transaction: {},
-        orderId: 0,
-        product: product.product
-      })
+      error: (error: any) => {
+        console.log(error);
+      },
     });
-    this.http.ConfirmOrder(this.order).subscribe({
-      next: (resp:any) => this.orderCompleted = true,
-      error: (error:any) => {
-        console.log(error)
-      }
-    })
-    
   }
 
-  addPayment(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  selectPayment(id: any) {
+    this.selectedCard = id;
+  }
+
+  selectAddress(id: any) {
+    this.selectedAddress = id;
+  }
+  completeOrder() {
+    if (this.selectedAddress != undefined && this.selectedCard != undefined) {
+      this.cart.forEach((product: any) => {
+        console.log(product);
+        delete product.product.carts;
+        delete product.product.$id;
+        product.product.model = { name: '' };
+        product.product.category = { name: '' };
+        this.order.push({
+          userId: product.userId,
+          productId: product.productId,
+          quantity: product.quantity,
+          productPrice: product.product.actualPrice,
+          idPayment: this.selectedCard,
+          addressId: this.selectedAddress,
+          status: 'Storage',
+          transactionId: 0,
+          transaction: {},
+          orderId: 0,
+          product: product.product,
+          date: '2024-01-01',
+        });
+      });
+      this.http.ConfirmOrder(this.order).subscribe({
+        next: (resp: any) => (this.orderCompleted = true),
+        error: (error: any) => {
+          console.log(error);
+        },
+      });
+    } else
+      this.toast.showToast(
+        TOAST_STATE.error,
+        'Seleziona un indirizzo e un metodo di pagamento'
+      );
+  }
+
+  addPayment(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
     const dialogRef = this.dialog.open(AddPaymentModalComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result !== undefined)
-      {
-        if(result.state)
-        {
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        if (result.state) {
           this.http.PostHttpPayment(result.newPayment).subscribe({
             next: (data: any) => {
               const currentRoute = this.router.url;
-              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-              this.router.navigate([currentRoute]); // navigate to same route
-          }); 
+              this.router
+                .navigateByUrl('/', { skipLocationChange: true })
+                .then(() => {
+                  this.router.navigate([currentRoute]); // navigate to same route
+                });
             },
             error: (error: any) => {
               console.log(error.message);
-              this.toast.showToast(TOAST_STATE.error, error.error)
+              this.toast.showToast(TOAST_STATE.error, error.error);
             },
           });
-        }
-        else
-        {
-          this.toast.showToast(TOAST_STATE.error, "An unexpected error occurred.")
+        } else {
+          this.toast.showToast(
+            TOAST_STATE.error,
+            'An unexpected error occurred.'
+          );
         }
       }
-    })
+    });
   }
 
-  addAddress(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  addAddress(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ): void {
     const dialogRef = this.dialog.open(AddAddressModalComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result !== undefined)
-      {
-        if(result.state)
-        {
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result !== undefined) {
+        if (result.state) {
           this.http.PostHttpAddress(result.newAddress).subscribe({
             next: (data: any) => {
               const currentRoute = this.router.url;
-              this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-              this.router.navigate([currentRoute]); // navigate to same route
-          }); 
+              this.router
+                .navigateByUrl('/', { skipLocationChange: true })
+                .then(() => {
+                  this.router.navigate([currentRoute]); // navigate to same route
+                });
             },
             error: (error: any) => {
               console.log(error.message);
-              this.toast.showToast(TOAST_STATE.error, error.error)
+              this.toast.showToast(TOAST_STATE.error, error.error);
             },
           });
-        }
-        else
-        {
-          this.toast.showToast(TOAST_STATE.error, "An unexpected error occurred.")
+        } else {
+          this.toast.showToast(
+            TOAST_STATE.error,
+            'An unexpected error occurred.'
+          );
         }
       }
-    })
+    });
   }
 }
