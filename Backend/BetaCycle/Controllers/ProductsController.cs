@@ -77,7 +77,7 @@ namespace BetaCycle.Controllers
         /// <param name="id"></param>
         /// <returns>ActionResult, List<Product></returns>
         [HttpGet("[action]")]
-        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(int pageNumber = 1, string productName = "", string color = "", decimal price = 0, string operand = "", long id = 0)
+        public async Task<ActionResult<IEnumerable<Product>>> FilterProducts(int pageNumber = 1, string productName = "", string color = "", decimal price = 0, string operand = "", string category="0" , long id = 0)
         {
             //
             if (pageNumber <= 0)
@@ -90,64 +90,72 @@ namespace BetaCycle.Controllers
                 long totalProducts = 0;
                 if (operand == "<")
                 {
-                    if ((productName == "" && color == "" && price == 0))
+                    if ((productName == "" && color == "" && price == 0 && category == "all"))
                     {
                         products = await _context.Products
                         .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                         totalProducts = await _context.Products.LongCountAsync();
                     }
-                    else if ((productName != "" || color != "" || price > 0) && price > 0)
+                    else if ((productName != "" || color != "" || category != "all" || price > 0) && price > 0)
                     {
                         products = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
                             && product.Color.ToLower().Contains(color.ToLower())
-                            && product.ActualPrice <= (int)price)
+                            && product.ActualPrice <= (int)price
+                            && product.CategoryId == Convert.ToInt64(category))
                         .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                         totalProducts = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
                             && product.Color.ToLower().Contains(color.ToLower())
-                            && (product.ActualPrice <= (int)price)).LongCountAsync();
+                            && (product.ActualPrice <= (int)price)
+                            && product.CategoryId == Convert.ToInt64(category)).LongCountAsync();
                     }
-                    else if ((productName != "" || color != "") && price <= 0)
+                    else if ((productName != "" || category != "all" || color != "") && price <= 0)
                     {
                         products = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
-                            && product.Color.ToLower().Contains(color.ToLower()))
+                            && product.Color.ToLower().Contains(color.ToLower())
+                            && product.CategoryId == Convert.ToInt64(category))
                         .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                         totalProducts = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
-                            && product.Color.ToLower().Contains(color.ToLower())).LongCountAsync();
+                            && product.Color.ToLower().Contains(color.ToLower())
+                            && product.CategoryId == Convert.ToInt64(category)).LongCountAsync();
                     }
                 }
-                if (operand == ">")
+                else if (operand == ">")
                 {
-                    if ((productName == "" && color == "" && price == 0))
+                    if ((productName == "" && color == "" && price == 0 && category == "all"))
                     {
                         products = await _context.Products
                         .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                         totalProducts = await _context.Products.LongCountAsync();
                     }
-                    else if ((productName != "" || color != "" || price >= 0) && price >= 0)
+                    else if ((productName != "" || color != "" || price >= 0 || category != "all") && price >= 0)
                     {
                         products = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
                             && product.Color.ToLower().Contains(color.ToLower())
-                            && product.ActualPrice >= (int)price)
+                            && product.ActualPrice >= (int)price
+                            && product.CategoryId == Convert.ToInt64(category))
                         .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                         totalProducts = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
                             && product.Color.ToLower().Contains(color.ToLower())
-                            && (product.ActualPrice >= (int)price)).LongCountAsync();
+                            && (product.ActualPrice >= (int)price)
+                            && product.CategoryId == Convert.ToInt64(category)).LongCountAsync();
                     }
-                    else if ((productName != "" || color != "") && price <= 0)
+                    else if ((productName != "" || color != "" || category != "all") && price <= 0)
                     {
                         products = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
-                            && product.Color.ToLower().Contains(color.ToLower()))
+                            && product.Color.ToLower().Contains(color.ToLower())
+                            && product.CategoryId == Convert.ToInt64(category))
                         .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
                         totalProducts = await _context.Products
                         .Where(product => product.ProductName.ToLower().Contains(productName.ToLower())
-                            && product.Color.ToLower().Contains(color.ToLower())).LongCountAsync();
+                            && product.Color.ToLower().Contains(color.ToLower())
+                            && product.CategoryId == Convert.ToInt64(category)).LongCountAsync();
                     }
                 }
                 else if (id != 0)
@@ -164,13 +172,61 @@ namespace BetaCycle.Controllers
             catch (Exception e)
             {
                 _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
-        {
-            new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
-            new ("Exception", e),
-        }).Log();
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
                 return BadRequest();
             }
         }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<Product>>> FilterProductsAdmin(int pageNumber = 1, string productName = "", long id = 0)
+        {
+            //
+            if (pageNumber <= 0)
+                pageNumber = 1;
+            try
+            {
+                List<Product> products = [];
+                long totalProducts = 0;
+                
+                if (productName == "" && id == 0)
+                {
+                    products = await _context.Products.Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                    totalProducts = await _context.Products.LongCountAsync();
+                }
+                else if (productName != "")
+                {
+                    products = await _context.Products
+                    .Where(product => product.ProductName.ToLower().Contains(productName.ToLower()))
+                    .Skip((pageNumber - 1) * 10).Take(10).ToListAsync();
+                    totalProducts = await _context.Products
+                    .Where(product => product.ProductName.ToLower().Contains(productName.ToLower()))
+                    .LongCountAsync();
+                }
+                else if (id != 0)
+                {
+                    products = await _context.Products.Where(product => product.ProductId == id).ToListAsync();
+                    totalProducts = await _context.Products.Where(product => product.ProductId == id).LongCountAsync();
+                }
+                return Ok(new
+                {
+                    products,
+                    totalProducts
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest();
+            }
+        }
+
 
         [HttpGet("[action]")]
         public async Task<ActionResult<Product>> GetProduct(long id)

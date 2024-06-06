@@ -45,6 +45,7 @@ export class ProductserviceService {
   selectedColor = "color";
   selectedPrice = "price";
   selectedOperand = "operand";
+  selectedCategory = 'all'
   totalProducts = 0;
   page = 1;
   loadedProducts = 0;
@@ -53,9 +54,9 @@ export class ProductserviceService {
   bycolor: string = '';
   operand: string = '';
   cart: Cart = new Cart();
-  categoryNavbar:any
   modelNavbar:any
-  selectedCategory='category'
+  categories:any
+  
   quantity = {"quantity" : 1};
 
   constructor(private http:HttprequestservicesService, private toast: ToastService) {}
@@ -71,7 +72,7 @@ export class ProductserviceService {
     this.http.getFilteredProductsUser(this.selectedValue, this.byname,
       this.selectedColor, this.bycolor,
       this.selectedPrice, this.byprice,
-      this.selectedOperand, this.operand, 1)
+      this.selectedOperand, this.operand, 'category', this.selectedCategory, 1)
     .subscribe(
       {
         next: (data: any) => {
@@ -137,7 +138,7 @@ export class ProductserviceService {
       this.http.getFilteredProductsUser(this.selectedValue, this.byname,
         this.selectedColor, this.bycolor,
         this.selectedPrice, this.byprice,
-        this.selectedOperand, this.operand, this.page).subscribe({
+        this.selectedOperand, this.operand, 'category', this.selectedCategory, this.page).subscribe({
         next: (response:any) => {
           this.products = response.body.products.$values
           this.totalProducts = response.body.totalProducts
@@ -194,7 +195,7 @@ export class ProductserviceService {
     this.http.getCategories().subscribe(
     {
       next: (data: any) => {
-        this.categoryNavbar=data.$values
+        this.categories=data.$values
       },
       error: (err: any) => {
         console.log("Errore: " + err.status);

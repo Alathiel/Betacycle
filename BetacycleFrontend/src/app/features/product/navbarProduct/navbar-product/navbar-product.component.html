@@ -9,11 +9,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
             </ul>
-             <select title="select" (change)="service.selectedCategory">
-                <option>Tutte le categorie</option>
-                <option *ngFor="let c of service.categoryNavbar" [value]="c.categoryId" >{{c.name}}</option>
-            </select> 
-            
+            <select title="select" [(ngModel)]="service.selectedCategory" (change)="service.FilterProduct()" [ngModelOptions]="{standalone: true}">
+                <option value='all' hidden disabled selected>Tutte le categorie</option>
+                <option *ngFor="let c of service.categories" [value]="c.categoryId">{{c.name}}</option>
+            </select>
                 <div class="input-group">
                     <a class="input-group-text" id="search-color"><i class="bi bi-paint-bucket icon"></i></a>
                     <input name="bycolor" matInput #searchcolor="ngModel" [(ngModel)]="service.bycolor" 
