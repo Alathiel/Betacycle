@@ -381,7 +381,7 @@ export class HttprequestservicesService {
 
   GetOrders():Observable<any>
   {
-    return this.http.get('https://localhost:7044/api/Orders');
+    return this.http.get('https://localhost:7044/api/Orders/GetOrderUser');
   }
   
 }
