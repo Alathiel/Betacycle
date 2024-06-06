@@ -132,20 +132,26 @@ public partial class BetacycleContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.ProductId, e.TransactionId }).HasName("PK_Transaction");
+            entity.HasKey(e => new { e.TransactionId, e.OrderId }).HasName("PK_Order_1");
 
             entity.ToTable("Order");
 
-            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.OrderId).ValueGeneratedOnAdd();
             entity.Property(e => e.ProductId).HasColumnName("ProductID");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.UserId)
+            entity.HasOne(d => d.Product).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Transaction_User");
+                .HasConstraintName("FK_Order_Product");
+
+            entity.HasOne(d => d.Transaction).WithMany(p => p.Orders)
+                .HasForeignKey(d => d.TransactionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Order_Transaction");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -203,25 +209,9 @@ public partial class BetacycleContext : DbContext
 
         modelBuilder.Entity<Transaction>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.ProductId, e.OrderId }).HasName("PK_Transaction_1");
-
             entity.ToTable("Transaction");
 
-            entity.Property(e => e.UserId).HasColumnName("UserID");
-            entity.Property(e => e.ProductId).HasColumnName("ProductID");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .IsUnicode(false);
-
-            entity.HasOne(d => d.Product).WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Transaction_Product");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Transaction_User1");
+            entity.Property(e => e.Identifier).HasDefaultValueSql("(newid())");
         });
 
         modelBuilder.Entity<User>(entity =>

@@ -1,0 +1,42 @@
+<div style="width: 600px; padding: 10px;">
+    <h2 mat-dialog-title align="center">Aggiungi indirizzo di spedizione</h2>
+    <hr>
+    <mat-dialog-content>
+        <form #postAddress="ngForm">
+            <div class="form-group col-md-6">
+                <label for="Indirizzo">Indirizzo </label>
+                <input type="text" class="form-control" placeholder="Via/Viale/Corso ecc..." matInput
+                    #address1="ngModel" ngModel [(ngModel)]="newAddress.address1" name="address1" required
+                    minlength="1" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="Citta">Città</label>
+                <input type="text" class="form-control" placeholder="Città" matInput #city="ngModel"
+                    [(ngModel)]="newAddress.city" name="city" required minlength="3" pattern="[a-zA-Z]*" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="Provincia">Provincia</label>
+                <input type="text" class="form-control" placeholder="Provincia" matInput #province="ngModel"
+                    [(ngModel)]="newAddress.province" name="province" required minlength="2" maxlength="2"
+                    pattern="[A-Z]*" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="Cap">CAP</label>
+                <input type="text" class="form-control" placeholder="Cap" matInput #cap="ngModel"
+                    [(ngModel)]="newAddress.cap" name="cap" required minlength="3" maxlength="5" pattern="[0-9]{5}" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="Nazione">Nazione</label>
+                <input type="text" class="form-control" placeholder="Nazione" matInput #nation="ngModel"
+                    [(ngModel)]="newAddress.nation" name="nation" required minlength="3" maxlength="15"
+                    pattern="[a-zA-Z]*" />
+            </div>
+
+            <div class="col-md-12"></div>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="center" style="text-align: right; column-gap: 20px;">
+        <button mat-dialog-close>Cancel</button>
+        <button mat-dialog-close [mat-dialog-close]="{state: validate(postAddress), newAddress}">Confirm</button>
+    </mat-dialog-actions>
+</div>

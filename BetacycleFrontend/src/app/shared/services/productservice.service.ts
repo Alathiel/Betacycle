@@ -179,8 +179,7 @@ export class ProductserviceService {
     this.http.PostCart(this.cart).subscribe({
       next: (resp:any) =>{
         this.toast.showToast(TOAST_STATE.success, "Prodotto aggiunto con successo al carrello")
-        timer(10)
-        this.toast.dismissToast()
+
       },
       error: (err: any) => {
         this.toast.showToast(TOAST_STATE.error,"Fare l'accesso prima di aggiungere prodotti al carrello");

@@ -21,7 +21,7 @@
     </ng-container>
 </ng-container>
 
-<ng-container *ngIf="cart.length <= 0">
+<ng-container *ngIf="loaded && cart.length <= 0">
     <div class="main-container" style="height: 100%">
         <div class="content-container">
             <h2>Prodotti presenti nel carrello</h2>

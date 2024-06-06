@@ -5,30 +5,102 @@
                 <div class="card-wrapper" [hidden]="orderCompleted">
                     <div class="card">
                         <div class="header">
-                            <label style="font-size: large; font-weight: bold;">Riepilogo ordine</label>
+                            <label style="font-size: larger; font-weight: bold;">Riepilogo ordine</label>
                         </div>
                         <div class="body">
+                            <div>
+                                <details (click)="getPayments()">
+                                        <summary>
+                                            <label style="font-size: large">Metodo di pagamento</label>
+                                        </summary>
+                                        
+                                        <div style="padding-top: 30px;">
+                                            <ng-container *ngIf="cardsLoaded && cards.length>0">
+                                                <div (click)="selectPayment(card.idPayment)"   
+                                                    *ngFor="let card of cards; let index = index" style="float: left">
+                                                    <input [name]="card.idPayment.toString()" type="radio" [value]="card.idPayment" [(ngModel)]="selectedCard">
+                                                    <div class="payment-card" style="width: 15rem; height: 9 rem; margin: 10px;">
+                                                    <div class="payment-card-body">
+                                                        <h5 class="payment-card-title">{{ card.nameCard }} {{card.surnameCard}}
+                                                        </h5>
+                                                        {{ card.expirationDate.substring(0,7) }} <br />
+                                                        {{ card.circuitCard }}
+                                                        <div style="margin-top: 0.5rem;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </ng-container>
+                                            
+                                            <ng-container *ngIf="cardsLoaded && cards.length <= 0">
+                                                <div style="display: flex; flex-direction: column; row-gap: 20px;">
+                                                    <label>Non sono presenti metodi di pagamento</label>
+                                                    <button class="button-generic" (click)="addPayment('0ms', '0ms')">Aggiungi</button>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                </details>
+                            </div>
+                            <hr>
+                            <div>
+                                <details (click)="getAddresses()">
+                                    <summary>
+                                        <label style="font-size: large">Indirizzo di spedizione</label>
+                                    </summary>
+                                    
+                                    <div style="padding-top: 30px;">
+                                        <ng-container *ngIf="addressesLoaded && addresses.length>0">
+                                            <div (click)="selectAddress(address.addressId)"   
+                                                *ngFor="let address of addresses; let index = index" style="float: left">
+                                                <input [name]="address.addressId.toString()" type="radio" [value]="address.addressId" [(ngModel)]="selectedAddress">
+                                                <div class="payment-card" style="width: 15rem; height: 9 rem; margin: 10px;">
+                                                <div class="payment-card-body">
+                                                    <h5 class="payment-card-title">{{ address.address1 }}</h5>
+                                                    <label>{{address.city}}({{address.province}}) - {{address.cap}}</label>
+                                                    
+                                                    <div style="margin-top: 0.5rem;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </ng-container>
+                                        
+                                        <ng-container *ngIf="addressesLoaded && addresses.length <= 0">
+                                            <div style="display: flex; flex-direction: column; row-gap: 20px;">
+                                                <label>Non sono presenti indirizzi</label>
+                                                <button class="button-generic" (click)="addAddress('0ms', '0ms')">Aggiungi</button>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </details>
+                            </div>
+                            <hr>
                             <ng-container *ngFor="let product of cart">
                                 <div class="product-container">
-                                    <label style="padding-left: 10px; padding-right: 10px;">Prodotto: {{product.product.productName}}</label>
-                                    <label style="padding-left: 10px; padding-right: 10px;">Quantita': {{product.quantity}}</label>
-                                    <label style="padding-left: 10px; padding-right: 10px;">Prezzo totale: {{product.product.actualPrice * product.quantity | number:'1.2-2'}}</label>
+                                    <label style="padding-left: 10px; padding-right: 10px;">Prodotto:
+                                        {{product.product.productName}}</label>
+                                    <label style="padding-left: 10px; padding-right: 10px;">Quantita':
+                                        {{product.quantity}}</label>
+                                    <label style="padding-left: 10px; padding-right: 10px;">Prezzo totale:
+                                        {{product.product.actualPrice * product.quantity | number:'1.2-2'}}</label>
                                 </div>
                                 <hr>
                             </ng-container>
                         </div>
                         <div class="footer">
-                            <label style="font-size: large; font-weight: 600;">Totale: {{totalPrice | number:'1.2-2'}}</label>
+                            <label style="font-size: large; font-weight: 600;">Totale: {{totalPrice |
+                                number:'1.2-2'}}</label>
                         </div>
                     </div>
-                    <button class="confirm" style="width: 100%;" (click)="completeOrder()"> Conferma Ordine</button>
+                    <button class="confirm-button" style="width: 100%;" (click)="completeOrder()"> Conferma Ordine</button>
                 </div>
                 <div [hidden]="!orderCompleted">
                     <label style="font-size: larger; font-weight: 700;">Ordine completato, verra' spedito nel piu' breve tempo possibile.</label>
                 </div>
             </ng-container>
             <ng-container *ngIf="cart.length <= 0">
-                <label>Qualcosa e' andato storto, non siamo riusciti a recuperare gli articoli presenti nel tuo carrello</label>
+                <label>Qualcosa e' andato storto, non siamo riusciti a recuperare gli articoli presenti nel tuo
+                    carrello</label>
             </ng-container>
         </ng-container>
     </div>

@@ -6,6 +6,12 @@
     padding: 2%;
     gap: 1%;
 }
+details summary::-webkit-details-marker {
+    display: none;
+  }
+  details > summary:first-of-type {
+    list-style-type: none;
+  }
 
 details[open] summary ~ * {
     animation: sweep .5s ease-in-out;

@@ -41,7 +41,7 @@ public partial class Product
 
     public virtual Model Model { get; set; } = null!;
 
-    public virtual ICollection<Storage> Storages { get; set; } = new List<Storage>();
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+    public virtual ICollection<Storage> Storages { get; set; } = new List<Storage>();
 }

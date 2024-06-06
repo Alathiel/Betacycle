@@ -1,66 +1,153 @@
-.main-container{
-    display: flex;
-    justify-content: center;
-
+.main-container {
+  display: flex;
+  justify-content: center;
 }
 
-.content-container{
-    display: flex;
-    flex-direction: column;
-    padding: 1%;
-    width: 90%;
-    height: 90%;
-    justify-content: center;
-    align-items: center;
-    column-gap: 10px;
+.content-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1%;
+  width: 90%;
+  height: 90%;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
 }
 
-
-.product-container{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+.product-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.card-wrapper{
-    width: 40%;
+.card-wrapper {
+  width: 40%;
 }
 
 .card {
-    width: 100%;
-    border-radius: 20px;
-    background: #f5f5f5;
-    position: relative;
-    border: 2px solid #c3c6ce;
-    border-bottom: 0px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    transition: 0.5s ease-out;
-    overflow: visible;
+  width: 100%;
+  border-radius: 20px;
+  background: #f5f5f5;
+  position: relative;
+  border: 2px solid #c3c6ce;
+  border-bottom: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  transition: 0.5s ease-out;
+  overflow: visible;
 }
 
-.body{
-    padding: 1.8rem;
+.payment-card-container {
+  display: flex;
+  flex-wrap: wrap; /* Per gestire più righe di carte */
+  justify-content: center;
+  gap: 5px;
+  margin-top: 20px;
+}
+input{
+    display:none;
+}
+input[type=radio]:checked ~ div{
+    border: 2px solid #0AE117;
+  }
+.payment-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 30rem; /* Larghezza massima della carta */
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: transform 0.2s;
+  margin-bottom: 20px;
+  margin-left: 20px; /* Margine sinistro per spostare la carta dai margini */
+  margin-right: 20px; /* Margine destro per spostare la carta dai margini */
+  display: block;
+  overflow: auto;
+  display: inline-block;
+  padding: 5px;
 }
 
-.header{
-    padding: 1.8rem 1.8rem 0 1.8rem;
+
+.payment-card:hover {
+  transform: scale(1.05);
 }
 
-.footer{
-    padding: 0 0 1.8rem 1.8rem;
+.body {
+  display: flex;
+  flex-direction: column;
+  padding: 1.8rem;
 }
 
-button {
-    position: relative;
+.header {
+  padding: 1.8rem 1.8rem 0 1.8rem;
+}
+
+.footer {
+  padding: 0 0 1.8rem 1.8rem;
+}
+
+.confirm-button {
+  position: relative;
+  align-self: center;
+  padding: 17px 40px;
+  border-radius: 10px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  cursor: pointer;
+  width: 40%;
+  border: 0;
+  background-color: hsl(224, 62%, 42%);
+  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+  color: hsl(0, 0%, 100%);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+.confirm-button:active {
+  background-color: hsl(224, 62%, 42%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgb(30, 32, 175) 0px 0px 0px 0px;
+  transform: translateY(10px);
+  transition: 100ms;
+}
+
+.confirm-button:hover {
+  background-color: hsl(224, 62%, 35%);
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+details > summary:first-of-type {
+  list-style-type: none;
+}
+details[open] summary ~ * {
+  animation: sweep 0.5s ease-in-out;
+}
+
+@keyframes sweep {
+  0% {
+    opacity: 0;
+    margin-top: -10px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 0px;
+  }
+}
+
+.button-generic {
     align-self: center;
-    padding: 17px 40px;
     border-radius: 10px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
     cursor: pointer;
-    width: 40%;
-    border: 0;
+    width: 30%;
+    height: 50px;
+    border: 20px;
     background-color: hsl(224, 62%, 42%);
     box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
     color: hsl(0, 0%, 100%);
@@ -70,14 +157,14 @@ button {
     transition: all 0.5s ease;
   }
   
-  button:active {
+  .button-generic:hover {
+    background-color: hsl(224, 62%, 35%);
+    color: hsl(0, 0%, 100%);
+  }
+  
+  .button-generic:active {
     background-color: hsl(224, 62%, 42%);
     color: hsl(0, 0%, 100%);
-    box-shadow: rgb(30, 32, 175) 0px 0px 0px 0px;
-    transform: translateY(10px);
+    transform: translateY(5px);
     transition: 100ms;
-}
-
-button:hover{
-    background-color: hsl(224, 62%, 35%);
-}
+  }
