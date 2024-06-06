@@ -1,0 +1,15 @@
+<div>
+    <div class="product-section">
+        <div class="left-side">
+            <img [src]="Convert(product.tProd.thumbnailPhoto)" alt="aa" style="height: 100%; width: 50%;">
+        </div>
+        <div class="right-side">
+            <label style="font-weight: bold;">{{product.tProd.productName}}</label>
+            <label>€ {{product.tProd.actualPrice}}</label>
+            <label>{{product.tProd.productNumber}}</label>
+            <label>x {{product.tQt}}</label>
+            <a (click)="GoToDetailsPage(product.tProd.productId)" style="cursor: pointer;text-decoration: underline;">Mostra dettagli</a>
+            <a (click)="service.AddToCart(product.tProd)" style="cursor: pointer;color:blue; text-decoration: underline;"><i class="bi bi-cart-fill"></i>Acquista di nuovo</a>
+        </div>
+    </div>
+</div>

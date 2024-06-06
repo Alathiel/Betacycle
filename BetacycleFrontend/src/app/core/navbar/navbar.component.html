@@ -25,9 +25,9 @@
           <div class="dropdown">
             <a class="dropbtn"> Ciao {{user.firstName}} {{user.lastName}}</a>
             <div class="dropdown-content">
-              <a style="cursor: pointer;" (click)="GoToUserSettings()"><i class="bi bi-gear-fill"></i> Impostazioni</a>
+              <a style="cursor: pointer;" (click)="GoToUserSettings()"><i class="bi bi-gear-fill"></i> Info account</a>
+              <a style="cursor: pointer;" routerLink="/order"><i class="bi bi-bag-fill"></i> I miei ordini</a>
               <a routerLink="/cart"><i class="bi bi-cart-fill"></i> Carrello</a>
-              <a style="cursor: pointer;" routerLink="/order"><i class="bi bi-door-closed-fill"></i> Ordini effettuati</a>
               <a style="cursor: pointer;" (click)="LogOut()"><i class="bi bi-door-closed-fill"></i> Logout</a>
             </div>
           </div>

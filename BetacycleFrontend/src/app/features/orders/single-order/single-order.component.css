@@ -1,0 +1,21 @@
+
+.product-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.left-side{
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    padding: 1%;
+
+}
+
+.right-side{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 1%;
+}

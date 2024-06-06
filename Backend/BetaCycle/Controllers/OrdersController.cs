@@ -9,6 +9,8 @@ using BetaCycle.Contexts;
 using BetaCycle.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BetaCycle.Controllers
 {
@@ -30,18 +32,54 @@ namespace BetaCycle.Controllers
             return await _context.Orders.ToListAsync();
         }
 
-        // GET: api/Orders/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(long id)
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<Object>>> GetOrderUser()
         {
-            var order = await _context.Orders.FindAsync(id);
 
-            if (order == null)
+            try
             {
-                return NotFound();
-            }
+                //var orders =  _context.Orders
+                //    .Where(o => o.UserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                //var transaction = orders.GroupBy(o => o.TransactionId).ToList();
+                //KeyValuePair<string, List<Order>> keyValuePair = new KeyValuePair<string, List<Order>>();
+                //transaction.ForEach(t =>
+                //{
+                //    Transaction temp= _context.Transactions.FindAsync(t).Result;
 
-            return order;
+                //    keyValuePair = new KeyValuePair<string, List<Order>>(temp.Identifier.ToString(), []);
+                //    orders.ForEach(o=>
+                //    {
+                //        keyValuePair.Value.Add(o);
+                //    }
+                //    );
+
+                //}
+                //);
+
+                var temp = _context.Transactions.Join(
+                        _context.Orders,
+                        t => t.TransactionId,
+                        o => o.TransactionId,
+                        (t, o) => new
+                        {
+                            tId = t.TransactionId,
+                            tRowGuide = t.Identifier,
+                            tProd = o.Product,
+                            tQt = o.Quantity,
+                            tUserId = o.UserId
+                        })
+                    .Where(o => o.tUserId == Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                    .GroupBy(o=> o.tRowGuide)
+                    .ToList();
+
+                return temp;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         // POST: api/Orders
