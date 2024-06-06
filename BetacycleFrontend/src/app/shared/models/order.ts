@@ -12,4 +12,5 @@ export class Order{
         addressId: number = 0
         transaction = {}
         product:Product = new Product()
+        date:string = '2024-01-01'
 }

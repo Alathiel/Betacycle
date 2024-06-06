@@ -11,7 +11,7 @@ public partial class Order
 
     public long UserId { get; set; }
 
-    public long ProductId { get; set; }
+    public long? ProductId { get; set; }
 
     public int Quantity { get; set; }
 
@@ -23,7 +23,9 @@ public partial class Order
 
     public long AddressId { get; set; }
 
-    public virtual Product Product { get; set; } = null!;
+    public DateOnly Date { get; set; }
+
+    public virtual Product? Product { get; set; }
 
     public virtual Transaction Transaction { get; set; } = null!;
 }

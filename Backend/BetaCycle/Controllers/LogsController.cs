@@ -156,19 +156,32 @@ namespace BetaCycle.Controllers
         /// <returns>ActionResult</returns>
         [Authorize(Policy = "Admin")]
         [HttpGet("[action]")]
-        public async Task<ActionResult> ToggleLogging()
+        public async Task<ActionResult<bool>> ToggleLogging()
         {
-            if (LogManager.IsLoggingEnabled())
+            try
             {
-                LogManager.DisableLogging();
-                return Ok("Logging disable");
+                if (LogManager.IsLoggingEnabled())
+                {
+                    LogManager.DisableLogging();
+                    return false;
+                }
+                else if (!LogManager.IsLoggingEnabled())
+                {
+                    LogManager.EnableLogging();
+                    return true;
+                }
             }
-            else if (!LogManager.IsLoggingEnabled())
+            catch (Exception e)
             {
-                LogManager.EnableLogging();
-                return Ok("Logging enabled");
+                _logger.ForErrorEvent().Message(e.Message).Properties(new List<KeyValuePair<string, object>>()
+                {
+                    new ("UserId", User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                    new ("Exception", e),
+                }).Log();
+                return BadRequest("Unexpected error has been encountered");
             }
-            return BadRequest();
+
+            return NoContent();
         }
 
         [Authorize(Policy = "Admin")]
