@@ -1,22 +1,28 @@
-<form class="main-container" #confirmForm='ngForm' (submit)="ConfirmLogin(confirmForm)">
-    <label class="text">Per poter cancellare l'account devi prima inserire le credenziali</label>
-        
-        <input #email="ngModel" placeholder="Email" type="email" [(ngModel)]="credentials.email" required minlength="6" name="email">
+<div class="uno">
+    <form class="main-container" #confirmForm='ngForm' (submit)="ConfirmLogin(confirmForm)">
+        <label class="text">Per poter cancellare l'account devi prima inserire le credenziali</label>
+
+        <input #email="ngModel" placeholder="Email" type="email" [(ngModel)]="credentials.email" required minlength="6"
+            name="email" class="email">
         <ng-container *ngIf="email.invalid && (email.dirty || email.touched)">
-            <div *ngIf="email.errors?.['minlength'] || email.errors?.['required']" style="color: rgb(175, 5, 5);">
+            <div *ngIf="email.errors?.['minlength'] || email.errors?.['required']" style="color: rgb(175, 5, 5);" class="email">
                 Email must be at least 6 characters long.
             </div>
         </ng-container>
-        <input  #password="ngModel" [(ngModel)]="credentials.password" placeholder="Password" type="password" required minlength="8" name="password">
+        <input #password="ngModel" [(ngModel)]="credentials.password" placeholder="Password" type="password" required
+            minlength="8" name="password" class="password">
         <ng-container *ngIf="password.invalid && (password.dirty || password.touched)">
-            <div *ngIf="password.errors?.['minlength'] || password.errors?.['required']" style="color: rgb(175, 5, 5);">
+            <div *ngIf="password.errors?.['minlength'] || password.errors?.['required']" style="color: rgb(175, 5, 5);" class="password">
                 Password must be at least 8 characters long.
             </div>
         </ng-container>
-    <button type="submit" class="btn btn-primary">Conferma credenziali</button>
-</form>
+        <button type="submit" class="btn btn-primary conferma">Conferma credenziali</button>
+    </form>
 
-<div class="main-container">
-<br>
-<button [disabled]="deleteButton" (click)="DeleteAccountForever()" type="button" class="btn btn-danger">CANCELLA ACCOUNT</button>
+
+    <div class="main-container">
+
+        <button [disabled]="deleteButton" (click)="DeleteAccountForever()" type="button"
+            class="btn btn-danger cancella">CANCELLA ACCOUNT</button>
+    </div>
 </div>

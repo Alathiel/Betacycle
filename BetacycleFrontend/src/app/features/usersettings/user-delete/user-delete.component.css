@@ -78,3 +78,18 @@ input:focus {
     transform: translateY(10px);
     transition: 100ms;
   } */
+
+.email{
+    margin-left: 30%;
+}
+.password{
+    margin-left: 30%;
+    margin-top: -2%;
+}
+.conferma{
+    margin-left: 40%;
+}
+.cancella{
+    margin-left: 40%;
+    margin-top: 1%;
+}

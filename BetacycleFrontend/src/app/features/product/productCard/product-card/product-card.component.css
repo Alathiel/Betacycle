@@ -64,3 +64,9 @@ a {
 i {
   cursor: pointer;
 }
+.h1TitleProduct{
+  font-style: italic;
+  font-size: 55px;
+  text-align: center;
+  margin-top: 5%;
+}
