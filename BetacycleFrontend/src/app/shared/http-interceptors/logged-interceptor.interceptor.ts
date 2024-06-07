@@ -39,15 +39,9 @@ export class LoggedInterceptorService implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((error) => {
         if(error instanceof HttpErrorResponse){
-          if(error.status === 401){
-          }
-          else if(error.status === 404)
-            console.log("Not found")
-          else
-          {
+
             this.logger.logError(this.logger.populateLog(error)).subscribe()
-            
-          }
+
         }
         return throwError( error);
       })

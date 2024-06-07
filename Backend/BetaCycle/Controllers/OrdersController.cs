@@ -26,7 +26,7 @@ namespace BetaCycle.Controllers
         {
             _context = context;
         }
-
+        #region HttpGET
         // GET: api/Orders
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
@@ -69,9 +69,16 @@ namespace BetaCycle.Controllers
                 return BadRequest();
             }
         }
+        #endregion
 
+        #region HTTPPOST
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Call to add new transaction in db
+        /// </summary>
+        /// <param name="orders"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<IEnumerable<Order>>> PostOrder(Order[] orders)
@@ -115,5 +122,6 @@ namespace BetaCycle.Controllers
             }
             return orders;
         }
+        #endregion
     }
 }

@@ -12,6 +12,8 @@ import { SingleOrderComponent } from './single-order/single-order.component';
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css'
 })
+
+
 export class OrdersComponent {
   orders:any
   loaded=false

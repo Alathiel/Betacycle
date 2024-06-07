@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttprequestservicesService } from '../../../shared/services/httprequestservices.service';
 import { TOAST_STATE, ToastService } from '../../../shared/services/toast.service';
 import { timer } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-info',
@@ -18,7 +19,7 @@ export class UserInfoComponent {
 
   constructor(
     private http: HttprequestservicesService,
-    private toast:ToastService
+    private toast:ToastService,private router:Router
   ) {
     this.http.GetUserInfo().subscribe({
       next: (data: any) => {
@@ -31,8 +32,13 @@ export class UserInfoComponent {
     this.http.PutUserData(this.user).subscribe({
       next: (data: any) => {    
         this.toast.showToast(TOAST_STATE.success,"Modifica effettuata con successo")
-        timer(5)
-        this.toast.dismissToast()
+        const currentRoute = this.router.url;
+              this.router
+                .navigateByUrl('/', { skipLocationChange: true })
+                .then(() => {
+                  this.router.navigate([currentRoute]); // navigate to same route
+                });
+
       },
     });
   }

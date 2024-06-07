@@ -34,7 +34,7 @@
                         Inserisci una password valida di almeno 8 caratteri
                     </div>
                 </ng-container>
-                <input #confirmPassword="ngModel" [(ngModel)]="ConfirmPassword" placeholder="Conferma Password" name="confirmPassword" type="password" required>
+                <input #confirmPassword="ngModel" [(ngModel)]="ConfirmPassword" placeholder="Conferma Password" name="confirmPassword" type="password" minlength="8" required>
                 <ng-container *ngIf="(confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched) || confirmPassword.value !== password.value)">
                     <div *ngIf="confirmPassword.value !== password.value"  style="color: rgb(175, 5, 5);">
                         La password non corrisponde a quella inserita in precedenza

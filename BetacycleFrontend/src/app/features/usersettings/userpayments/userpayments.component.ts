@@ -8,6 +8,7 @@ import { MatDialog,MatDialogTitle } from '@angular/material/dialog';
 import { ToastService, TOAST_STATE } from '../../../shared/services/toast.service';
 import { timer } from 'rxjs';
 import { AddPaymentComponent } from './add-payment/add-payment.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-userpayments',
@@ -25,7 +26,7 @@ import { AddPaymentComponent } from './add-payment/add-payment.component';
 export class UserpaymentsComponent {
   getPayment: Payment[] = []
   newPayment: PaymentPost = new PaymentPost()
-  constructor(private http: HttprequestservicesService, private dialog: MatDialog, private toast: ToastService) {
+  constructor(private http: HttprequestservicesService, private dialog: MatDialog, private toast: ToastService,private router:Router) {
     //Fill get payment with the payment methods of the user
     this.http.GetHttpPayments().subscribe(
       {
@@ -61,8 +62,12 @@ export class UserpaymentsComponent {
           this.http.PostHttpPayment(result.newPayment).subscribe({
             next: (data: any) => {
               this.toast.showToast(TOAST_STATE.success, 'Metodo di pagamento inserito con successo')
-              timer(3)
-              window.location.reload();
+              const currentRoute = this.router.url;
+              this.router
+                .navigateByUrl('/', { skipLocationChange: true })
+                .then(() => {
+                  this.router.navigate([currentRoute]); // navigate to same route
+                });
             },
             error: (error: any) => {
               console.log(error.message);
@@ -71,7 +76,7 @@ export class UserpaymentsComponent {
           })
         }
         else
-          this.toast.showToast(TOAST_STATE.error, 'Errore imprevisto nell inserimento')
+          this.toast.showToast(TOAST_STATE.error, 'Operazione annullata')
       }
     })
   }

@@ -65,13 +65,22 @@ namespace BetaCycle.Controllers
         {
             try
             {
-                KeyValuePair<string, string> a;
-                a = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
-                credential.Password = a.Key;
-                credential.PasswordSalt = a.Value;
+                var cred = await _context.Credentials.FindAsync(Convert.ToInt64(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                if (cred == null)
+                    return NotFound();
+                
+                else if(cred.Email == credential.Email)
 
-                _context.Entry(credential).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
+                {
+                    KeyValuePair<string, string> a;
+                    a = EncryptionData.EncryptionData.SaltEncrypt(credential.Password);
+                    cred.Password = a.Key;
+                    cred.PasswordSalt = a.Value;
+
+                    _context.Entry(cred).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                }
+
             }
             catch (Exception e)
             {

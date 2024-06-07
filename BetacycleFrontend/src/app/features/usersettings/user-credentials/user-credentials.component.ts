@@ -20,6 +20,7 @@ export class UserCredentialsComponent {
 
   constructor(private http: HttprequestservicesService,
     private auth:AuthServiceService, private toast:ToastService ){
+      
       var {email} = auth.getDecodedToken() as {email:string}
       this.credential.email = email;
   }

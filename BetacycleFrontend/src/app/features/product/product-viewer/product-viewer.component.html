@@ -1,5 +1,5 @@
 <div class='main-container'>
-  <div class="content">
+  <div class="content" >
     <div class="product-card" *ngFor="let product of products" (click)="GoToDetails(product.productId)">
       <div class="product-image" style="align-self: center; padding-bottom: 10px;">
         <img [src]="convert(product.thumbnailPhoto)" style="border-radius: 20px;">
@@ -29,11 +29,9 @@
       
                 <a (click)="service.next()" style="font-size: 1.4em; cursor: pointer;"><i class="bi bi-arrow-right"></i></a>
               </div>
-        </div>
-
-
-        
+        </div> 
       </div>
     </ng-container>
   </div>
+  
 </div>

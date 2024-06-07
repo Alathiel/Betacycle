@@ -17,8 +17,14 @@
     padding: 2%;
     flex: 1 16%;
     display: flex;
+    transition: transform 0.2s;
     flex-direction: column;
+    cursor: pointer;
   }
+
+  .product-card:hover {
+    transform: scale(1.05);
+}
 
   .product-image img {
     max-width: 100%;
